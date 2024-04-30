@@ -1,9 +1,17 @@
 package bdii.penca_ucu_2024.Classes;
 
 public class Prediction {
-    int id_prediction;
+    int id_predicción;
 
-    public Prediction(int id) {
-        this.id_prediction = id;
+    public Prediction() {
+
+    }
+
+    public int getId_predicciónn() {
+        return id_predicción;
+    }
+
+    public void setId_predicción(int id_prediction) {
+        this.id_predicción = id_prediction;
     }
 }
