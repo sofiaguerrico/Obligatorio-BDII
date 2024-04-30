@@ -1,8 +1,9 @@
 
-package Repositories;
+package bdii.penca_ucu_2024.Repositories;
 
-import Classes.Prediction;
 import java.util.List;
+
+import bdii.penca_ucu_2024.Classes.Prediction;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 
