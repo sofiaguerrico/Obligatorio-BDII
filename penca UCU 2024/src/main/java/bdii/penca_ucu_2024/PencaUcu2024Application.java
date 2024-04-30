@@ -8,7 +8,6 @@ public class PencaUcu2024Application {
 
     public static void main(String[] args) {
         SpringApplication.run(PencaUcu2024Application.class, args);
-
     }
 
 }

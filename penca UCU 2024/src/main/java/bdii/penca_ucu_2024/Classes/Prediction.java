@@ -7,7 +7,7 @@ public class Prediction {
 
     }
 
-    public int getId_predicciónn() {
+    public int getId_predicción() {
         return id_predicción;
     }
 
