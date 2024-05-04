@@ -2,25 +2,15 @@ package bdii.penca_ucu_2024.Classes;
 
 import java.sql.Date;
 
-public class Prediction {
+public class Juega_partido {
 
-    String correo_eestudiantil;
     String equipo1;
     String equipo2;
-
-    //importar Data sql o java Util
+    // ver importacion
     Date fecha_partido;
     int gol_equipo1;
     int gol_equipo2;
     String etapa;
-
-    public String getCorreo_eestudiantil() {
-        return correo_eestudiantil;
-    }
-
-    public void setCorreo_eestudiantil(String correo_eestudiantil) {
-        this.correo_eestudiantil = correo_eestudiantil;
-    }
 
     public String getEquipo1() {
         return equipo1;
@@ -69,7 +59,6 @@ public class Prediction {
     public void setEtapa(String etapa) {
         this.etapa = etapa;
     }
-
 
 
 
