@@ -16,21 +16,21 @@ public class PredictionController {
     @Autowired
     PredictionService pr;
 
-    @GetMapping("/get")
+    @GetMapping("/prediction/get")
     public ResponseEntity<List<Prediction>> list() {
         System.out.println("PruebaController");
         List<Prediction> result = pr.getAll();
         return new ResponseEntity(result, HttpStatus.OK);
     }
 
-    @PostMapping("/insert")
+    @PostMapping("/prediction/insert")
     public ResponseEntity<Integer> insertPrediction(@RequestBody Integer predictionId) {
         System.out.println("PruebaControllerInsert");
         Integer resultado = pr.setId(predictionId);
         return new ResponseEntity(resultado, HttpStatus.OK);
     }
 
-    @DeleteMapping("/delete")
+    @DeleteMapping("/prediction/delete")
     public ResponseEntity<List<Prediction>> deletePrediction(@RequestBody int predictionId) {
         System.out.println("PruebaControllerDelete");
         List<Prediction> result = pr.deletePrediction(predictionId);

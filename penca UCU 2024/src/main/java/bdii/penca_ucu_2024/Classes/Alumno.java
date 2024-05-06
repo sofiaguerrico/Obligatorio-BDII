@@ -1,6 +1,7 @@
 package bdii.penca_ucu_2024.Classes;
 
 public class Alumno {
+
     int CI;
     String nombre_alumno;
     String apellido_alumno;
@@ -10,6 +11,7 @@ public class Alumno {
     String correo_estudiantil;
     String campeon;
     String subcampeon;
+
 
     public void setCI(int CI) {
         this.CI = CI;
@@ -47,9 +49,7 @@ public class Alumno {
         this.subcampeon = subcampeon;
     }
 
-    public int getCI() {
-        return CI;
-    }
+    public int getCI() {return CI;}
 
     public String getNombre_alumno() {
         return nombre_alumno;
