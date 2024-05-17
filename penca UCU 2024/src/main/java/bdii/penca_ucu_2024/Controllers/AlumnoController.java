@@ -1,12 +1,16 @@
 
 package bdii.penca_ucu_2024.Controllers;
 
+import bdii.penca_ucu_2024.Classes.Alumno;
 import bdii.penca_ucu_2024.JSONClasses.AlumnoRequest;
+import bdii.penca_ucu_2024.JSONClasses.AuthResponse;
 import bdii.penca_ucu_2024.Services.AlumnoService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 public class AlumnoController {
@@ -16,9 +20,15 @@ public class AlumnoController {
 
 
     @PostMapping("/register")
-    public ResponseEntity<Boolean> register(@RequestBody AlumnoRequest alumni) {
-
-        Boolean resultado = as.register(alumni.getAlumni().getCI(), alumni.getAlumni().getNombre_alumno(),alumni.getAlumni().getApellido_alumno(),alumni.getAlumni().getGenero_alumno(),alumni.getAlumni().getCelular_alumno(), alumni.getAlumni().getCarrera(),alumni.getAlumni().getCorreo_estudiantil(),alumni.getAlumni().getCampeon(),alumni.getAlumni().getSubcampeon(),alumni.getPassword());
-        return new ResponseEntity<>(resultado, HttpStatus.OK);
+    public ResponseEntity<AuthResponse> register(@RequestBody AlumnoRequest alumni) {
+        AuthResponse resultado = as.register(alumni);
+        return ResponseEntity.ok(resultado);
     }
+
+    @GetMapping("/alumnos/getAll")
+    public ResponseEntity<List<Alumno>> getAll() {
+        List<Alumno> alumnos = as.findAll();
+        return ResponseEntity.ok(alumnos);
+    }
+
 }

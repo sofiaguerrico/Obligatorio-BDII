@@ -2,6 +2,7 @@
 package bdii.penca_ucu_2024.Controllers;
 
 import bdii.penca_ucu_2024.Classes.Login;
+import bdii.penca_ucu_2024.JSONClasses.AuthResponse;
 import bdii.penca_ucu_2024.Services.LoginService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,9 +17,7 @@ public class LoginController {
 
 
     @PostMapping("/login")
-    public ResponseEntity<Boolean> login(@RequestBody Login loginRequest) {
-
-        Boolean resultado = ls.login(loginRequest.getCorreo_estudiantil(), loginRequest.getPassword_alumno());
-        return new ResponseEntity<>(resultado, HttpStatus.OK);
+    public ResponseEntity<AuthResponse> login(@RequestBody Login loginRequest) {
+        return ResponseEntity.ok(ls.login(loginRequest));
     }
 }
