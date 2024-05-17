@@ -1,5 +1,7 @@
 package bdii.penca_ucu_2024.Classes;
 
+import java.util.Optional;
+
 public class Alumno {
 
     int CI;
@@ -82,6 +84,7 @@ public class Alumno {
     public String getSubcampeon() {
         return subcampeon;
     }
+
 
 
 }
