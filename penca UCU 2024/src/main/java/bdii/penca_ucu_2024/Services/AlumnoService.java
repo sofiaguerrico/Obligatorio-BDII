@@ -3,8 +3,9 @@ package bdii.penca_ucu_2024.Services;
 import bdii.penca_ucu_2024.Classes.Administrador;
 import bdii.penca_ucu_2024.Classes.Alumno;
 import bdii.penca_ucu_2024.Classes.Login;
-import bdii.penca_ucu_2024.JSONClasses.AlumnoRequest;
+import bdii.penca_ucu_2024.JSONClasses.UserRequest;
 import bdii.penca_ucu_2024.JSONClasses.AuthResponse;
+import bdii.penca_ucu_2024.JSONClasses.Role;
 import bdii.penca_ucu_2024.Repositories.IAlumnoRepository;
 import bdii.penca_ucu_2024.Security.jwt.JwtUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,7 @@ import java.util.Optional;
 
 @Service
 public class AlumnoService implements IAlumnoRepository {
+
     private JdbcTemplate dbConnection;
     @Autowired
     JwtUtils jwtUtils;
@@ -28,7 +30,7 @@ public class AlumnoService implements IAlumnoRepository {
 
 
     @Override
-    public AuthResponse register(AlumnoRequest alumni) {
+    public AuthResponse register(UserRequest alumni) {
         AuthResponse authResponse = new AuthResponse();
         String sql1= "SELECT * FROM Alumno WHERE correo_estudiantil = ?";
         BeanPropertyRowMapper<Login> rowMapper = new BeanPropertyRowMapper<>(Login.class);
@@ -56,7 +58,7 @@ public class AlumnoService implements IAlumnoRepository {
     }
 
     @Override
-//    public Optional<AlumnoRequest> find(String correo_estudiantil) {
+//    public Optional<UserRequest> find(String correo_estudiantil) {
 //        String sql1 = "SELECT * FROM Alumno WHERE correo_estudiantil = ?";
 //        BeanPropertyRowMapper<Alumno> rowMapperAlumno = new BeanPropertyRowMapper<>(Alumno.class);
 //        List<Alumno> alumnos = this.dbConnection.query(sql1, new Object[]{correo_estudiantil}, rowMapperAlumno);
@@ -64,16 +66,16 @@ public class AlumnoService implements IAlumnoRepository {
 //        if (!alumnos.isEmpty()) {
 //            Alumno alumno = alumnos.get(0);
 //
-//            // Crear un nuevo AlumnoRequest y asignar el Alumno encontrado
-//            AlumnoRequest alumnoRequest = new AlumnoRequest();
+//            // Crear un nuevo UserRequest y asignar el Alumno encontrado
+//            UserRequest alumnoRequest = new UserRequest();
 //            alumnoRequest.setAlumni(alumno);
 //
 //            String sql2 = "SELECT * FROM Login WHERE correo_estudiantil = ?";
-//            BeanPropertyRowMapper<AlumnoRequest> rowMapperAlumnoRequest = new BeanPropertyRowMapper<>(AlumnoRequest.class);
-//            List<AlumnoRequest> alumni = this.dbConnection.query(sql2, new Object[]{correo_estudiantil}, rowMapperAlumnoRequest);
+//            BeanPropertyRowMapper<UserRequest> rowMapperAlumnoRequest = new BeanPropertyRowMapper<>(UserRequest.class);
+//            List<UserRequest> alumni = this.dbConnection.query(sql2, new Object[]{correo_estudiantil}, rowMapperAlumnoRequest);
 //
 //            if (!alumni.isEmpty()) {
-//                AlumnoRequest alumnoRequestFromLogin = alumni.get(0);
+//                UserRequest alumnoRequestFromLogin = alumni.get(0);
 //                alumnoRequest.setPassword(alumnoRequestFromLogin.getPassword());
 //            }
 //
@@ -83,52 +85,50 @@ public class AlumnoService implements IAlumnoRepository {
 //        return Optional.empty();
 //    }
 
-    public Optional<AlumnoRequest> find(String correo_estudiantil) {
-        Optional<AlumnoRequest> alumnoOptional = findInAlumno(correo_estudiantil);
+    public Optional<UserRequest> find(String correo_estudiantil) {
+        Optional<UserRequest> alumnoOptional = findInAlumno(correo_estudiantil);
         if (alumnoOptional.isEmpty()) {
             alumnoOptional = findInAdministrador(correo_estudiantil);
         }
         return alumnoOptional;
     }
 
-    private Optional<AlumnoRequest> findInAlumno(String correo_estudiantil) {
+    private Optional<UserRequest> findInAlumno(String correo_estudiantil) {
         String sql = "SELECT * FROM Alumno WHERE correo_estudiantil = ?";
         BeanPropertyRowMapper<Alumno> rowMapperAlumno = new BeanPropertyRowMapper<>(Alumno.class);
         List<Alumno> alumnos = this.dbConnection.query(sql, new Object[]{correo_estudiantil}, rowMapperAlumno);
-
         if (!alumnos.isEmpty()) {
             Alumno alumno = alumnos.get(0);
-            AlumnoRequest alumnoRequest = new AlumnoRequest();
-            alumnoRequest.setAlumni(alumno);
+            UserRequest userRequest = new UserRequest();
+            userRequest.setAlumni(alumno);
 
             String sql2 = "SELECT * FROM Login WHERE correo_estudiantil = ?";
-            BeanPropertyRowMapper<AlumnoRequest> rowMapperAlumnoRequest = new BeanPropertyRowMapper<>(AlumnoRequest.class);
-            List<AlumnoRequest> alumni = this.dbConnection.query(sql2, new Object[]{correo_estudiantil}, rowMapperAlumnoRequest);
+            BeanPropertyRowMapper<Login> rowMapperAlumnoRequest = new BeanPropertyRowMapper<>(Login.class);
+            List<Login> alumni = this.dbConnection.query(sql2, new Object[]{correo_estudiantil}, rowMapperAlumnoRequest);
 
             if (!alumni.isEmpty()) {
-                AlumnoRequest alumnoRequestFromLogin = alumni.get(0);
-                alumnoRequest.setPassword(alumnoRequestFromLogin.getPassword());
+                userRequest.setPassword(alumni.get(0).getPassword_alumno());
+                userRequest.setRole(Role.USER);
             }
 
-            return Optional.of(alumnoRequest);
+            return Optional.of(userRequest);
         }
 
         return Optional.empty();
     }
 
-    private Optional<AlumnoRequest> findInAdministrador(String correo_estudiantil) {
-        String sql = "SELECT * FROM Administrador WHERE correo_administrador = ?";
+    private Optional<UserRequest> findInAdministrador(String correo_admin) {
+        String sql = "SELECT * FROM Administrador WHERE correo_admin = ?";
         BeanPropertyRowMapper<Administrador> rowMapperAdministrador = new BeanPropertyRowMapper<>(Administrador.class);
-        List<Administrador> administradores = this.dbConnection.query(sql, new Object[]{correo_estudiantil}, rowMapperAdministrador);
+        List<Administrador> administradores = this.dbConnection.query(sql, new Object[]{correo_admin}, rowMapperAdministrador);
 
         if (!administradores.isEmpty()) {
             Administrador administrador = administradores.get(0);
-            AlumnoRequest alumnoRequest = new AlumnoRequest();
-            alumnoRequest.setAdministrador(administrador);
+            UserRequest userRequest = new UserRequest();
+            userRequest.setAdministrador(administrador);
+            userRequest.setRole(Role.ADMIN);
 
-            // No hay necesidad de buscar en la tabla Login para el administrador
-
-            return Optional.of(alumnoRequest);
+            return Optional.of(userRequest);
         }
 
         return Optional.empty();

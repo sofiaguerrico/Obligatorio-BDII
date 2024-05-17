@@ -1,14 +1,12 @@
 package bdii.penca_ucu_2024.Security.jwt;
 
+import bdii.penca_ucu_2024.Classes.Administrador;
 import bdii.penca_ucu_2024.Classes.Alumno;
-import bdii.penca_ucu_2024.JSONClasses.AlumnoRequest;
+import bdii.penca_ucu_2024.JSONClasses.UserRequest;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-import io.jsonwebtoken.io.Decoders;
-import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import javax.crypto.spec.SecretKeySpec;
@@ -65,10 +63,19 @@ public class JwtUtils {
         return getClaim(token, Claims::getSubject);
     }
 
-    public boolean isTokenValid(String token, AlumnoRequest alumnoRequest) {
+    public boolean isTokenValid(String token, UserRequest userRequest) {
         final String username=getUsernameFromToken(token);
-        Alumno alumno = alumnoRequest.getAlumni();
-        return (username.equals(alumno.getCorreo_estudiantil())&& !isTokenExpired(token));
+        Alumno alumno = userRequest.getAlumni();
+        Administrador admin = userRequest.getAdministrador();
+        if(alumno!=null){
+            boolean alumnoExiste = username.equals(alumno.getCorreo_estudiantil())&& !isTokenExpired(token);
+            return alumnoExiste;
+        }
+        if(admin!=null){
+            boolean adminExiste = username.equals(admin.getCorreo_Admin())&& !isTokenExpired(token);
+            return adminExiste;
+        }
+        return false;
     }
 
     // se puede hacer otra clase UserRequest para ver si es Admin o Alumno entonces  ahi comparar el correo con el token expired

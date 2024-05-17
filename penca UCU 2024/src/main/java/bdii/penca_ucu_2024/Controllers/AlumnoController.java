@@ -2,7 +2,7 @@
 package bdii.penca_ucu_2024.Controllers;
 
 import bdii.penca_ucu_2024.Classes.Alumno;
-import bdii.penca_ucu_2024.JSONClasses.AlumnoRequest;
+import bdii.penca_ucu_2024.JSONClasses.UserRequest;
 import bdii.penca_ucu_2024.JSONClasses.AuthResponse;
 import bdii.penca_ucu_2024.Services.AlumnoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +20,7 @@ public class AlumnoController {
 
 
     @PostMapping("/register")
-    public ResponseEntity<AuthResponse> register(@RequestBody AlumnoRequest alumni) {
+    public ResponseEntity<AuthResponse> register(@RequestBody UserRequest alumni) {
         AuthResponse resultado = as.register(alumni);
         return ResponseEntity.ok(resultado);
     }

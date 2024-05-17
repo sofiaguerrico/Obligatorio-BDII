@@ -1,6 +1,6 @@
 package bdii.penca_ucu_2024.Security.jwt;
 
-import bdii.penca_ucu_2024.JSONClasses.AlumnoRequest;
+import bdii.penca_ucu_2024.JSONClasses.UserRequest;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.security.SignatureException;
@@ -46,7 +46,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
             if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
 
-                AlumnoRequest alumno = (AlumnoRequest) userDetailsService.loadUserByUsername(username);
+                UserRequest alumno = (UserRequest) userDetailsService.loadUserByUsername(username);
 
                 if (jwtUtils.isTokenValid(token, alumno)) {
                     UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(alumno, null, alumno.getAuthorities());
