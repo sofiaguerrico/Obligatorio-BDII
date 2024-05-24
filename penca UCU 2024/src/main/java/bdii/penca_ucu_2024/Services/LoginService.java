@@ -24,7 +24,7 @@ public class LoginService implements ILoginRepository {
     private IAlumnoRepository alumnoRepository;
     private JdbcTemplate dbConnection;
     @Autowired
-    private AlumnoService alumnoService;
+    private UserService userService;
 
     @Autowired
     public LoginService(JdbcTemplate dbConnection, JwtUtils jwtUtils) {
@@ -71,7 +71,7 @@ public class LoginService implements ILoginRepository {
         String password = loginRequest.getPassword_alumno();
         String hashing = DigestUtils.md5Hex(password);
 
-        Optional<UserRequest> alumnoOptional = alumnoService.find(email);
+        Optional<UserRequest> alumnoOptional = userService.find(email);
 
         if (alumnoOptional.isEmpty()) {
             authResponse.setMessage("Usuario no encontrado");
