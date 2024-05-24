@@ -2,6 +2,7 @@ package bdii.penca_ucu_2024.Security;
 
 import bdii.penca_ucu_2024.Classes.Alumno;
 import bdii.penca_ucu_2024.Repositories.IAlumnoRepository;
+import bdii.penca_ucu_2024.Repositories.IUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -24,9 +25,11 @@ import java.util.Optional;
 @Configuration
 public class ApplicationConfig {
 
-    @Autowired
-    private IAlumnoRepository alumnoRepository;
+    private final IUserRepository userRepository;
 
+    public ApplicationConfig(IUserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
 
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception
@@ -50,7 +53,7 @@ public class ApplicationConfig {
 
     @Bean
     public UserDetailsService userDetailService() {
-        return username -> alumnoRepository.find(username)
+        return username -> userRepository.find(username)
                 .orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado"));
     }
 }
