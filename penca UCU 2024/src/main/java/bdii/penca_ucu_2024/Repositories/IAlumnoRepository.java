@@ -8,7 +8,6 @@ import java.util.List;
 
 
 public interface IAlumnoRepository {
-    //AuthResponse register(int CI, String nombre_alumno, String apellido_alumno, String genero_alumno, int celular_alumno, String carrera, String correo_estudiantil, String campeon, String subcampeon, String password);
-    AuthResponse register(UserRequest alumni);
+    AuthResponse register(Alumno alumni);
     List<Alumno> findAll();
 }

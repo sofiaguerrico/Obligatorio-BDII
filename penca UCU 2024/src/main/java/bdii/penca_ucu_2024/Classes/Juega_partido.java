@@ -11,6 +11,7 @@ public class Juega_partido {
     int gol_equipo1;
     int gol_equipo2;
     String etapa;
+    int ID_estadio;
 
     public String getEquipo1() {
         return equipo1;
@@ -36,6 +37,7 @@ public class Juega_partido {
         this.fecha_partido = fecha_partido;
     }
 
+
     public int getGol_equipo1() {
         return gol_equipo1;
     }
@@ -59,6 +61,10 @@ public class Juega_partido {
     public void setEtapa(String etapa) {
         this.etapa = etapa;
     }
+
+    public void setID_estadio(int ID_estadio) { this.ID_estadio = ID_estadio; }
+    public int getID_estadio() { return ID_estadio; }
+
 
 
 

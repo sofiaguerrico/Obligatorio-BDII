@@ -17,33 +17,12 @@ public class PredictionService implements IPredictionRepository {
     public PredictionService(JdbcTemplate dbConnection) {
         this.dbConnection = dbConnection;
     }
-//    IPredictionRepository predictionRepository;
-//    //buena practica para desp realizar test unitarios
-//    @Autowired
-//    public PredictionService(IPredictionRepository predictionRepository) {
-//        this.predictionRepository = predictionRepository;
-//    }
+
 
     @Override
     public List<Prediction> getAll() {
-        String sql = "SELECT * FROM Predicción";
+        String sql = "SELECT * FROM Prediccion";
         BeanPropertyRowMapper<Prediction> rowMapper = new BeanPropertyRowMapper(Prediction.class);
         return this.dbConnection.query(sql, rowMapper).stream().toList();
     }
-
-    @Override
-    public int setId(int id) {
-        String sql = "INSERT INTO Predicción (id_predicción) VALUES (?)";
-        dbConnection.update(sql, id);
-        return id;
-    }
-
-    @Override
-    public List<Prediction> deletePrediction(int predictionId) {
-        String sql = "DELETE FROM Predicción WHERE id_predicción = ?";
-        this.dbConnection.update(sql, predictionId);
-        return getAll();
-    }
-
-
 }
