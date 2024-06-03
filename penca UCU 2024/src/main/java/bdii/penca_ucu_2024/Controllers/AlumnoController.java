@@ -1,4 +1,3 @@
-
 package bdii.penca_ucu_2024.Controllers;
 
 import bdii.penca_ucu_2024.Classes.Alumno;
@@ -25,7 +24,7 @@ public class AlumnoController {
     AlumnoService as;
 
     @PostMapping("/register")
-    public ResponseEntity<AuthResponse> register(@RequestBody UserRequest alumni) {
+    public ResponseEntity<AuthResponse> register(@RequestBody Alumno alumni) {
         AuthResponse resultado = as.register(alumni);
         return ResponseEntity.ok(resultado);
     }

@@ -9,10 +9,12 @@ public class Alumno {
     String apellido_alumno;
     String genero_alumno;
     int celular_alumno;
+    String password_alumno;
     String carrera;
     String correo_estudiantil;
     String campeon;
     String subcampeon;
+    int puntos_totales;
 
 
     public void setCI(int CI) {
@@ -35,6 +37,8 @@ public class Alumno {
         this.celular_alumno = celular_alumno;
     }
 
+    public void setPassword_alumno(String password_alumno) {this.password_alumno = password_alumno;}
+
     public void setCarrera(String carrera) {
         this.carrera = carrera;
     }
@@ -50,6 +54,8 @@ public class Alumno {
     public void setSubcampeon(String subcampeon) {
         this.subcampeon = subcampeon;
     }
+
+    public void setPuntos_totales(int puntos_totales) { this.puntos_totales = puntos_totales; }
 
     public int getCI() {return CI;}
 
@@ -69,6 +75,8 @@ public class Alumno {
         return celular_alumno;
     }
 
+    public String getPassword_alumno() { return password_alumno; }
+
     public String getCarrera() {
         return carrera;
     }
@@ -84,6 +92,8 @@ public class Alumno {
     public String getSubcampeon() {
         return subcampeon;
     }
+
+    public int getPuntos_totales() {return puntos_totales;}
 
 
 

@@ -43,6 +43,7 @@ public class UserRequest implements UserDetails {
         this.role = role;
     }
 
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return Collections.singletonList(new SimpleGrantedAuthority(role.name()));
