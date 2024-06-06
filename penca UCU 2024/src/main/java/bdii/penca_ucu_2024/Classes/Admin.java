@@ -1,6 +1,6 @@
 package bdii.penca_ucu_2024.Classes;
 
-public class Administrador {
+public class Admin {
     int CI;
     String correo_Admin;
     String nombre_Admin;

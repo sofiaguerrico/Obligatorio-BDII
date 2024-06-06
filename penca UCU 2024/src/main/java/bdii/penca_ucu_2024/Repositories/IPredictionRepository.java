@@ -8,6 +8,8 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface IPredictionRepository {
     List<Prediction> getAll();
+
+    boolean insert(Prediction prediction);
     //int setId(int id);
     //List<Prediction> deletePrediction(int id);
 }

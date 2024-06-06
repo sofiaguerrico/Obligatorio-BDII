@@ -1,8 +1,6 @@
 package bdii.penca_ucu_2024.Classes;
 
-import java.util.Optional;
-
-public class Alumno {
+public class Alumn {
 
     int CI;
     String nombre_alumno;
@@ -10,7 +8,6 @@ public class Alumno {
     String genero_alumno;
     int celular_alumno;
     String password_alumno;
-    String carrera;
     String correo_estudiantil;
     String campeon;
     String subcampeon;
@@ -38,10 +35,6 @@ public class Alumno {
     }
 
     public void setPassword_alumno(String password_alumno) {this.password_alumno = password_alumno;}
-
-    public void setCarrera(String carrera) {
-        this.carrera = carrera;
-    }
 
     public void setCorreo_estudiantil(String correo_estudiantil) {
         this.correo_estudiantil = correo_estudiantil;
@@ -77,10 +70,6 @@ public class Alumno {
 
     public String getPassword_alumno() { return password_alumno; }
 
-    public String getCarrera() {
-        return carrera;
-    }
-
     public String getCorreo_estudiantil() {
         return correo_estudiantil;
     }
@@ -94,7 +83,4 @@ public class Alumno {
     }
 
     public int getPuntos_totales() {return puntos_totales;}
-
-
-
 }

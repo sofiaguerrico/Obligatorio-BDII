@@ -1,4 +1,4 @@
-package bdii.penca_ucu_2024.Classes;
+package bdii.penca_ucu_2024.JSONClasses;
 
 public class LoginRequest {
     String correo;

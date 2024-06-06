@@ -1,6 +1,6 @@
 package bdii.penca_ucu_2024.Repositories;
 
-import bdii.penca_ucu_2024.Classes.LoginRequest;
+import bdii.penca_ucu_2024.JSONClasses.LoginRequest;
 import bdii.penca_ucu_2024.JSONClasses.AuthResponse;
 import org.springframework.stereotype.Repository;
 

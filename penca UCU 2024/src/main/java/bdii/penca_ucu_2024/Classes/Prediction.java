@@ -4,22 +4,20 @@ import java.sql.Date;
 
 public class Prediction {
 
-    String correo_eestudiantil;
+    String correo_estudiantil;
     String equipo1;
     String equipo2;
-
     //importar Data sql o java Util
-    Date fecha_partido;
+    Date fecha_hora_partido;
     int gol_equipo1;
     int gol_equipo2;
-    String etapa;
 
-    public String getCorreo_eestudiantil() {
-        return correo_eestudiantil;
+    public String getCorreo_estudiantil() {
+        return correo_estudiantil;
     }
 
-    public void setCorreo_eestudiantil(String correo_eestudiantil) {
-        this.correo_eestudiantil = correo_eestudiantil;
+    public void setCorreo_estudiantil(String correo_estudiantil) {
+        this.correo_estudiantil = correo_estudiantil;
     }
 
     public String getEquipo1() {
@@ -38,12 +36,12 @@ public class Prediction {
         this.equipo2 = equipo2;
     }
 
-    public Date getFecha_partido() {
-        return fecha_partido;
+    public Date getFecha_hora_partido() {
+        return fecha_hora_partido;
     }
 
-    public void setFecha_partido(Date fecha_partido) {
-        this.fecha_partido = fecha_partido;
+    public void setFecha_hora_partido(Date fecha_hora_partido) {
+        this.fecha_hora_partido = fecha_hora_partido;
     }
 
     public int getGol_equipo1() {
@@ -61,16 +59,4 @@ public class Prediction {
     public void setGol_equipo2(int gol_equipo2) {
         this.gol_equipo2 = gol_equipo2;
     }
-
-    public String getEtapa() {
-        return etapa;
-    }
-
-    public void setEtapa(String etapa) {
-        this.etapa = etapa;
-    }
-
-
-
-
 }

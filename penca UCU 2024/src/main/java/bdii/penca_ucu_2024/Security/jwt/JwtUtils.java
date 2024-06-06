@@ -1,7 +1,7 @@
 package bdii.penca_ucu_2024.Security.jwt;
 
-import bdii.penca_ucu_2024.Classes.Administrador;
-import bdii.penca_ucu_2024.Classes.Alumno;
+import bdii.penca_ucu_2024.Classes.Admin;
+import bdii.penca_ucu_2024.Classes.Alumn;
 import bdii.penca_ucu_2024.JSONClasses.UserRequest;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -65,10 +65,10 @@ public class JwtUtils {
 
     public boolean isTokenValid(String token, UserRequest userRequest) {
         final String username=getUsernameFromToken(token);
-        Alumno alumno = userRequest.getAlumni();
-        Administrador admin = userRequest.getAdministrador();
-        if(alumno!=null){
-            boolean alumnoExiste = username.equals(alumno.getCorreo_estudiantil())&& !isTokenExpired(token);
+        Alumn alumn = userRequest.getAlumni();
+        Admin admin = userRequest.getAdministrador();
+        if(alumn !=null){
+            boolean alumnoExiste = username.equals(alumn.getCorreo_estudiantil())&& !isTokenExpired(token);
             return alumnoExiste;
         }
         if(admin!=null){

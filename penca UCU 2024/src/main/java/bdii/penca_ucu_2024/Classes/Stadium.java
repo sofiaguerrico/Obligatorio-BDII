@@ -1,6 +1,6 @@
 package bdii.penca_ucu_2024.Classes;
 
-public class Estadio {
+public class Stadium {
     int ID_estadio;
     String nombre_estadio;
     String direccion_estadio;
