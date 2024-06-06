@@ -1,7 +1,7 @@
 package bdii.penca_ucu_2024.JSONClasses;
 
-import bdii.penca_ucu_2024.Classes.Administrador;
-import bdii.penca_ucu_2024.Classes.Alumno;
+import bdii.penca_ucu_2024.Classes.Admin;
+import bdii.penca_ucu_2024.Classes.Alumn;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -11,28 +11,28 @@ import java.util.Collections;
 
 public class UserRequest implements UserDetails {
 
-    private Alumno alumni;
-    private Administrador administrador;
+    private Alumn alumni;
+    private Admin admin;
     private String password;
     private Role role;
 
-    public Alumno getAlumni() {
+    public Alumn getAlumni() {
         return alumni;
     }
 
     public Role getRole() {
         return role;
     }
-    public void setAlumni(Alumno alumno) {
-        this.alumni = alumno;
+    public void setAlumni(Alumn alumn) {
+        this.alumni = alumn;
     }
 
-    public Administrador getAdministrador() {
-        return administrador;
+    public Admin getAdministrador() {
+        return admin;
     }
 
-    public void setAdministrador(Administrador administrador) {
-        this.administrador = administrador;
+    public void setAdministrador(Admin admin) {
+        this.admin = admin;
     }
 
     public void setPassword(String password) {
@@ -53,8 +53,8 @@ public class UserRequest implements UserDetails {
     public String getPassword() {
         if (alumni != null) {
             return password; // Alumno tiene su contraseña en la tabla Login
-        } else if (administrador != null) {
-            return administrador.getPassword_Admin(); // Administrador tiene su contraseña en su clase Administrador
+        } else if (admin != null) {
+            return admin.getPassword_Admin(); // Administrador tiene su contraseña en su clase Administrador
         }
         return null;
     }
@@ -63,8 +63,8 @@ public class UserRequest implements UserDetails {
     public String getUsername() {
         if (alumni != null) {
             return alumni.getCorreo_estudiantil();
-        } else if (administrador != null) {
-            return administrador.getCorreo_Admin();
+        } else if (admin != null) {
+            return admin.getCorreo_Admin();
         }
         return null;
     }

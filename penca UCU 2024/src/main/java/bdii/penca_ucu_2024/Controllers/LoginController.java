@@ -1,6 +1,6 @@
 package bdii.penca_ucu_2024.Controllers;
 
-import bdii.penca_ucu_2024.Classes.LoginRequest;
+import bdii.penca_ucu_2024.JSONClasses.LoginRequest;
 import bdii.penca_ucu_2024.JSONClasses.AuthResponse;
 import bdii.penca_ucu_2024.Services.LoginService;
 import org.springframework.beans.factory.annotation.Autowired;

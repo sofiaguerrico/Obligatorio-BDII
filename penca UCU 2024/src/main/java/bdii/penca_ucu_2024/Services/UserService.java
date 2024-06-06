@@ -1,7 +1,7 @@
 package bdii.penca_ucu_2024.Services;
 
-import bdii.penca_ucu_2024.Classes.Administrador;
-import bdii.penca_ucu_2024.Classes.Alumno;
+import bdii.penca_ucu_2024.Classes.Admin;
+import bdii.penca_ucu_2024.Classes.Alumn;
 import bdii.penca_ucu_2024.JSONClasses.Role;
 import bdii.penca_ucu_2024.JSONClasses.UserRequest;
 import bdii.penca_ucu_2024.Repositories.IUserRepository;
@@ -35,17 +35,17 @@ public class UserService implements IUserRepository {
     private Optional<UserRequest> findInAlumno(String correo_estudiantil) {
 
         String sql = "SELECT * FROM Alumno WHERE correo_estudiantil = ?";
-        BeanPropertyRowMapper<Alumno> rowMapperAlumno = new BeanPropertyRowMapper<>(Alumno.class);
-        List<Alumno> alumnos = this.dbConnection.query(sql, new Object[]{correo_estudiantil}, rowMapperAlumno);
+        BeanPropertyRowMapper<Alumn> rowMapperAlumno = new BeanPropertyRowMapper<>(Alumn.class);
+        List<Alumn> alumns = this.dbConnection.query(sql, new Object[]{correo_estudiantil}, rowMapperAlumno);
 
-        if (!alumnos.isEmpty()) {
+        if (!alumns.isEmpty()) {
 
-            Alumno alumno = alumnos.get(0);
+            Alumn alumn = alumns.get(0);
             UserRequest userRequest = new UserRequest();
-            userRequest.setAlumni(alumno);
+            userRequest.setAlumni(alumn);
             String sql2 = "SELECT * FROM alumno WHERE correo_estudiantil = ?";
-            BeanPropertyRowMapper<Alumno> rowMapperAlumnoRequest = new BeanPropertyRowMapper<>(Alumno.class);
-            List<Alumno> alumni = this.dbConnection.query(sql2, new Object[]{correo_estudiantil}, rowMapperAlumnoRequest);
+            BeanPropertyRowMapper<Alumn> rowMapperAlumnoRequest = new BeanPropertyRowMapper<>(Alumn.class);
+            List<Alumn> alumni = this.dbConnection.query(sql2, new Object[]{correo_estudiantil}, rowMapperAlumnoRequest);
 
             if (!alumni.isEmpty()) {
                 userRequest.setPassword(alumni.get(0).getPassword_alumno());
@@ -58,14 +58,14 @@ public class UserService implements IUserRepository {
 
     private Optional<UserRequest> findInAdministrador(String correo_admin) {
         String sql = "SELECT * FROM Administrador WHERE correo_admin = ?";
-        BeanPropertyRowMapper<Administrador> rowMapperAdministrador = new BeanPropertyRowMapper<>(Administrador.class);
-        List<Administrador> administradores = this.dbConnection.query(sql, new Object[]{correo_admin}, rowMapperAdministrador);
+        BeanPropertyRowMapper<Admin> rowMapperAdministrador = new BeanPropertyRowMapper<>(Admin.class);
+        List<Admin> administradores = this.dbConnection.query(sql, new Object[]{correo_admin}, rowMapperAdministrador);
 
         if (!administradores.isEmpty()) {
 
-            Administrador administrador = administradores.get(0);
+            Admin admin = administradores.get(0);
             UserRequest userRequest = new UserRequest();
-            userRequest.setAdministrador(administrador);
+            userRequest.setAdministrador(admin);
             userRequest.setRole(Role.ADMIN);
             return Optional.of(userRequest);
 

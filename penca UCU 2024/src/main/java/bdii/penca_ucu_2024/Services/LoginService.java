@@ -1,9 +1,9 @@
 package bdii.penca_ucu_2024.Services;
 
-import bdii.penca_ucu_2024.Classes.LoginRequest;
+import bdii.penca_ucu_2024.JSONClasses.LoginRequest;
 import bdii.penca_ucu_2024.JSONClasses.UserRequest;
 import bdii.penca_ucu_2024.JSONClasses.AuthResponse;
-import bdii.penca_ucu_2024.Repositories.IAlumnoRepository;
+import bdii.penca_ucu_2024.Repositories.IAlumnRepository;
 import bdii.penca_ucu_2024.Repositories.ILoginRepository;
 import bdii.penca_ucu_2024.Security.jwt.JwtUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +21,7 @@ public class LoginService implements ILoginRepository {
 
     private final JwtUtils jwtUtils;
     private AuthenticationManager authenticationManager;
-    private IAlumnoRepository alumnoRepository;
+    private IAlumnRepository alumnoRepository;
     private JdbcTemplate dbConnection;
 
     @Autowired

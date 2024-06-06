@@ -11,7 +11,7 @@ import java.util.List;
 
 @Service
 public class PredictionService implements IPredictionRepository {
-    private JdbcTemplate dbConnection;
+    private final JdbcTemplate dbConnection;
 
     @Autowired
     public PredictionService(JdbcTemplate dbConnection) {
@@ -21,8 +21,20 @@ public class PredictionService implements IPredictionRepository {
 
     @Override
     public List<Prediction> getAll() {
-        String sql = "SELECT * FROM Prediccion";
+        String sql = "SELECT * FROM Predice";
         BeanPropertyRowMapper<Prediction> rowMapper = new BeanPropertyRowMapper(Prediction.class);
         return this.dbConnection.query(sql, rowMapper).stream().toList();
+    }
+
+    @Override
+    public boolean insert(Prediction prediction) {
+        try{
+            String sql = "INSERT INTO Predice VALUES (?,?,?,?,?,?)";
+            this.dbConnection.update(sql,prediction.getCorreo_estudiantil(),prediction.getEquipo1(),prediction.getEquipo2(),prediction.getFecha_hora_partido(),prediction.getGol_equipo1(),prediction.getGol_equipo2());
+            return true;
+        }catch(Exception e){
+            System.out.println(e);
+            return false;
+        }
     }
 }

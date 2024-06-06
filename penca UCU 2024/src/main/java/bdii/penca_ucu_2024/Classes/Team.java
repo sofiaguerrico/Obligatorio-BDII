@@ -1,6 +1,6 @@
 package bdii.penca_ucu_2024.Classes;
 
-public class Equipo {
+public class Team {
 
     String nombre_equipo;
     String bandera;
