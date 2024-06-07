@@ -20,7 +20,6 @@ public class AlumnController {
 
     @PostMapping("/register")
     public ResponseEntity<AuthResponse> register(@RequestBody Alumn alumni) {
-        System.out.println("JSON recibido: CI=" + alumni.getCI() + ", nombre_alumno=" + alumni.getNombre_alumno() + ", apellido_alumno=" + alumni.getApellido_alumno() + ", genero_alumno=" + alumni.getGenero_alumno() + ", celular_alumno=" + alumni.getCelular_alumno() + ", password_alumno=" + alumni.getPassword_alumno() + ", correo_estudiantil=" + alumni.getCorreo_estudiantil() + ", campeon=" + alumni.getCampeon() + ", subcampeon=" + alumni.getSubcampeon() + ", puntos_totales=" + alumni.getPuntos_totales());
         AuthResponse resultado = as.register(alumni);
         return ResponseEntity.ok(resultado);
     }

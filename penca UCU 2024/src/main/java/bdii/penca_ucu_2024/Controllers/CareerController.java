@@ -28,8 +28,5 @@ public class CareerController {
         return cs.get();
     }
 
-    @GetMapping("/career/alumn/")
-    public Career getCareerByAlumn(@RequestHeader("correo_estudiantil") String correo_estudiantil) {
-        return cs.getCareer(correo_estudiantil);
-    }
+
 }

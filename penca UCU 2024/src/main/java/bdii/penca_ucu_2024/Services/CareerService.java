@@ -29,7 +29,6 @@ public class CareerService implements ICareerRepository {
     @Override
     public boolean insert(Career career) {
         try{
-
             String sql = "INSERT INTO carrera VALUES (?)";
             this.dbConnection.update(sql,career.getNombre_carrera());
             return true;
@@ -39,11 +38,5 @@ public class CareerService implements ICareerRepository {
         }
     }
 
-    @Override
-    public Career getCareer(String correo_estudiantil){
-        String sql = "SELECT * FROM cursa WHERE correo_estudiantil = ?";
-        Object[] args = {correo_estudiantil};
-        List<Career> career = dbConnection.query(sql, args, new BeanPropertyRowMapper<>(Career.class));
-        return career.isEmpty() ? null : career.get(0);
-    }
+
 }
