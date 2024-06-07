@@ -8,4 +8,5 @@ public interface ICareerRepository {
 
     boolean insert(Career career);
 
+    Career getCareer(String correo_estudiantil);
 }

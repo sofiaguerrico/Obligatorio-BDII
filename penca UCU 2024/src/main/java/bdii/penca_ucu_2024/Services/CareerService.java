@@ -38,4 +38,12 @@ public class CareerService implements ICareerRepository {
             return false;
         }
     }
+
+    @Override
+    public Career getCareer(String correo_estudiantil){
+        String sql = "SELECT * FROM cursa WHERE correo_estudiantil = ?";
+        Object[] args = {correo_estudiantil};
+        List<Career> career = dbConnection.query(sql, args, new BeanPropertyRowMapper<>(Career.class));
+        return career.isEmpty() ? null : career.get(0);
+    }
 }

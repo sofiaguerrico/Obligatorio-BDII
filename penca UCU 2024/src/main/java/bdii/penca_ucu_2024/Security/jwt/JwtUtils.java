@@ -2,6 +2,7 @@ package bdii.penca_ucu_2024.Security.jwt;
 
 import bdii.penca_ucu_2024.Classes.Admin;
 import bdii.penca_ucu_2024.Classes.Alumn;
+import bdii.penca_ucu_2024.JSONClasses.Role;
 import bdii.penca_ucu_2024.JSONClasses.UserRequest;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -24,8 +25,9 @@ public class JwtUtils {
     private String timeExpiration;
 
     //Generar token de acceso
-    public String generateAccessToken(String email) {
+    public String generateAccessToken(String email, String role) {
         return Jwts.builder()
+                .claim("role", role)
                 .setSubject(email)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + Long.parseLong(timeExpiration)))
@@ -67,6 +69,12 @@ public class JwtUtils {
         final String username=getUsernameFromToken(token);
         Alumn alumn = userRequest.getAlumni();
         Admin admin = userRequest.getAdministrador();
+        Role role = getClaim(token, claims -> Role.valueOf((String) claims.get("role")));
+
+        if (role == null || !role.equals(userRequest.getRole())) {
+            return false;
+        }
+
         if(alumn !=null){
             boolean alumnoExiste = username.equals(alumn.getCorreo_estudiantil())&& !isTokenExpired(token);
             return alumnoExiste;
@@ -75,6 +83,7 @@ public class JwtUtils {
             boolean adminExiste = username.equals(admin.getCorreo_Admin())&& !isTokenExpired(token);
             return adminExiste;
         }
+
         return false;
     }
 
@@ -96,28 +105,7 @@ public class JwtUtils {
         return claimsResolver.apply(claims);
     }
 
-//
-//    // Obtener un solo claim
-////    public <T> T getClaim(String token, Function<Claims, T> claimsTFunction) {
-////        Claims claims = extractAllClaims(token);
-////        return claimsTFunction.apply(claims);
-////    }
-////
-////    // Obtener todos los claims del token
-////    public Claims extractAllClaims(String token){
-////        return Jwts.parser()
-////                .setSigningKey(getSignatureKey())
-////                .build()
-////                .parseClaimsJws(token)
-////                .getBody();
-////    }
-//
-//
-//
-//
-////    public Key getSignatureKey() {
-////        return Keys.secretKeyFor(SignatureAlgorithm.HS256);
-////    }
+
     private Date getExpiration(String token)
     {
         return getClaim(token, Claims::getExpiration);

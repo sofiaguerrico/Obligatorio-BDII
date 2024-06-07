@@ -9,4 +9,10 @@ import java.util.List;
 public interface IAlumnRepository {
     AuthResponse register(Alumn alumni);
     List<Alumn> findAll();
+
+    List<Alumn> getAllPoints();
+
+    Alumn findByEmail(String correo_estudiantil);
+
+    List<String> getCorreos();
 }

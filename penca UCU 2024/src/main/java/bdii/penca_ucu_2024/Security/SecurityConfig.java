@@ -29,7 +29,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth ->
                     auth
                             .antMatchers("/register", "/login").permitAll()
-                            .antMatchers("/admin").hasRole("ADMIN")
+                            .antMatchers("/admin/**").hasAuthority("ROLE_ADMIN")
                             .anyRequest().authenticated()
                 )
                 .sessionManagement(sessionManager->

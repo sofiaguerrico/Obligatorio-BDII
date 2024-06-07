@@ -8,10 +8,7 @@ import bdii.penca_ucu_2024.Services.CareerService;
 import bdii.penca_ucu_2024.Services.LoginService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -29,5 +26,10 @@ public class CareerController {
     @GetMapping("/career/")
     public List<Career> getCareers() {
         return cs.get();
+    }
+
+    @GetMapping("/career/alumn/")
+    public Career getCareerByAlumn(@RequestHeader("correo_estudiantil") String correo_estudiantil) {
+        return cs.getCareer(correo_estudiantil);
     }
 }

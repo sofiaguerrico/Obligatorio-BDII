@@ -49,7 +49,7 @@ public class UserService implements IUserRepository {
 
             if (!alumni.isEmpty()) {
                 userRequest.setPassword(alumni.get(0).getPassword_alumno());
-                userRequest.setRole(Role.USER);
+                userRequest.setRole(Role.ROLE_USER);
             }
             return Optional.of(userRequest);
         }
@@ -66,7 +66,7 @@ public class UserService implements IUserRepository {
             Admin admin = administradores.get(0);
             UserRequest userRequest = new UserRequest();
             userRequest.setAdministrador(admin);
-            userRequest.setRole(Role.ADMIN);
+            userRequest.setRole(Role.ROLE_ADMIN);
             return Optional.of(userRequest);
 
         }

@@ -18,9 +18,9 @@ public class TeamService implements ITeamRepository {
     }
 
     @Override
-    public List<Prediction> get() {
+    public List<Team> getAll() {
         String sql = "SELECT * FROM equipo";
-        BeanPropertyRowMapper<Prediction> rowMapper = new BeanPropertyRowMapper(Team.class);
+        BeanPropertyRowMapper<Team> rowMapper = new BeanPropertyRowMapper(Team.class);
         return this.dbConnection.query(sql, rowMapper).stream().toList();
     }
 

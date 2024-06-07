@@ -1,6 +1,7 @@
 package bdii.penca_ucu_2024.Security.jwt;
 
 import bdii.penca_ucu_2024.JSONClasses.UserRequest;
+import bdii.penca_ucu_2024.Services.UserDetailsServiceImpl;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.security.SignatureException;
@@ -24,10 +25,12 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private final JwtUtils jwtUtils;
     private final UserDetailsService userDetailsService;
+    private final UserDetailsServiceImpl userDetailsServiceImpl;
 
-    public JwtAuthenticationFilter(JwtUtils jwtUtils, UserDetailsService userDetailsService) {
+    public JwtAuthenticationFilter(JwtUtils jwtUtils, UserDetailsService userDetailsService, UserDetailsServiceImpl userDetailsServiceImpl) {
         this.jwtUtils = jwtUtils;
         this.userDetailsService = userDetailsService;
+        this.userDetailsServiceImpl = userDetailsServiceImpl;
     }
 
     @Override
@@ -46,10 +49,10 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
             if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
 
-                UserRequest user = (UserRequest) userDetailsService.loadUserByUsername(username);
+                UserRequest user = (UserRequest) userDetailsServiceImpl.loadUserByUsername(username);
 
                 if (jwtUtils.isTokenValid(token, user)) {
-                    UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
+                    UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(user, "", user.getAuthorities());
                     authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 
                     SecurityContextHolder.getContext().setAuthentication(authenticationToken);
