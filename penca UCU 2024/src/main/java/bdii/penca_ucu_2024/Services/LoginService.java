@@ -50,26 +50,26 @@ public class LoginService implements ILoginRepository {
         UserRequest userRequest = alumnoOptional.get();
         Collection<? extends GrantedAuthority> usuarioType = userRequest.getAuthorities();
         for (GrantedAuthority authority : usuarioType) {
-            if ("USER".equals(authority.getAuthority())) {
+            if ("ROLE_USER".equals(authority.getAuthority())) {
                 // Encontrado el rol "USER"
                 if (!hashing.equals(alumnoOptional.get().getPassword())) {
                     authResponse.setMessage("Contraseña incorrecta");
 
                 } else {
-                    String token = jwtUtils.generateAccessToken(email);
+                    String token = jwtUtils.generateAccessToken(email, authority.getAuthority());
                     authResponse.setToken(token);
                     authResponse.setMessage("Login exitoso como Alumno");
 
                 }
             }
-            if ("ADMIN".equals(authority.getAuthority())) {
+            if ("ROLE_ADMIN".equals(authority.getAuthority())) {
                 // Encontrado el rol "ADMIN"
                 String adminPassword = DigestUtils.md5Hex(alumnoOptional.get().getPassword());
                 if (!hashing.equals(adminPassword)) {
                     authResponse.setMessage("Contraseña incorrecta");
                 } else {
 
-                    String token = jwtUtils.generateAccessToken(email);
+                    String token = jwtUtils.generateAccessToken(email, authority.getAuthority());
                     authResponse.setToken(token);
                     authResponse.setMessage("Login exitoso como Administrador");
 

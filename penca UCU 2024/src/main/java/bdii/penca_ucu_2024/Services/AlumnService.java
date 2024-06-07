@@ -9,6 +9,8 @@ import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 import org.apache.commons.codec.digest.DigestUtils;
+
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -41,7 +43,7 @@ public class AlumnService implements IAlumnRepository {
                 alumn.getGenero_alumno(), alumn.getCelular_alumno(),hashing, alumn.getCorreo_estudiantil(),
                 alumn.getCampeon(), alumn.getSubcampeon(), alumn.getPuntos_totales());
 
-        authResponse.setToken(jwtUtils.generateAccessToken(alumn.getCorreo_estudiantil()));
+        authResponse.setToken(jwtUtils.generateAccessToken(alumn.getCorreo_estudiantil(), "ROLE_USER"));
         authResponse.setMessage("Usuario Creado con exito");
         return authResponse;
     }
@@ -50,5 +52,30 @@ public class AlumnService implements IAlumnRepository {
     public List<Alumn> findAll() {
         String sql1= "SELECT * FROM Alumno";
         return this.dbConnection.query(sql1, new BeanPropertyRowMapper<>(Alumn.class));
+    }
+
+    @Override
+    public List<Alumn> getAllPoints(){
+        String sql = "Select * from Alumno order by puntos_totales desc";
+        return this.dbConnection.query(sql, new BeanPropertyRowMapper<>(Alumn.class));
+    }
+
+    @Override
+    public Alumn findByEmail(String correo_estudiantil){
+        String sql = "SELECT * FROM Alumno WHERE correo_estudiantil = ?";
+        String[] arg = {correo_estudiantil};
+        List<Alumn> alumn = this.dbConnection.query(sql, arg, new BeanPropertyRowMapper<>(Alumn.class));
+        return alumn.isEmpty() ? null : alumn.get(0);
+    }
+
+    @Override
+    public List<String> getCorreos(){
+        String sql = "SELECT correo_estudiantil FROM Alumno";
+            List<Alumn> alumns = this.dbConnection.query(sql, new BeanPropertyRowMapper<>(Alumn.class));
+            List<String> correos = new ArrayList<>();
+            for(Alumn alumn : alumns){
+                correos.add(alumn.getCorreo_estudiantil());
+            }
+            return correos;
     }
 }

@@ -1,6 +1,8 @@
 package bdii.penca_ucu_2024.Classes;
 
 import java.sql.Date;
+import java.sql.Time;
+import java.sql.Timestamp;
 
 public class Plays_match {
 

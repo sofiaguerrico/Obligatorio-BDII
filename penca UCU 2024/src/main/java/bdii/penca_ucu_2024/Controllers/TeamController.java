@@ -16,8 +16,8 @@ public class TeamController {
 
 
     @GetMapping("/team/")
-    public List<Prediction> getAllTeams() {
-        return ts.get();
+    public List<Team> getAllTeams() {
+        return ts.getAll();
     }
 
     @PostMapping("/team/")

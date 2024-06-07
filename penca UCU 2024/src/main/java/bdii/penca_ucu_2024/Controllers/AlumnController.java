@@ -9,6 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+import java.util.Map;
+
 @RestController
 public class AlumnController {
 
@@ -21,5 +24,14 @@ public class AlumnController {
         return ResponseEntity.ok(resultado);
     }
 
+    @GetMapping("/points/")
+    public List<Alumn> getPoints() {
+        return as.getAllPoints();
+    }
+
+    @GetMapping("/correos/")
+    public List<String> getCorreos() {
+        return as.getCorreos();
+    }
 
 }

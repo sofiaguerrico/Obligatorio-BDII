@@ -7,5 +7,4 @@ public interface ICareerRepository {
     List<Career> get();
 
     boolean insert(Career career);
-
 }

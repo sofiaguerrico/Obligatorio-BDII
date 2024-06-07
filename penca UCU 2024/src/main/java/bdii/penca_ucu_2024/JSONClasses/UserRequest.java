@@ -38,7 +38,6 @@ public class UserRequest implements UserDetails {
     public void setPassword(String password) {
         this.password = password;
     }
-
     public void setRole(Role role) {
         this.role = role;
     }
@@ -52,9 +51,9 @@ public class UserRequest implements UserDetails {
     @Override
     public String getPassword() {
         if (alumni != null) {
-            return password; // Alumno tiene su contraseña en la tabla Login
+            return alumni.getPassword_alumno();
         } else if (admin != null) {
-            return admin.getPassword_Admin(); // Administrador tiene su contraseña en su clase Administrador
+            return admin.getPassword_Admin();
         }
         return null;
     }

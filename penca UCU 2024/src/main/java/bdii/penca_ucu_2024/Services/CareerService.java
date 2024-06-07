@@ -29,7 +29,6 @@ public class CareerService implements ICareerRepository {
     @Override
     public boolean insert(Career career) {
         try{
-
             String sql = "INSERT INTO carrera VALUES (?)";
             this.dbConnection.update(sql,career.getNombre_carrera());
             return true;
@@ -38,4 +37,6 @@ public class CareerService implements ICareerRepository {
             return false;
         }
     }
+
+
 }
