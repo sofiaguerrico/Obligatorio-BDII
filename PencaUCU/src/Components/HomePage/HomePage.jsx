@@ -1,141 +1,136 @@
-import React from 'react'
-import AppBar from '@mui/material/AppBar';
-import Toolbar from '@mui/material/Toolbar';
+import React from 'react';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
-import IconButton from '@mui/material/IconButton';
-import imagen from '../../images/logo-ucu.png';
+import uruguay from '../../images/uruguay.png';
+import argentina from '../../images/argentina.png';
+import mexico from '../../images/mexico.png';
+import colombia from '../../images/colombia.png';
 import Carousel from 'react-bootstrap/Carousel';
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
-import CardMedia from '@mui/material/CardMedia';
-import { CardActionArea } from '@mui/material';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
+import { useNavigate } from 'react-router-dom';
 import './HomePage.css';
+import Navbar from '../Navbar/Navbar';
 
+const partidos = [
+  {
+    pais1: "Uruguay",
+    bandera1: uruguay,
+    pais2: "Argentina",
+    bandera2: argentina,
+    fecha: new Date().toISOString().split('T')[0],
+    etapa: "Grupo"
+  },
+  {
+    pais1: "Mexico",
+    bandera1: mexico,
+    pais2: "Colombia",
+    bandera2: colombia,
+    fecha: new Date().toISOString().split('T')[0],
+    etapa: "Grupo"
+  },
+  {
+    pais1: "Argentina",
+    bandera1: argentina,
+    pais2: "Mexico",
+    bandera2: mexico,
+    fecha: new Date().toISOString().split('T')[0],
+    etapa: "Grupo"
+  },
+  {
+    pais1: "Uruguay",
+    bandera1: uruguay,
+    pais2: "Colombia",
+    bandera2: colombia,
+    fecha: "2024-06-04",
+    etapa: "Grupo"
+  }
+];
 
 const HomePage = () => {
+  const today = new Date().toISOString().split('T')[0]; 
+  const partidosHoy = partidos.filter(partido => partido.fecha === today); 
+  const navigate = useNavigate();
+
+  const handleInsertClick = (partido) => {
+    navigate('/prediction', { state: { partido } });
+  };
+
   return (
     <div>
-      <div style={{ backgroundColor: 'red' }}>
-
-        <AppBar style={{ backgroundColor: '#070512' }} position="static">
-          <Toolbar>
-            <IconButton
-              size="large"
-              edge="start"
-              color="inherit"
-              aria-label="menu"
-              sx={{ mr: 2 }}
-            >
-
-            </IconButton>
-            <img src={imagen} style={{ width: '40px', height: '50px', padding: '5px' }} alt="Logo UCU" />
-            <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-              Penca UCU
-            </Typography>
-            <Button color="inherit">Ranking</Button>
-            <Button color="inherit">Profile</Button>
-          </Toolbar>
-        </AppBar>
-
+      <Navbar />
+      <div style={{ backgroundColor: '#D9D9D9' }}>
+        <Typography variant="h4" style={{ color: 'black', textAlign: 'center' }} gutterBottom>
+          TODAY'S MATCHES
+        </Typography>
         <Carousel>
-          <Carousel.Item>
-            <Card sx={{ maxWidth: 345 }}>
-              <CardActionArea>
-                <CardMedia
-                  component="img"
-                  height="140"
-                  image="/static/images/cards/contemplative-reptile.jpg"
-                  alt="green iguana"
-                />
-                <CardContent>
-                  <Typography gutterBottom variant="h5" component="div">
-                    Lizard
+          {partidosHoy.map((partido, index) => (
+            <Carousel.Item key={index} style={{ marginBottom: '20px' }}>
+              <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', margin: '10px' }}>
+                  <img src={partido.bandera1} alt={`Bandera de ${partido.pais1}`} style={{ width: '150px', height: '100px' }} />
+                  <Typography variant="h6" style={{ marginTop: '10px' }}>
+                    {partido.pais1}
                   </Typography>
-                  <Typography variant="body2" color="text.secondary">
-                    Lizards are a widespread group of squamate reptiles, with over 6,000
-                    species, ranging across all continents except Antarctica
+                </div>
+                <Typography variant="h4" style={{ margin: '0 20px' }}>VS</Typography>
+                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', margin: '10px' }}>
+                  <img src={partido.bandera2} alt={`Bandera de ${partido.pais2}`} style={{ width: '150px', height: '100px' }} />
+                  <Typography variant="h6" style={{ marginTop: '10px' }}>
+                    {partido.pais2}
                   </Typography>
-                </CardContent>
-              </CardActionArea>
-            </Card>
-            <Carousel.Caption>
-              <h3>First slide label</h3>
-              <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
-            </Carousel.Caption>
-          </Carousel.Item>
-          <Carousel.Item>
-            <Card sx={{ maxWidth: 345 }}>
-              <CardActionArea>
-                <CardMedia
-                  component="img"
-                  height="140"
-                  image="/static/images/cards/contemplative-reptile.jpg"
-                  alt="green iguana"
-                />
-                <CardContent>
-                  <Typography gutterBottom variant="h5" component="div">
-                    Lizard
-                  </Typography>
-                  <Typography variant="body2" color="text.secondary">
-                    Lizards are a widespread group of squamate reptiles, with over 6,000
-                    species, ranging across all continents except Antarctica
-                  </Typography>
-                </CardContent>
-              </CardActionArea>
-            </Card>
-            <Carousel.Caption>
-              <h3>Second slide label</h3>
-              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-            </Carousel.Caption>
-          </Carousel.Item>
-          <Carousel.Item>
-            <Card sx={{ maxWidth: 345 }}>
-              <CardActionArea>
-                <CardMedia
-                  component="img"
-                  height="140"
-                  image="/static/images/cards/contemplative-reptile.jpg"
-                  alt="green iguana"
-                />
-                <CardContent>
-                  <Typography gutterBottom variant="h5" component="div">
-                    Lizard
-                  </Typography>
-                  <Typography variant="body2" color="text.secondary">
-                    Lizards are a widespread group of squamate reptiles, with over 6,000
-                    species, ranging across all continents except Antarctica
-                  </Typography>
-                </CardContent>
-              </CardActionArea>
-            </Card>
-            <Carousel.Caption>
-              <h3>Third slide label</h3>
-              <p>
-                Praesent commodo cursus magna, vel scelerisque nisl consectetur.
-              </p>
-            </Carousel.Caption>
-          </Carousel.Item>
+                </div>
+              </div>
+            </Carousel.Item>
+          ))}
         </Carousel>
       </div>
       <div className='bodyHomePage'>
         <Container
-          maxWidth="sm"
-          sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
-          <Box
-            height={400}
-            width={300}
-            alignItems="center"
-            p={2}
-            sx={{ borderRadius: 1, backgroundColor: '#d9d9d927', boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.1)' }}>
-
-          </Box>
+          sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+          <Typography variant="h4" style={{ color: 'black', textAlign: 'center' }} gutterBottom>
+            MATCHES
+          </Typography>
+          {partidos.map((partido, index) => (
+            <Box
+              key={index}
+              width={500}
+              alignItems="center"
+              p={3}
+              sx={{ borderRadius: 1, backgroundColor: '#D9D9D9', boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.1)', mb: 2 }}
+              display="flex"
+              justifyContent="space-between"
+            >
+              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                <img src={partido.bandera1} alt={`Bandera de ${partido.pais1}`} style={{ width: '100px', height: '60px' }} />
+                <Typography variant="h6" style={{ marginTop: '10px' }}>
+                  {partido.pais1}
+                </Typography>
+              </div>
+              <div>
+                <Typography variant="body1" style={{ textAlign: 'center' }}>
+                  {partido.fecha}
+                </Typography>
+                <Button
+                  variant="contained"
+                  style={{ marginTop: '10px', backgroundColor: '#070512' }}
+                  onClick={() => handleInsertClick(partido)}
+                >
+                  Insert
+                </Button>
+              </div>
+              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                <img src={partido.bandera2} alt={`Bandera de ${partido.pais2}`} style={{ width: '100px', height: '60px' }} />
+                <Typography variant="h6" style={{ marginTop: '10px' }}>
+                  {partido.pais2}
+                </Typography>
+              </div>
+            </Box>
+          ))}
         </Container>
       </div>
     </div>
-  )
+  );
 }
 
-export default HomePage
+export default HomePage;

@@ -49,6 +49,25 @@ const Register = () => {
     return <CountrySelection formData={formData} onSubmit={handleFinalSubmit} />;
   }
 
+  const textFieldStyle = {
+    '& .MuiInputBase-input': {
+        
+        color: '#ffffff', 
+      },
+    '& .MuiInputLabel-root': {
+        color: '#ffffff',
+      },
+    '& .MuiInput-underline:before': {
+      borderBottomColor: '#ffffff',
+    },
+    '& .MuiInput-underline:after': {
+      borderBottomColor: '#ffffff',
+    },
+    '& .MuiInput-underline:hover:before': {
+      borderBottomColor: '#ffffff', 
+    },
+  };
+
   return (
     <div style={{ backgroundColor: '#070512' }}>
       <Container
@@ -70,6 +89,7 @@ const Register = () => {
               <Grid item xs={6} md={8} style={{ width: '100%' }}>
                 <TextField
                   fullWidth
+                  sx={textFieldStyle}
                   id="nameInput"
                   label={errors.name ? 'Name' : 'Name'}
                   variant="standard"
@@ -81,6 +101,7 @@ const Register = () => {
               <Grid item xs={6} md={8} style={{ width: '100%' }}>
                 <TextField
                   fullWidth
+                  sx={textFieldStyle}
                   id="lastNameInput"
                   label={errors.lastName ? 'Last name' : 'Last name'}
                   variant="standard"
@@ -92,6 +113,7 @@ const Register = () => {
               <Grid item xs={6} md={8} style={{ width: '100%' }}>
                 <TextField
                   fullWidth
+                  sx={textFieldStyle}
                   id="idInput"
                   label={errors.id ? 'ID' : 'ID'}
                   type="number"
@@ -109,6 +131,7 @@ const Register = () => {
                   rules={{ required: 'Is Required' }}
                   render={({ field }) => (
                     <TextField
+                     sx={textFieldStyle}
                       fullWidth
                       id="genderInput"
                       select
@@ -136,6 +159,7 @@ const Register = () => {
                   render={({ field }) => (
                     <TextField
                       fullWidth
+                      sx={textFieldStyle}
                       id="carreraInput"
                       select
                       label={errors.carrera ? 'Career' : 'Carrera'}
@@ -156,6 +180,7 @@ const Register = () => {
               <Grid item xs={6} md={8} style={{ width: '100%' }}>
                 <TextField
                   fullWidth
+                  sx={textFieldStyle}
                   id="phoneNumberInput"
                   label={errors.phoneNumber ? 'Phone number' : 'Phone number'}
                   type="number"
@@ -168,6 +193,7 @@ const Register = () => {
               <Grid item xs={6} md={8} style={{ width: '100%' }}>
                 <TextField
                   fullWidth
+                  sx={textFieldStyle}
                   id="mailInput"
                   label={errors.mail ? 'Mail' : 'Mail'}
                   variant="standard"
@@ -179,6 +205,7 @@ const Register = () => {
               <Grid item xs={6} md={8} style={{ width: '100%' }}>
                 <TextField
                   fullWidth
+                  sx={textFieldStyle}
                   id="passwordInput"
                   label={errors.password ? 'Password' : 'Password'}
                   type="password"
