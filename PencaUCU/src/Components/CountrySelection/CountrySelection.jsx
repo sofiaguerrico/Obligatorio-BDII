@@ -20,20 +20,17 @@ const CountrySelection = ({ formData, onSubmit }) => {
     const { control, handleSubmit, formState: { errors } } = useForm();
 
     const handleFinalSubmit = async (data) => {
-        console.log(formData);
         const completeData = {
-            alumni: {
-                ci: formData.ci,
-                nombre_alumno: formData.nombre_alumno,
-                apellido_alumno: formData.apellido_alumno,
-                genero_alumno: formData.genero_alumno,
-                celular_alumno: formData.celular_alumno,
-                carrera: formData.carrera,
-                correo_estudiantil: formData.correo_estudiantil,
-                campeon: data.country1,
-                subcampeon: data.country2,
-            },
-            password: formData.password,
+            ci: formData.ci,
+            nombre_alumno: formData.nombre_alumno,
+            apellido_alumno: formData.apellido_alumno,
+            genero_alumno: formData.genero_alumno,
+            celular_alumno: formData.celular_alumno,
+            password_alumno: formData.password,
+            correo_estudiantil: formData.correo_estudiantil,
+            campeon: data.country1,
+            subcampeon: data.country2,
+            puntos_totales: formData.puntos_totales
         };
         console.log(completeData);
 
@@ -47,22 +44,22 @@ const CountrySelection = ({ formData, onSubmit }) => {
 
     const textFieldStyle = {
         '& .MuiInputBase-input': {
-            
-            color: '#ffffff', 
-          },
+
+            color: '#ffffff',
+        },
         '& .MuiInputLabel-root': {
             color: '#ffffff',
-          },
+        },
         '& .MuiInput-underline:before': {
-          borderBottomColor: '#ffffff',
+            borderBottomColor: '#ffffff',
         },
         '& .MuiInput-underline:after': {
-          borderBottomColor: '#ffffff',
+            borderBottomColor: '#ffffff',
         },
         '& .MuiInput-underline:hover:before': {
-          borderBottomColor: '#ffffff', 
+            borderBottomColor: '#ffffff',
         },
-      };
+    };
 
     return (
         <div style={{ backgroundColor: '#070512' }}>
@@ -73,7 +70,7 @@ const CountrySelection = ({ formData, onSubmit }) => {
                     <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
                         INSERT YOUR FIRST PREDICTIONS
                     </Typography>
-                    <Typography variant="subtitle1" sx={{ flexGrow: 1, justifyContent:'center' }}>
+                    <Typography variant="subtitle1" sx={{ flexGrow: 1, justifyContent: 'center' }}>
                         This predictions can´t be modify
                     </Typography>
                     <form onSubmit={handleSubmit(handleFinalSubmit)}>
@@ -85,7 +82,7 @@ const CountrySelection = ({ formData, onSubmit }) => {
                             render={({ field }) => (
                                 <FormControl variant="standard" sx={textFieldStyle} fullWidth error={!!errors.country1}>
                                     <InputLabel>Winner</InputLabel>
-                                    <Select 
+                                    <Select
                                         {...field}
                                         label="Winner"
                                     >

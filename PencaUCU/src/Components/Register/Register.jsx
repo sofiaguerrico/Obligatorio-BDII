@@ -8,7 +8,7 @@ import Link from '@mui/material/Link';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import MenuItem from '@mui/material/MenuItem';
-import CountrySelection from '../CountrySelection/CountrySelection.jsx'; 
+import CountrySelection from '../CountrySelection/CountrySelection.jsx';
 import imagen from '../../images/logo-ucu.png';
 
 const genders = [
@@ -35,9 +35,9 @@ const Register = () => {
       apellido_alumno: data.lastName,
       genero_alumno: data.gender,
       celular_alumno: data.phoneNumber,
-      carrera: data.carrera,
       correo_estudiantil: data.mail,
-      password: data.password
+      password: data.password,
+      puntos_totales: "0"
     });
   };
 
@@ -51,12 +51,12 @@ const Register = () => {
 
   const textFieldStyle = {
     '& .MuiInputBase-input': {
-        
-        color: '#ffffff', 
-      },
+
+      color: '#ffffff',
+    },
     '& .MuiInputLabel-root': {
-        color: '#ffffff',
-      },
+      color: '#ffffff',
+    },
     '& .MuiInput-underline:before': {
       borderBottomColor: '#ffffff',
     },
@@ -64,7 +64,7 @@ const Register = () => {
       borderBottomColor: '#ffffff',
     },
     '& .MuiInput-underline:hover:before': {
-      borderBottomColor: '#ffffff', 
+      borderBottomColor: '#ffffff',
     },
   };
 
@@ -131,7 +131,7 @@ const Register = () => {
                   rules={{ required: 'Is Required' }}
                   render={({ field }) => (
                     <TextField
-                     sx={textFieldStyle}
+                      sx={textFieldStyle}
                       fullWidth
                       id="genderInput"
                       select
