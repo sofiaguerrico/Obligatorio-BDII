@@ -1,4 +1,5 @@
 const createStudent = async (student) => {
+    console.log(student)
     try {
         const response = await fetch(`http://localhost:8080/register`, {
             method: 'POST',
@@ -8,7 +9,7 @@ const createStudent = async (student) => {
             body: JSON.stringify(student)
         });
 
-        
+
         if (!response.ok) {
             throw new Error(`Error en la solicitud: ${response.status}`);
         }
@@ -16,7 +17,7 @@ const createStudent = async (student) => {
         return await response.json();
     } catch (error) {
         console.error('error', error);
-        throw error; 
+        throw error;
     }
 };
 
@@ -28,8 +29,8 @@ const loginStudent = async (correoEstudiantil, passwordAlumno) => {
                 "Content-Type": "application/json"
             },
             body: JSON.stringify({
-                correo_estudiantil: correoEstudiantil,
-                password_alumno: passwordAlumno
+                correo: correoEstudiantil,
+                password: passwordAlumno
             })
         });
 
