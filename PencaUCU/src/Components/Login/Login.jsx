@@ -8,6 +8,7 @@ import Link from '@mui/material/Link';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import { loginStudent } from '../../services/studentService.js';
+import { useNavigate } from 'react-router-dom';
 
 
 
@@ -17,18 +18,41 @@ const Login = () => {
   const [token, setToken] = useState(null);
   const [message, setMessage] = useState('');
   const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
   const handleLogin = async () => {
     try {
       const data = await loginStudent(correoEstudiantil, passwordAlumno);
       setToken(data.token);
       setMessage(data.message);
-      setError(null); 
+      setError(null);
 
       console.log(data)
+      if (data.token) {
+        navigate('/homePage');
+      }
     } catch (err) {
       setError(err.message);
     }
+  };
+
+  const textFieldStyle = {
+    '& .MuiInputBase-input': {
+        
+        color: '#ffffff', 
+      },
+    '& .MuiInputLabel-root': {
+        color: '#ffffff',
+      },
+    '& .MuiInput-underline:before': {
+      borderBottomColor: '#ffffff',
+    },
+    '& .MuiInput-underline:after': {
+      borderBottomColor: '#ffffff',
+    },
+    '& .MuiInput-underline:hover:before': {
+      borderBottomColor: '#ffffff', 
+    },
   };
   return (
     <div style={{ backgroundColor: '#070512' }}>
@@ -53,13 +77,13 @@ const Login = () => {
               </Typography>
             </Grid>
             <Grid item xs={6} md={8} mt={2} style={{ width: '100%' }}>
-              <TextField onChange={(e) => setCorreoEstudiantil(e.target.value)} style={{ width: '100%' }} id="mailInput" label="Mail" variant="standard" />
+              <TextField onChange={(e) => setCorreoEstudiantil(e.target.value)} fullWidth sx={textFieldStyle} id="mailInput" label="Mail" variant="standard" />
             </Grid>
             <Grid item xs={6} md={8} mt={3} style={{ width: '100%' }}>
-              <TextField onChange={(e) => setPasswordAlumno(e.target.value)} style={{ width: '100%' }} id="passwordInput" label="Password" type="password" autoComplete="current-password" variant="standard" />
+              <TextField onChange={(e) => setPasswordAlumno(e.target.value)} fullWidth sx={textFieldStyle} id="passwordInput" label="Password" type="password" autoComplete="current-password" variant="standard" />
             </Grid>
             <Grid item xs={6} md={8} mt={3} style={{ width: '100%' }}>
-              <Button onClick={handleLogin}  style={{ width: '100%', background: '#070512' }} variant="contained">Login</Button>
+              <Button onClick={handleLogin} style={{ width: '100%', background: '#070512' }} variant="contained">Login</Button>
             </Grid>
             <Grid item xs={6} md={12} mt={1}>
               <Link href="/register" style={{ color: 'white' }} underline="hover">

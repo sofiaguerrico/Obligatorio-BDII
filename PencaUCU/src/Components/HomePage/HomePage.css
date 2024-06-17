@@ -1,6 +1,6 @@
 .bodyHomePage {
     overflow-y: auto;
-    height: 250px;
+    height: 300px;
 }
 
 .bodyHomePage::-webkit-scrollbar {

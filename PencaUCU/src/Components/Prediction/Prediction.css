@@ -1,0 +1,9 @@
+.predictionContent{
+    background-color: #070512;
+    width: fit-content;
+    border-radius: 5px;
+    padding: 20px;
+    margin-top: 50px;
+    text-align: center;
+    color: white;
+}
