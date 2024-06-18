@@ -11,45 +11,20 @@ import Container from '@mui/material/Container';
 import { useNavigate } from 'react-router-dom';
 import './HomePage.css';
 import Navbar from '../Navbar/Navbar';
+import { getMatches } from '../../services/play_match.js';
 
-const partidos = [
-  {
-    pais1: "Uruguay",
-    bandera1: uruguay,
-    pais2: "Argentina",
-    bandera2: argentina,
-    fecha: new Date().toISOString().split('T')[0],
-    etapa: "Grupo"
-  },
-  {
-    pais1: "Mexico",
-    bandera1: mexico,
-    pais2: "Colombia",
-    bandera2: colombia,
-    fecha: new Date().toISOString().split('T')[0],
-    etapa: "Grupo"
-  },
-  {
-    pais1: "Argentina",
-    bandera1: argentina,
-    pais2: "Mexico",
-    bandera2: mexico,
-    fecha: new Date().toISOString().split('T')[0],
-    etapa: "Grupo"
-  },
-  {
-    pais1: "Uruguay",
-    bandera1: uruguay,
-    pais2: "Colombia",
-    bandera2: colombia,
-    fecha: "2024-06-04",
-    etapa: "Grupo"
-  }
-];
 
-const HomePage = () => {
-  const today = new Date().toISOString().split('T')[0]; 
-  const partidosHoy = partidos.filter(partido => partido.fecha === today); 
+
+const HomePage = async () => {
+  //localStorage.removeItem("token");
+  const token = localStorage.getItem("token");
+  console.log("token ahora", token);
+  const partidos = await getMatches(token);
+  console.log(partidos);
+
+
+  const today = new Date().toISOString().split('T')[0];
+  const partidosHoy = partidos.filter(partido => partido.fecha === today);
   const navigate = useNavigate();
 
   const handleInsertClick = (partido) => {
@@ -128,6 +103,7 @@ const HomePage = () => {
             </Box>
           ))}
         </Container>
+
       </div>
     </div>
   );

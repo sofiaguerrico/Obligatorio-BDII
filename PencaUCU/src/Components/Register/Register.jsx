@@ -9,7 +9,7 @@ import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import MenuItem from '@mui/material/MenuItem';
 import CountrySelection from '../CountrySelection/CountrySelection.jsx';
-import imagen from '../../images/logo-ucu.png';
+
 
 const genders = [
   { value: 'male', label: 'Male' },
@@ -43,6 +43,7 @@ const Register = () => {
 
   const handleFinalSubmit = (completeData) => {
     console.log('Complete data:', completeData);
+    localStorage.setItem("token", completeData.token);
   };
 
   if (formData) {
