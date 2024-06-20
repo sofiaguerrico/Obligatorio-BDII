@@ -7,6 +7,7 @@ import Profile from './Components/Profile/Profile';
 import Prediction from './Components/Prediction/Prediction';
 import Ranking from './Components/Ranking/Ranking';
 import AdminHomePage from './Components/AdminHomePage/AdminHomePage';
+import UserPrediction from './Components/UserPrediction/UserPrediction';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
@@ -23,6 +24,8 @@ function App() {
           <Route path="/prediction" element={<Prediction />} />
           <Route path="/ranking" element={<Ranking />} />
           <Route path="/admin" element={<AdminHomePage />} />
+          <Route path="/userPrediction" element={<UserPrediction />} />
+          
         </Routes>
       </Router>
     </div>
