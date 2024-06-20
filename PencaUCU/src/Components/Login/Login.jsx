@@ -25,7 +25,9 @@ const Login = () => {
       
       const data = await loginStudent(correoEstudiantil, passwordAlumno);      
       setToken(data.token);
+
       localStorage.setItem("token", data.token);      
+
       setMessage(data.message);
       setError(null);
 
