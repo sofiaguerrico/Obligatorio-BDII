@@ -22,9 +22,12 @@ const Login = () => {
 
   const handleLogin = async () => {
     try {
-      const data = await loginStudent(correoEstudiantil, passwordAlumno);
+      
+      const data = await loginStudent(correoEstudiantil, passwordAlumno);      
       setToken(data.token);
-  
+
+      localStorage.setItem("token", data.token);      
+
       setMessage(data.message);
       setError(null);
 

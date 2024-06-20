@@ -4,6 +4,7 @@ import bdii.penca_ucu_2024.Classes.Plays_match;
 
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.List;
 
 public interface IPlayMatchRepository {
@@ -11,7 +12,7 @@ public interface IPlayMatchRepository {
 
     List<Plays_match> findAll();
 
-    Plays_match findPlay(String equipo1, String equipo2, Date fecha_partido);
+    Plays_match findPlay(String equipo1, String equipo2, String fecha_partido);
 
     boolean update(Plays_match match);
 

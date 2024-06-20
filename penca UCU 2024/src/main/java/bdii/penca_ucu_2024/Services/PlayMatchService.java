@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.sql.Date;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -37,24 +38,32 @@ public class PlayMatchService implements IPlayMatchRepository {
     }
 
     @Override
-    public Plays_match findPlay(String equipo1, String equipo2, Date fecha_partido){
+    public Plays_match findPlay(String equipo1, String equipo2, String fecha_hora_partido){
         String sql = "SELECT * FROM Juega_partido WHERE equipo1 = ? AND equipo2 = ? AND fecha_hora_partido = ?";
-        Object[] args = {equipo1, equipo2, fecha_partido};
+        Object[] args = {equipo1, equipo2, fecha_hora_partido};
         List<Plays_match> matches = dbConnection.query(sql, args, new BeanPropertyRowMapper<>(Plays_match.class));
         return matches.isEmpty() ? null : matches.get(0);
     }
 
     @Override
     public boolean update(Plays_match match) {
-        Plays_match existMatch = findPlay(match.getEquipo1(), match.getEquipo2(), match.getFecha_hora_partido());
+        Plays_match existMatch = findPlay(match.getEquipo1(), match.getEquipo2(), match.getFecha_hora_partido().toString());
         if(existMatch != null) {
             String sql = "UPDATE juega_partido SET gol_equipo1 = ?, gol_equipo2 = ? WHERE equipo1 = ? AND equipo2 = ? AND fecha_hora_partido = ?";
-            dbConnection.update(sql, match.getGol_equipo1(),
+            int rowsAffected = this.dbConnection.update(sql,
+                    match.getGol_equipo1(),
                     match.getGol_equipo2(),
                     match.getEquipo1(),
                     match.getEquipo2(),
-                    match.getFecha_hora_partido());
-            return true;
+                    match.getFecha_hora_partido().toString());
+
+            if (rowsAffected > 0) {
+                System.out.println("El partido se actualizó correctamente.");
+                return true;
+            } else {
+                System.out.println("No se actualizó ningún registro.");
+                return false;
+            }
         }else{
             return false;
         }

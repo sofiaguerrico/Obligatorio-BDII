@@ -25,6 +25,7 @@ const Prediction = () => {
     const { partido } = location.state;
     const [score1, setScore1] = useState('');
     const [score2, setScore2] = useState('');
+    
 
     const handleSubmit = () => {
         console.log(`Prediction: ${partido.pais1} ${score1} - ${score2} ${partido.pais2} ${partido.fecha}`);

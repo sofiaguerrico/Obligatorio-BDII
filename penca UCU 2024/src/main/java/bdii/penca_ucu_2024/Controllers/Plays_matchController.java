@@ -12,6 +12,7 @@ import java.sql.Date;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -26,7 +27,9 @@ public class Plays_matchController {
     }
 
     @GetMapping("/playmatch/")
-    public List<Plays_match> getAll() { return pm.findAll(); }
+    public List<Plays_match> getAll() {
+        return pm.findAll();
+    }
 
     @GetMapping("/playmatch/fixture/")
     public List<Plays_match> getFixtureStage(@RequestHeader("stage") String stage) {
@@ -36,9 +39,9 @@ public class Plays_matchController {
     @GetMapping("/admin/playmatch/find/")
     public ResponseEntity<Plays_match> get(@RequestHeader("equipo1") String equipo1,
                                            @RequestHeader("equipo2") String equipo2,
-                                           @RequestHeader("fecha_hora_partido") Date fecha_hora_partido) {
+                                           @RequestHeader("fecha_hora_partido") String fechaHeader) {
 
-        Plays_match foundMatch = pm.findPlay(equipo1, equipo2, fecha_hora_partido);
+        Plays_match foundMatch = pm.findPlay(equipo1, equipo2, fechaHeader);
         if (foundMatch != null) {
             return ResponseEntity.ok(foundMatch);
         } else {
@@ -46,7 +49,8 @@ public class Plays_matchController {
             return ResponseEntity.notFound().build();
         }
     }
-    @PutMapping("/playmatch/modify/")
+
+    @PatchMapping("/playmatch/modify/")
     public boolean update(@RequestBody Plays_match match) {
         return pm.update(match);
     }
