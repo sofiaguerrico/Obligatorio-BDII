@@ -1,10 +1,6 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
-import uruguay from '../../images/uruguay.png';
-import argentina from '../../images/argentina.png';
-import mexico from '../../images/mexico.png';
-import colombia from '../../images/colombia.png';
 import Carousel from 'react-bootstrap/Carousel';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
@@ -13,19 +9,36 @@ import './HomePage.css';
 import Navbar from '../Navbar/Navbar';
 import { getMatches } from '../../services/play_match.js';
 
+const HomePage = () => {
+  const [partidos, setPartidos] = useState([]);
+  const navigate = useNavigate();
 
+  useEffect(() => {
+    async function fetchPartidos() {
+      
+        console.log('Obteniendo token del localStorage');
+        const token = localStorage.getItem('token');
+        if (!token) {
+          console.log('No token found');
+          return; // No hay token, salir
+        }
+        try {
+          console.log('Llamando a getMatches con token:', token);
+          const partidosData = await getMatches(token);
+          console.log('Partidos obtenidos:', partidosData);
+          setPartidos(partidosData);          
+        
+      } catch (error) {
+        console.error('Error fetching matches:', error);
+        // Manejar errores de manera apropiada, como mostrar un mensaje al usuario
+      }
+    };
 
-const HomePage = async () => {
-  //localStorage.removeItem("token");
-  const token = localStorage.getItem("token");
-  console.log("token ahora", token);
-  const partidos = await getMatches(token);
-  console.log(partidos);
-
+  fetchPartidos();
+  }, []); // El segundo parámetro [] indica que el efecto se ejecuta solo una vez al montar el componente
 
   const today = new Date().toISOString().split('T')[0];
   const partidosHoy = partidos.filter(partido => partido.fecha === today);
-  const navigate = useNavigate();
 
   const handleInsertClick = (partido) => {
     navigate('/prediction', { state: { partido } });
@@ -103,7 +116,6 @@ const HomePage = async () => {
             </Box>
           ))}
         </Container>
-
       </div>
     </div>
   );

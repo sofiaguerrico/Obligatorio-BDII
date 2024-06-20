@@ -3,13 +3,14 @@ package bdii.penca_ucu_2024.Classes;
 import java.sql.Date;
 import java.sql.Time;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 public class Plays_match {
 
     String equipo1;
     String equipo2;
     // ver importacion
-    Date fecha_hora_partido;
+    LocalDateTime fecha_hora_partido;
     int gol_equipo1;
     int gol_equipo2;
     String etapa;
@@ -31,11 +32,11 @@ public class Plays_match {
         this.equipo2 = equipo2;
     }
 
-    public Date getFecha_hora_partido() {
+    public LocalDateTime getFecha_hora_partido() {
         return fecha_hora_partido;
     }
 
-    public void setFecha_hora_partido(Date fecha_hora_partido) {
+    public void setFecha_hora_partido(LocalDateTime fecha_hora_partido) {
         this.fecha_hora_partido = fecha_hora_partido;
     }
 
