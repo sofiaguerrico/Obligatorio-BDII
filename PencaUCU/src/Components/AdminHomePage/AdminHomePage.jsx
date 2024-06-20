@@ -2,6 +2,9 @@ import React, { useState } from 'react';
 import AdminDrawer from '../AdminDrawer/AdminDrawer';
 import MainPageAdmin from '../MainPageAdmin/MainPageAdmin';
 import MatchesAdmin from '../MatchesAdmin/MatchesAdmin';
+import PredictionsAdmin from '../PredictionsAdmin/PredictionsAdmin';
+import ListStudents from '../ListStudents/ListStudents';
+import Login from '../Login/Login';
 
 const AdminHomePage = () => {
     const [selectedComponent, setSelectedComponent] = useState('Main');
@@ -9,11 +12,13 @@ const AdminHomePage = () => {
     const renderComponent = () => {
         switch (selectedComponent) {
             case 'Main':
-                return <MainPageAdmin/>;
+                return <MainPageAdmin />;
             case 'Matches':
-                return <MatchesAdmin/>;
+                return <MatchesAdmin />;
             case 'Predictions':
-                return <h2>hola2</h2>;
+                return <PredictionsAdmin />;
+            case 'Students':
+                return <ListStudents />;
             default:
                 return null;
         }

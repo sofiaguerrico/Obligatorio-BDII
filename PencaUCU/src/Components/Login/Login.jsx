@@ -24,6 +24,7 @@ const Login = () => {
     try {
       const data = await loginStudent(correoEstudiantil, passwordAlumno);
       setToken(data.token);
+  
       setMessage(data.message);
       setError(null);
 
