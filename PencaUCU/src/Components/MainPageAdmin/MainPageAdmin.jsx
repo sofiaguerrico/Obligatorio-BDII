@@ -15,56 +15,51 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import Button from '@mui/material/Button';
 
-import uruguay from '../../images/uruguay.png';
-import argentina from '../../images/argentina.png';
-import mexico from '../../images/mexico.png';
-import colombia from '../../images/colombia.png';
-import './MainPageAdmin.css';
-
+import flags from '../flags.js'; 
 const MainPageAdmin = () => {
-    const [usersCount, setUsersCount] = useState(0); 
+    const [usersCount, setUsersCount] = useState(0);
     const [matchesCount, setMatchesCount] = useState(0);
-    const [predictionsCount, setPredictionsCount] = useState(0); 
+    const [predictionsCount, setPredictionsCount] = useState(0);
 
     useEffect(() => {
-        setUsersCount(50); 
-        setMatchesCount(4); 
-        setPredictionsCount(10); 
+        setUsersCount(50);
+        setMatchesCount(4);
+        setPredictionsCount(10);
     }, []);
 
     const partidos = [
         {
             pais1: "Uruguay",
-            bandera1: uruguay,
+            bandera1: flags.uruguay, // Usa las claves del objeto flags para las banderas
             pais2: "Argentina",
-            bandera2: argentina,
+            bandera2: flags.argentina,
             fecha: new Date().toISOString().split('T')[0],
             etapa: "Group Stage",
             resultado: "1-0"
         },
         {
             pais1: "Mexico",
-            bandera1: mexico,
+            bandera1: flags.mexico,
             pais2: "Colombia",
-            bandera2: colombia,
+            bandera2: flags.colombia,
             fecha: new Date().toISOString().split('T')[0],
             etapa: "Group Stage",
             resultado: "2-2"
         },
         {
             pais1: "Argentina",
-            bandera1: argentina,
+            bandera1: flags.argentina,
             pais2: "Mexico",
-            bandera2: mexico,
+            bandera2: flags.mexico,
             fecha: new Date().toISOString().split('T')[0],
             etapa: "Group Stage",
             resultado: "0-1"
         },
         {
             pais1: "Uruguay",
-            bandera1: uruguay,
+            bandera1: flags.uruguay,
             pais2: "Colombia",
-            bandera2: colombia,
+            bandera2: flags.colombia,
             fecha: "2024-06-04",
             etapa: "Group Stage",
             resultado: "3-1"

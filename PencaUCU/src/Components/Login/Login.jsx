@@ -27,7 +27,7 @@ const Login = () => {
       setToken(data.token);
 
       localStorage.setItem("token", data.token);      
-
+      localStorage.setItem("alumno", correoEstudiantil);
       setMessage(data.message);
       setError(null);
 

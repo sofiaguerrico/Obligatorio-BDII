@@ -1,34 +1,56 @@
 import React, { useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
-import uruguay from '../../images/uruguay.png';
-import argentina from '../../images/argentina.png';
-import mexico from '../../images/mexico.png';
-import colombia from '../../images/colombia.png';
 import Navbar from '../Navbar/Navbar';
 import './Prediction.css';
-
-const images = {
-    uruguay,
-    argentina,
-    mexico,
-    colombia,
-};
+import { insertPrediction } from '../../services/prediction';
+import flags from '../flags.js';
 
 const Prediction = () => {
     const location = useLocation();
+    const navigate = useNavigate();
     const { partido } = location.state;
     const [score1, setScore1] = useState('');
     const [score2, setScore2] = useState('');
-    
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState('');
 
-    const handleSubmit = () => {
-        console.log(`Prediction: ${partido.pais1} ${score1} - ${score2} ${partido.pais2} ${partido.fecha}`);
+    const handleSubmit = async () => {
+        setLoading(true);
+        setError('');
+        const token = localStorage.getItem('token');
+
+        if (!token) {
+            setError('No token found');
+            setLoading(false);
+            return;
+        }
+
+        const predictionData = {
+            correo_estudiantil: localStorage.getItem('alumno'), 
+            equipo1: partido.equipo1,
+            equipo2: partido.equipo2,
+            fecha_hora_partido: partido.fecha_hora_partido,
+            gol_equipo1: parseInt(score1, 10),
+            gol_equipo2: parseInt(score2, 10),
+        };
+
+        try {
+            console.log(predictionData);
+            await insertPrediction(token, predictionData);
+            console.log('Prediction inserted successfully');
+            //navigate('/');
+        } catch (err) {
+            console.error('Error inserting prediction:', err);
+            setError('Failed to insert prediction');
+        } finally {
+            setLoading(false);
+        }
     };
 
     const textFieldStyle = {
@@ -66,11 +88,10 @@ const Prediction = () => {
                     p={2}
                     sx={{ borderRadius: 1, backgroundColor: '#070512', padding: '50px' }}>
                     <Grid container direction="column" justifyContent="center" alignItems="center">
-
                         <Grid item container justifyContent="center" alignItems="center" spacing={2}>
                             <Grid item container direction="column" alignItems="center" xs={4}>
-                                <img src={images[partido.pais1.toLowerCase()]} alt={`Bandera de ${partido.pais1}`} style={{ width: '150px', height: '100px' }} />
-                                <Typography variant="h6" style={{ color: 'white' }}>{partido.pais1}</Typography>
+                                <img src={flags[partido.equipo1.toLowerCase()]} alt={`Bandera de ${partido.equipo1}`} style={{ width: '150px', height: '100px' }} />
+                                <Typography variant="h6" style={{ color: 'white' }}>{partido.equipo1}</Typography>
                                 <TextField
                                     sx={textFieldStyle}
                                     label="Score"
@@ -85,8 +106,8 @@ const Prediction = () => {
                                 <Typography variant="h4" style={{ color: 'white' }}>-</Typography>
                             </Grid>
                             <Grid item container direction="column" alignItems="center" xs={4}>
-                                <img src={images[partido.pais2.toLowerCase()]} alt={`Bandera de ${partido.pais2}`} style={{ width: '150px', height: '100px' }} />
-                                <Typography variant="h6" style={{ color: 'white' }}>{partido.pais2}</Typography>
+                                <img src={flags[partido.equipo2.toLowerCase()]} alt={`Bandera de ${partido.equipo2}`} style={{ width: '150px', height: '100px' }} />
+                                <Typography variant="h6" style={{ color: 'white' }}>{partido.equipo2}</Typography>
                                 <TextField
                                     sx={textFieldStyle}
                                     label="Score"
@@ -101,8 +122,9 @@ const Prediction = () => {
                     </Grid>
                 </Box>
                 <Box mt={2}>
-                    <Button variant="contained" onClick={handleSubmit} style={{ background: '#070512' }}>
-                        Insert
+                    {error && <Typography variant="body2" color="error">{error}</Typography>}
+                    <Button variant="contained" onClick={handleSubmit} style={{ background: '#070512' }} disabled={loading}>
+                        {loading ? 'Inserting...' : 'Insert'}
                     </Button>
                 </Box>
             </Container>
