@@ -1,8 +1,4 @@
 import React, { useState } from 'react';
-import uruguay from '../../images/uruguay.png';
-import argentina from '../../images/argentina.png';
-import mexico from '../../images/mexico.png';
-import colombia from '../../images/colombia.png';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
@@ -10,6 +6,7 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
+import flags from '../flags.js'; 
 import './MatchesAdmin.css';
 
 const etapas = ["Fase de grupo", "Cuartos de final", "Semifinal", "3° puesto y Final"];
@@ -23,12 +20,13 @@ const MatchesAdmin = () => {
         gol_equipo1: '',
         gol_equipo2: ''
     });
+
     const [partidos, setPartidos] = useState([
         {
             pais1: "Uruguay",
-            bandera1: uruguay,
+            bandera1: flags.uruguay,
             pais2: "Argentina",
-            bandera2: argentina,
+            bandera2: flags.argentina,
             fecha: new Date().toISOString().split('T')[0],
             etapa: "Fase de grupo",
             gol_equipo1: '3',
@@ -36,9 +34,9 @@ const MatchesAdmin = () => {
         },
         {
             pais1: "Mexico",
-            bandera1: mexico,
+            bandera1: flags.mexico,
             pais2: "Colombia",
-            bandera2: colombia,
+            bandera2: flags.colombia,
             fecha: new Date().toISOString().split('T')[0],
             etapa: "Fase de grupo",
             gol_equipo1: '1',
@@ -46,9 +44,9 @@ const MatchesAdmin = () => {
         },
         {
             pais1: "Argentina",
-            bandera1: argentina,
+            bandera1: flags.argentina,
             pais2: "Mexico",
-            bandera2: mexico,
+            bandera2: flags.mexico,
             fecha: new Date().toISOString().split('T')[0],
             etapa: "Cuartos de final",
             gol_equipo1: '2',
@@ -56,9 +54,9 @@ const MatchesAdmin = () => {
         },
         {
             pais1: "Uruguay",
-            bandera1: uruguay,
+            bandera1: flags.uruguay,
             pais2: "Colombia",
-            bandera2: colombia,
+            bandera2: flags.colombia,
             fecha: "2024-06-04",
             etapa: "Semifinal",
             gol_equipo1: '4',

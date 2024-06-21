@@ -1,19 +1,16 @@
 import React from 'react';
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Typography, Box, Grid, Divider } from '@mui/material';
-import './PredictionsAdmin.css'
-import uruguay from '../../images/uruguay.png';
-import argentina from '../../images/argentina.png';
-import mexico from '../../images/mexico.png';
-import colombia from '../../images/colombia.png';
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Typography, Box } from '@mui/material';
+import './PredictionsAdmin.css';
+import flags from '../flags.js';
 
 const PredictionsAdmin = () => {
     const predictions = [
         {
             partido: {
                 pais1: "Uruguay",
-                bandera1: uruguay,
+                bandera1: flags.uruguay,
                 pais2: "Argentina",
-                bandera2: argentina,
+                bandera2: flags.argentina,
                 fecha: "2024-06-01",
                 etapa: "Grupo",
                 resultado: "1-0"
@@ -40,9 +37,9 @@ const PredictionsAdmin = () => {
         {
             partido: {
                 pais1: "Mexico",
-                bandera1: mexico,
+                bandera1: flags.mexico,
                 pais2: "Colombia",
-                bandera2: colombia,
+                bandera2: flags.colombia,
                 fecha: "2024-06-02",
                 etapa: "Grupo",
                 resultado: "2-2"
@@ -61,9 +58,9 @@ const PredictionsAdmin = () => {
         {
             partido: {
                 pais1: "Argentina",
-                bandera1: argentina,
+                bandera1: flags.argentina,
                 pais2: "Mexico",
-                bandera2: mexico,
+                bandera2: flags.mexico,
                 fecha: "2024-06-03",
                 etapa: "Grupo",
                 resultado: "0-1"
@@ -82,9 +79,9 @@ const PredictionsAdmin = () => {
         {
             partido: {
                 pais1: "Uruguay",
-                bandera1: uruguay,
+                bandera1: flags.uruguay,
                 pais2: "Colombia",
-                bandera2: colombia,
+                bandera2: flags.colombia,
                 fecha: "2024-06-04",
                 etapa: "Grupo",
                 resultado: "3-1"
@@ -114,20 +111,20 @@ const PredictionsAdmin = () => {
     const renderFlag = (teamName) => {
         switch (teamName) {
             case 'Uruguay':
-                return uruguay;
+                return flags.uruguay;
             case 'Argentina':
-                return argentina;
+                return flags.argentina;
             case 'Mexico':
-                return mexico;
+                return flags.mexico;
             case 'Colombia':
-                return colombia;
+                return flags.colombia;
             default:
                 return null;
         }
     };
 
     return (
-        <div >
+        <div>
             <Typography ml={2} variant="h4" gutterBottom>
                 Predictions
             </Typography>
