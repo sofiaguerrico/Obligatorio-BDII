@@ -34,4 +34,11 @@ public class AlumnController {
         return as.getCorreos();
     }
 
+    @GetMapping("/students/")
+    public List<Alumn> getAlumns() {
+        return as.findAll();
+    }
+
+
+
 }

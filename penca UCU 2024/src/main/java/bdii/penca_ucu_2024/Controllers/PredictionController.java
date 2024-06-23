@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -44,7 +45,7 @@ public class PredictionController {
     public ResponseEntity<Prediction> getPrediction(@RequestHeader("correo_estudiantil") String correo_estudiantil,
                                     @RequestHeader("equipo1") String equipo1,
                                     @RequestHeader("equipo2") String equipo2,
-                                    @RequestHeader("fecha_hora_partido") Date fecha_hora_partido) {
+                                    @RequestHeader("fecha_hora_partido") String fecha_hora_partido) {
         Prediction prediction = new Prediction();
         prediction.setCorreo_estudiantil(correo_estudiantil);
         prediction.setEquipo1(equipo1);
@@ -57,5 +58,19 @@ public class PredictionController {
             return ResponseEntity.notFound().build();
         }
 
+    }
+
+    @GetMapping("/prediction/playmatch/")
+    public ResponseEntity<List<Prediction>> getPredictionForMatch(
+                                                    @RequestHeader("equipo1") String equipo1,
+                                                    @RequestHeader("equipo2") String equipo2,
+                                                    @RequestHeader("fecha_hora_partido") Date fecha_hora_partido) {
+
+        List<Prediction> predictions = pr.findPredictionForMatch(equipo1, equipo2, fecha_hora_partido);
+        if(predictions != null){
+            return ResponseEntity.ok(predictions);
+        }else{
+            return ResponseEntity.notFound().build();
+        }
     }
 }
