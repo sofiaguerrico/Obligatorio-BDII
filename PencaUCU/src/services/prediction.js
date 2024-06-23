@@ -99,4 +99,33 @@ const insertPrediction = async (token, prediction) => {
     }
   }
   
-  export { getPredictions, insertPrediction, modifyPrediction, getPredictionUser };
+  const findPredictionForMatch = async (token, equipo1, equipo2, fecha_hora_partido) => {
+    try {
+            const headers = new Headers();
+            headers.append('Content-Type', 'application/json');
+            headers.append('Authorization', `Bearer ${token}`);
+            headers.append('equipo1', equipo1);
+            headers.append('equipo2', equipo2);
+            headers.append('fecha_hora_partido', fecha_hora_partido);
+    
+            const requestOptions = {
+                method: 'GET',
+                headers: headers,
+                credentials: 'include'
+            };
+    
+            const response = await fetch(`http://localhost:8080/prediction/playmatch/`, requestOptions);
+            if (!response.ok) {
+                throw new Error(`Error en la solicitud: ${response.status}`);
+            }
+    
+            const data = await response.json();
+            return data;
+        } catch (error) {        
+            console.error('Error:', error);
+            throw error;
+        }
+    };
+    
+
+  export { getPredictions, insertPrediction, modifyPrediction, getPredictionUser, findPredictionForMatch };

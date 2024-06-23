@@ -1,5 +1,6 @@
 package bdii.penca_ucu_2024.Repositories;
 
+import java.sql.Date;
 import java.util.List;
 
 import bdii.penca_ucu_2024.Classes.Prediction;
@@ -15,4 +16,5 @@ public interface IPredictionRepository {
 
     boolean modifyPrediction(Prediction prediction);
 
+    List<Prediction> findPredictionForMatch(String equipo1, String equipo2, Date fecha_hora_partido);
 }

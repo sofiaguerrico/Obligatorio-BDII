@@ -7,43 +7,31 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
+import { getAllStudents } from '../../services/studentService';
 
 const ListStudents = () => {
     const [students, setStudents] = useState([]);
 
     useEffect(() => {
         // Simulated API call or function to fetch students
-        const fetchStudents = async () => {
-            // Simulated student data (replace with actual API call)
-            const studentsData = [
-                {
-                    CI: 1234567,
-                    nombre_alumno: 'John',
-                    apellido_alumno: 'Doe',
-                    genero_alumno: 'Male',
-                    celular_alumno: 999123456,
-                    correo_estudiantil: 'john@example.com',
-                    campeon: 'Uruguay',
-                    subcampeon: 'Argentina',
-                    puntos_totales: 100
-                },
-                {
-                    CI: 2345678,
-                    nombre_alumno: 'Jane',
-                    apellido_alumno: 'Smith',
-                    genero_alumno: 'Female',
-                    celular_alumno: 999234567,
-                    correo_estudiantil: 'jane@example.com',
-                    campeon: 'Uruguay',
-                    subcampeon: 'Argentina',
-                    puntos_totales: 85
-                },
-            ];
-
-            setStudents(studentsData);
+        async function fetchPartidos() {
+                  
+            const token = localStorage.getItem('token');
+            if (!token) {
+              console.log('No token found');
+              return; // No hay token, salir
+            }
+            try {              
+              const students = await getAllStudents(token);              
+              setStudents(students);          
+            
+          } catch (error) {
+            console.error('Error fetching students:', error);
+            // Mostrar error al admin
+          }
         };
-
-        fetchStudents(); 
+    
+      fetchPartidos();
     }, []);
 
     return (
@@ -67,7 +55,7 @@ const ListStudents = () => {
                     <TableBody>
                         {students.map((student, index) => (
                             <TableRow key={index}>
-                                <TableCell>{student.CI}</TableCell>
+                                <TableCell>{student.ci}</TableCell>
                                 <TableCell>{student.nombre_alumno}</TableCell>
                                 <TableCell>{student.apellido_alumno}</TableCell>
                                 <TableCell>{student.genero_alumno}</TableCell>

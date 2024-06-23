@@ -47,4 +47,11 @@ public class AlumnController {
     }
     
 
+    @GetMapping("/students/")
+    public List<Alumn> getAlumns() {
+        return as.findAll();
+    }
+
+
+
 }

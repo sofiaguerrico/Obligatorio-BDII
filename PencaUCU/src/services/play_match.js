@@ -1,9 +1,9 @@
 const getMatches = async (token) => {
     try {        
-        const response = await fetch('http://localhost:8080/playmatch/', {
+        const response = await fetch(`http://localhost:8080/playmatch/`, {
             method: 'GET',
             headers: {
-                'Content-Type': 'application/json',
+                "Content-Type": "application/json",
                 'Authorization': `Bearer ${token}`
             },
             credentials: 'include'
@@ -16,7 +16,7 @@ const getMatches = async (token) => {
         const data = await response.json();        
         return data;
     } catch (error) {        
-        console.error('Error fetching matches:', error);
+        console.error('Error fetching matches:', error);        
         throw error;
     }
 };

@@ -1,3 +1,5 @@
+import { getToken } from "./AuthService";
+
 const createStudent = async (student) => {
     console.log(student)
     try {
@@ -44,6 +46,7 @@ const loginStudent = async (correoEstudiantil, passwordAlumno) => {
     }
 };
 
+
 const getByEmail = async (token, correo_estudiantil) => {
     try {
         const url = 'http://localhost:8080/alumno';
@@ -71,5 +74,30 @@ const getByEmail = async (token, correo_estudiantil) => {
 
 
 
+const getAllStudents = async (token) => {
+    try {
+        const response = await fetch(`http://localhost:8080/students/`, {
+            method: 'GET',
+            headers: {
+                "Content-Type": "application/json",
+                'Authorization': `Bearer ${token}`
+            },
+            credentials: 'include'
+        });
 
-export { createStudent, loginStudent, getByEmail }
+
+        if (!response.ok) {
+            throw new Error(`Error en la solicitud: ${response.status}`);
+        }
+
+        const data = await response.json();        
+        return data;
+    } catch (error) {        
+        console.error('Error fetching matches:', error);
+        throw error;
+    }
+}
+
+
+export { createStudent, loginStudent, getByEmail, getAllStudents }
+
