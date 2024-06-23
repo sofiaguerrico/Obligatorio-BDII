@@ -24,6 +24,7 @@ const Navbar = () => {
           Penca UCU
         </Typography>
         <Button color="inherit" component={Link} to="/homePage">Home Page</Button>
+        <Button color="inherit" component={Link} to="/fixture">Fixture</Button>
         <Button color="inherit" component={Link} to="/userPrediction">Predictions</Button>
         <Button color="inherit" component={Link} to="/ranking">Ranking</Button>
         <Button color="inherit" component={Link} to="/profile">Profile</Button>

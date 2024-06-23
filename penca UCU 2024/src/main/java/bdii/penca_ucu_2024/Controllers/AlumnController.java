@@ -34,6 +34,19 @@ public class AlumnController {
         return as.getCorreos();
     }
 
+
+    /*SOFIA REVISAR */
+    @GetMapping("/alumno")
+    public ResponseEntity<Alumn> getAlumnByCorreo(@RequestHeader("Correo-Estudiantil") String correo) {
+        Alumn alumno = as.findByEmail(correo);
+        if (alumno != null) {
+            return ResponseEntity.ok(alumno);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+    
+
     @GetMapping("/students/")
     public List<Alumn> getAlumns() {
         return as.findAll();
