@@ -31,8 +31,8 @@ const insertPrediction = async (token, prediction) => {
             credentials: 'include',
             body: JSON.stringify(prediction)
       });
+      console.log(response.ok)
   
-      
       if (!response.ok) {
         throw new Error(`Error en la solicitud: ${response.status}`);
       }

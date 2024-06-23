@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Typography, Box, Grid, Divider } from '@mui/material';
 import './PredictionsAdmin.css'
@@ -42,6 +43,7 @@ const PredictionsAdmin = () => {
                 console.error('Error fetching predictions:', error);
                 // Mostrar error al admin
             }
+
         }
 
         fetchPredictions();
@@ -57,20 +59,20 @@ const PredictionsAdmin = () => {
     const renderFlag = (teamName) => {
         switch (teamName) {
             case 'Uruguay':
-                return uruguay;
+                return flags.uruguay;
             case 'Argentina':
-                return argentina;
+                return flags.argentina;
             case 'Mexico':
-                return mexico;
+                return flags.mexico;
             case 'Colombia':
-                return colombia;
+                return flags.colombia;
             default:
                 return null;
         }
     };
 
     return (
-        <div >
+        <div>
             <Typography ml={2} variant="h4" gutterBottom>
                 Predictions
             </Typography>
