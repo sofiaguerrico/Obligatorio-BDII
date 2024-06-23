@@ -1,6 +1,7 @@
 package bdii.penca_ucu_2024.Classes;
 
 import java.sql.Date;
+import java.time.LocalDateTime;
 
 public class Prediction {
 
@@ -8,7 +9,7 @@ public class Prediction {
     String equipo1;
     String equipo2;
     //importar Data sql o java Util
-    Date fecha_hora_partido;
+    String fecha_hora_partido;
     int gol_equipo1;
     int gol_equipo2;
 
@@ -36,11 +37,11 @@ public class Prediction {
         this.equipo2 = equipo2;
     }
 
-    public Date getFecha_hora_partido() {
+    public String getFecha_hora_partido() {
         return fecha_hora_partido;
     }
 
-    public void setFecha_hora_partido(Date fecha_hora_partido) {
+    public void setFecha_hora_partido(String fecha_hora_partido) {
         this.fecha_hora_partido = fecha_hora_partido;
     }
 

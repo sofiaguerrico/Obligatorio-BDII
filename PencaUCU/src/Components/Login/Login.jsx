@@ -9,6 +9,7 @@ import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import { loginStudent } from '../../services/studentService.js';
 import { useNavigate } from 'react-router-dom';
+import { isAdmin } from '../../services/AdminService.js';
 
 
 
@@ -32,8 +33,12 @@ const Login = () => {
       setError(null);
 
       console.log(data)
-      if (data.token) {
-        navigate('/homePage');
+      if (data.token) {      
+        if(await isAdmin(data.token)){
+          navigate('/admin');
+        }else{
+          navigate('/homePage');
+        }
       }
     } catch (err) {
       setError(err.message);
