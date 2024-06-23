@@ -8,7 +8,7 @@ import Prediction from './Components/Prediction/Prediction';
 import Ranking from './Components/Ranking/Ranking';
 import AdminHomePage from './Components/AdminHomePage/AdminHomePage';
 import UserPrediction from './Components/UserPrediction/UserPrediction';
-
+import Fixture from './Components/Fixture/Fixture';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 
@@ -25,6 +25,7 @@ function App() {
           <Route path="/ranking" element={<Ranking />} />
           <Route path="/admin" element={<AdminHomePage />} />
           <Route path="/userPrediction" element={<UserPrediction />} />
+          <Route path="/fixture" element={<Fixture />} />
           
         </Routes>
       </Router>
