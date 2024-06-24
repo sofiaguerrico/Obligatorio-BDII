@@ -7,6 +7,7 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
 import Select from '@mui/material/Select';
+import { useNavigate } from 'react-router-dom'; // Importa useNavigate
 import { createStudent } from '../../services/studentService.js';
 import './CountrySelection.css';
 import Typography from '@mui/material/Typography';
@@ -18,6 +19,7 @@ const countries = [
 
 const CountrySelection = ({ formData, onSubmit }) => {
     const { control, handleSubmit, formState: { errors } } = useForm();
+    const navigate = useNavigate(); // Hook de navegación
 
     const handleFinalSubmit = async (data) => {
         const completeData = {
@@ -36,7 +38,9 @@ const CountrySelection = ({ formData, onSubmit }) => {
 
         try {
             const response = await createStudent(completeData);
-            onSubmit(response);
+            localStorage.setItem("alumno", completeData.correo_estudiantil);
+            localStorage.setItem("token", response.token); // Guarda el token en localStorage
+            navigate('/homePage'); // Redirige a la página de inicio
         } catch (error) {
             console.error('Error al crear alumno:', error);
         }
@@ -44,7 +48,6 @@ const CountrySelection = ({ formData, onSubmit }) => {
 
     const textFieldStyle = {
         '& .MuiInputBase-input': {
-
             color: '#ffffff',
         },
         '& .MuiInputLabel-root': {

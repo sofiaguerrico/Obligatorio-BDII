@@ -8,6 +8,7 @@ const AdminDrawer = ({ onSelectComponent }) => {
     const navigate = useNavigate(); 
 
     const handleLogout = () => {
+        localStorage.removeItem('token');
         navigate('/'); 
     };
 

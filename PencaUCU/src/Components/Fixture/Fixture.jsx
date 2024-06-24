@@ -12,6 +12,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
+import './Fixture.css'
 
 const Fixture = () => {
   const [partidos, setPartidos] = useState([]);
@@ -63,6 +64,7 @@ const Fixture = () => {
       <Navbar />
       <Grid container spacing={5}>
         <Grid item ml={2} xs={8}>
+            <div className='partidos'>
           <Typography variant="h4" style={{ color: 'black', textAlign: 'center' }} gutterBottom>
             Partidos por Etapa
           </Typography>
@@ -109,6 +111,7 @@ const Fixture = () => {
               </TableContainer>
             </Box>
           ))}
+          </div>
         </Grid>
         <Grid item p={1} xs={3}>
           <Typography variant="h4" style={{ color: 'black', textAlign: 'center' }} gutterBottom>

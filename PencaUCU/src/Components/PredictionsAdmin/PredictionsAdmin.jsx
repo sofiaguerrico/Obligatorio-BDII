@@ -2,12 +2,9 @@
 import React, { useState, useEffect } from 'react';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Typography, Box, Grid, Divider } from '@mui/material';
 import './PredictionsAdmin.css'
-import uruguay from '../../images/uruguay.png';
-import argentina from '../../images/argentina.png';
-import mexico from '../../images/mexico.png';
-import colombia from '../../images/colombia.png';
 import { findPredictionForMatch } from '../../services/prediction';
 import { getMatches } from '../../services/play_match';
+import flags from '../flags';
 
 const PredictionsAdmin = () => {
     const [predictions, setPredictions] = useState([]);
@@ -54,8 +51,6 @@ const PredictionsAdmin = () => {
     }
 
     
-
-    // Función para renderizar la bandera según el nombre del equipo
     const renderFlag = (teamName) => {
         switch (teamName) {
             case 'Uruguay':

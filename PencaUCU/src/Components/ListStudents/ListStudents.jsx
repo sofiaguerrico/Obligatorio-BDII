@@ -14,7 +14,7 @@ const ListStudents = () => {
 
     useEffect(() => {
         // Simulated API call or function to fetch students
-        async function fetchPartidos() {
+        async function fetchStudents() {
                   
             const token = localStorage.getItem('token');
             if (!token) {
@@ -31,7 +31,7 @@ const ListStudents = () => {
           }
         };
     
-      fetchPartidos();
+        fetchStudents();
     }, []);
 
     return (

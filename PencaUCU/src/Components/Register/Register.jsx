@@ -10,7 +10,6 @@ import Typography from '@mui/material/Typography';
 import MenuItem from '@mui/material/MenuItem';
 import CountrySelection from '../CountrySelection/CountrySelection.jsx';
 
-
 const genders = [
   { value: 'male', label: 'Male' },
   { value: 'female', label: 'Female' },
@@ -52,7 +51,6 @@ const Register = () => {
 
   const textFieldStyle = {
     '& .MuiInputBase-input': {
-
       color: '#ffffff',
     },
     '& .MuiInputLabel-root': {
@@ -66,6 +64,18 @@ const Register = () => {
     },
     '& .MuiInput-underline:hover:before': {
       borderBottomColor: '#ffffff',
+    },
+  };
+
+  const errorStyle = {
+    '& .MuiInput-underline:after': {
+      borderBottomColor: 'red',
+    },
+    '& .MuiInput-underline:before': {
+      borderBottomColor: 'red',
+    },
+    '& .MuiInput-underline:hover:before': {
+      borderBottomColor: 'red',
     },
   };
 
@@ -90,37 +100,34 @@ const Register = () => {
               <Grid item xs={6} md={8} style={{ width: '100%' }}>
                 <TextField
                   fullWidth
-                  sx={textFieldStyle}
+                  sx={errors.name ? { ...textFieldStyle, ...errorStyle } : textFieldStyle}
                   id="nameInput"
-                  label={errors.name ? 'Name' : 'Name'}
+                  label="Name"
                   variant="standard"
                   error={!!errors.name}
-                  helperText={errors.name ? errors.name.message : ''}
                   {...register('name', { required: 'Is Required' })}
                 />
               </Grid>
               <Grid item xs={6} md={8} style={{ width: '100%' }}>
                 <TextField
                   fullWidth
-                  sx={textFieldStyle}
+                  sx={errors.lastName ? { ...textFieldStyle, ...errorStyle } : textFieldStyle}
                   id="lastNameInput"
-                  label={errors.lastName ? 'Last name' : 'Last name'}
+                  label="Last name"
                   variant="standard"
                   error={!!errors.lastName}
-                  helperText={errors.lastName ? errors.lastName.message : ''}
                   {...register('lastName', { required: 'Is Required' })}
                 />
               </Grid>
               <Grid item xs={6} md={8} style={{ width: '100%' }}>
                 <TextField
                   fullWidth
-                  sx={textFieldStyle}
+                  sx={errors.id ? { ...textFieldStyle, ...errorStyle } : textFieldStyle}
                   id="idInput"
-                  label={errors.id ? 'ID' : 'ID'}
+                  label="ID"
                   type="number"
                   variant="standard"
                   error={!!errors.id}
-                  helperText={errors.id ? errors.id.message : ''}
                   {...register('id', { required: 'Is Required' })}
                 />
               </Grid>
@@ -132,14 +139,13 @@ const Register = () => {
                   rules={{ required: 'Is Required' }}
                   render={({ field }) => (
                     <TextField
-                      sx={textFieldStyle}
+                      sx={errors.gender ? { ...textFieldStyle, ...errorStyle } : textFieldStyle}
                       fullWidth
                       id="genderInput"
                       select
-                      label={errors.gender ? 'Gender' : 'Gender'}
+                      label="Gender"
                       variant="standard"
                       error={!!errors.gender}
-                      helperText={errors.gender ? errors.gender.message : ''}
                       {...field}
                     >
                       {genders.map((option) => (
@@ -160,13 +166,12 @@ const Register = () => {
                   render={({ field }) => (
                     <TextField
                       fullWidth
-                      sx={textFieldStyle}
+                      sx={errors.carrera ? { ...textFieldStyle, ...errorStyle } : textFieldStyle}
                       id="carreraInput"
                       select
-                      label={errors.carrera ? 'Career' : 'Carrera'}
+                      label="Career"
                       variant="standard"
                       error={!!errors.carrera}
-                      helperText={errors.carrera ? errors.carrera.message : ''}
                       {...field}
                     >
                       {careers.map((option) => (
@@ -181,39 +186,36 @@ const Register = () => {
               <Grid item xs={6} md={8} style={{ width: '100%' }}>
                 <TextField
                   fullWidth
-                  sx={textFieldStyle}
+                  sx={errors.phoneNumber ? { ...textFieldStyle, ...errorStyle } : textFieldStyle}
                   id="phoneNumberInput"
-                  label={errors.phoneNumber ? 'Phone number' : 'Phone number'}
+                  label="Phone number"
                   type="number"
                   variant="standard"
                   error={!!errors.phoneNumber}
-                  helperText={errors.phoneNumber ? errors.phoneNumber.message : ''}
                   {...register('phoneNumber', { required: 'Is Required' })}
                 />
               </Grid>
               <Grid item xs={6} md={8} style={{ width: '100%' }}>
                 <TextField
                   fullWidth
-                  sx={textFieldStyle}
+                  sx={errors.mail ? { ...textFieldStyle, ...errorStyle } : textFieldStyle}
                   id="mailInput"
-                  label={errors.mail ? 'Mail' : 'Mail'}
+                  label="Mail"
                   variant="standard"
                   error={!!errors.mail}
-                  helperText={errors.mail ? errors.mail.message : ''}
                   {...register('mail', { required: 'Is Required' })}
                 />
               </Grid>
               <Grid item xs={6} md={8} style={{ width: '100%' }}>
                 <TextField
                   fullWidth
-                  sx={textFieldStyle}
+                  sx={errors.password ? { ...textFieldStyle, ...errorStyle } : textFieldStyle}
                   id="passwordInput"
-                  label={errors.password ? 'Password' : 'Password'}
+                  label="Password"
                   type="password"
                   autoComplete="current-password"
                   variant="standard"
                   error={!!errors.password}
-                  helperText={errors.password ? errors.password.message : ''}
                   {...register('password', { required: 'Is Required' })}
                 />
               </Grid>

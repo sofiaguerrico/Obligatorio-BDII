@@ -10,7 +10,7 @@ public class Plays_match {
     String equipo1;
     String equipo2;
     // ver importacion
-    LocalDateTime fecha_hora_partido;
+    String fecha_hora_partido;
     int gol_equipo1;
     int gol_equipo2;
     String etapa;
@@ -32,11 +32,11 @@ public class Plays_match {
         this.equipo2 = equipo2;
     }
 
-    public LocalDateTime getFecha_hora_partido() {
+    public String getFecha_hora_partido() {
         return fecha_hora_partido;
     }
 
-    public void setFecha_hora_partido(LocalDateTime fecha_hora_partido) {
+    public void setFecha_hora_partido(String fecha_hora_partido) {
         this.fecha_hora_partido = fecha_hora_partido;
     }
 
