@@ -1,6 +1,6 @@
 const fetchAllStadiums = async () => {
     try {
-        const response = await fetch(`http://localhost:8080/team/`);
+        const response = await fetch(`http://localhost:8080/stadium/`);
 
         if (!response.ok) {
             throw new Error(`Error en la solicitud: ${response.status}`);

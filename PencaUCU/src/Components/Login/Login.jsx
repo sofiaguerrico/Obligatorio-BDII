@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import imagen from '../../images/logo-ucu.png';
 import TextField from '@mui/material/TextField';
-import Button from '@mui/material/Button'
+import Button from '@mui/material/Button';
 import Link from '@mui/material/Link';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
@@ -11,48 +11,62 @@ import { loginStudent } from '../../services/studentService.js';
 import { useNavigate } from 'react-router-dom';
 import { isAdmin } from '../../services/AdminService.js';
 
-
-
 const Login = () => {
   const [correoEstudiantil, setCorreoEstudiantil] = useState('');
   const [passwordAlumno, setPasswordAlumno] = useState('');
-  const [token, setToken] = useState(null);
-  const [message, setMessage] = useState('');
   const [error, setError] = useState(null);
+  const [emailError, setEmailError] = useState(false);
+  const [passwordError, setPasswordError] = useState(false);
   const navigate = useNavigate();
 
   const handleLogin = async () => {
-    try {
-      
-      const data = await loginStudent(correoEstudiantil, passwordAlumno);      
-      setToken(data.token);
+    setEmailError(false);
+    setPasswordError(false);
+    setError(null);
 
-      localStorage.setItem("token", data.token);      
+    if (!correoEstudiantil) {
+      setEmailError(true);
+      setError('El correo electrónico es obligatorio.');
+      return;
+    }
+
+    if (!passwordAlumno) {
+      setPasswordError(true);
+      setError('La contraseña es obligatoria.');
+      return;
+    }
+
+    try {
+      const data = await loginStudent(correoEstudiantil, passwordAlumno);
+      if (data.token === null) {
+        setError(data.message);
+        return;
+      }
+
+      localStorage.setItem("token", data.token);
       localStorage.setItem("alumno", correoEstudiantil);
-      setMessage(data.message);
       setError(null);
 
-      console.log(data)
-      if (data.token) {      
-        if(await isAdmin(data.token)){
+      if (data.token) {
+        if (await isAdmin(data.token)) {
           navigate('/admin');
-        }else{
+        } else {
           navigate('/homePage');
         }
       }
     } catch (err) {
-      setError(err.message);
+      console.error('Error de inicio de sesión:', err);
+      setError('Error de red. Inténtelo de nuevo más tarde.');
     }
   };
 
   const textFieldStyle = {
     '& .MuiInputBase-input': {
-        
-        color: '#ffffff', 
-      },
+      color: '#ffffff',
+    },
     '& .MuiInputLabel-root': {
-        color: '#ffffff',
-      },
+      color: '#ffffff',
+    },
     '& .MuiInput-underline:before': {
       borderBottomColor: '#ffffff',
     },
@@ -60,16 +74,15 @@ const Login = () => {
       borderBottomColor: '#ffffff',
     },
     '& .MuiInput-underline:hover:before': {
-      borderBottomColor: '#ffffff', 
+      borderBottomColor: '#ffffff',
     },
   };
+
   return (
     <div style={{ backgroundColor: '#070512' }}>
-      <Container
-        maxWidth="sm"
+      <Container maxWidth="sm"
         sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
-        <Box
-          height={400}
+        <Box 
           width={300}
           alignItems="center"
           p={2}
@@ -86,11 +99,36 @@ const Login = () => {
               </Typography>
             </Grid>
             <Grid item xs={6} md={8} mt={2} style={{ width: '100%' }}>
-              <TextField onChange={(e) => setCorreoEstudiantil(e.target.value)} fullWidth sx={textFieldStyle} id="mailInput" label="Mail" variant="standard" />
+              <TextField
+                onChange={(e) => setCorreoEstudiantil(e.target.value)}
+                fullWidth
+                sx={textFieldStyle}
+                id="mailInput"
+                label="Mail"
+                variant="standard"
+                error={emailError}
+                helperText={emailError && "El correo electrónico es obligatorio."}
+              />
             </Grid>
             <Grid item xs={6} md={8} mt={3} style={{ width: '100%' }}>
-              <TextField onChange={(e) => setPasswordAlumno(e.target.value)} fullWidth sx={textFieldStyle} id="passwordInput" label="Password" type="password" autoComplete="current-password" variant="standard" />
+              <TextField
+                onChange={(e) => setPasswordAlumno(e.target.value)}
+                fullWidth
+                sx={textFieldStyle}
+                id="passwordInput"
+                label="Password"
+                type="password"
+                autoComplete="current-password"
+                variant="standard"
+                error={passwordError}
+                helperText={passwordError && "La contraseña es obligatoria."}
+              />
             </Grid>
+            {error && (
+              <Grid item xs={6} md={8} mt={2} style={{ width: '100%' }}>
+                <Typography variant="body2" style={{ color: 'red' }}>{error}</Typography>
+              </Grid>
+            )}
             <Grid item xs={6} md={8} mt={3} style={{ width: '100%' }}>
               <Button onClick={handleLogin} style={{ width: '100%', background: '#070512' }} variant="contained">Login</Button>
             </Grid>
@@ -99,11 +137,11 @@ const Login = () => {
                 {'Register'}
               </Link>
             </Grid>
-
           </Grid>
         </Box>
       </Container>
     </div>
   )
 }
+
 export default Login;

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
@@ -6,63 +6,70 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
-import flags from '../flags.js'; 
+import InputLabel from '@mui/material/InputLabel';
+import FormControl from '@mui/material/FormControl';
+import flags from '../flags.js';
 import './MatchesAdmin.css';
+import { getTeams } from '../../services/TeamService.js';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
+import { insertMatch, getMatches } from '../../services/play_match.js';
 
 const etapas = ["Fase de grupo", "Cuartos de final", "Semifinal", "3° puesto y Final"];
 
 const MatchesAdmin = () => {
     const [formData, setFormData] = useState({
-        pais1: '',
-        pais2: '',
-        fecha: '',
+        equipo1: '',
+        equipo2: '',
+        fecha_hora_partido: null,
         etapa: '',
-        gol_equipo1: '',
-        gol_equipo2: ''
+        gol_equipo1: 0, 
+        gol_equipo2: 0,
+        id_estadio: 1  
     });
 
-    const [partidos, setPartidos] = useState([
-        {
-            pais1: "Uruguay",
-            bandera1: flags.uruguay,
-            pais2: "Argentina",
-            bandera2: flags.argentina,
-            fecha: new Date().toISOString().split('T')[0],
-            etapa: "Fase de grupo",
-            gol_equipo1: '3',
-            gol_equipo2: '0'
-        },
-        {
-            pais1: "Mexico",
-            bandera1: flags.mexico,
-            pais2: "Colombia",
-            bandera2: flags.colombia,
-            fecha: new Date().toISOString().split('T')[0],
-            etapa: "Fase de grupo",
-            gol_equipo1: '1',
-            gol_equipo2: '3'
-        },
-        {
-            pais1: "Argentina",
-            bandera1: flags.argentina,
-            pais2: "Mexico",
-            bandera2: flags.mexico,
-            fecha: new Date().toISOString().split('T')[0],
-            etapa: "Cuartos de final",
-            gol_equipo1: '2',
-            gol_equipo2: '2'
-        },
-        {
-            pais1: "Uruguay",
-            bandera1: flags.uruguay,
-            pais2: "Colombia",
-            bandera2: flags.colombia,
-            fecha: "2024-06-04",
-            etapa: "Semifinal",
-            gol_equipo1: '4',
-            gol_equipo2: '1'
+    const [partidos, setPartidos] = useState([]);
+    const [equipos, setEquipos] = useState([]);
+    const [error, setError] = useState(null);
+
+    useEffect(() => {
+        async function fetchTeams() {
+            const token = localStorage.getItem('token');
+            if (!token) {
+                console.log('No token found');
+                return;
+            }
+            try {
+                const data = await getTeams(token);
+                setEquipos(data);
+            } catch (error) {
+                console.error('Error fetching teams:', error);
+                setError('Error al cargar los equipos');
+            }
         }
-    ]);
+
+        fetchTeams();
+    }, []);
+
+    useEffect(() => {
+        async function fetchMatches() {
+            const token = localStorage.getItem('token');
+            if (!token) {
+                console.log('No token found');
+                return;
+            }
+            try {
+                const matches = await getMatches(token);
+                setPartidos(matches);
+            } catch (error) {
+                console.error('Error fetching matches:', error);
+                setError('Error al cargar los partidos');
+            }
+        }
+
+        fetchMatches();
+    }, []);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -72,18 +79,57 @@ const MatchesAdmin = () => {
         });
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        const newPartido = { ...formData };
-        setPartidos([...partidos, newPartido]);
-        setFormData({
-            pais1: '',
-            pais2: '',
-            fecha: '',
-            etapa: '',
-            gol_equipo1: '',
-            gol_equipo2: ''
-        });
+
+        const formattedDate = formData.fecha_hora_partido ? formData.fecha_hora_partido.toISOString().slice(0, 19).replace('T', ' ') : null;
+
+        const partidoExistente = partidos.some(partido =>
+            partido.equipo1 === formData.equipo1 &&
+            partido.equipo2 === formData.equipo2 &&
+            partido.fecha_hora_partido === formattedDate &&
+            partido.etapa === formData.etapa
+        );
+
+        if (partidoExistente) {
+            alert('Ya existe un partido con las mismas características.');
+            return;
+        }
+
+        const newPartido = {
+            equipo1: formData.equipo1,
+            equipo2: formData.equipo2,
+            fecha_hora_partido: formattedDate,
+            etapa: formData.etapa,
+            gol_equipo1: parseInt(formData.gol_equipo1), 
+            gol_equipo2: parseInt(formData.gol_equipo2), 
+            id_estadio: 1 
+        };
+
+        const token = localStorage.getItem('token');
+        if (!token) {
+            console.log('No token found');
+            return;
+        }
+
+        try {
+            console.log(newPartido)
+            await insertMatch(token, newPartido);
+            const updatedMatches = await getMatches(token);
+            setPartidos(updatedMatches);
+            setFormData({
+                equipo1: '',
+                equipo2: '',
+                fecha_hora_partido: null,
+                etapa: '',
+                gol_equipo1: 0, 
+                gol_equipo2: 0, 
+                id_estadio: 1 
+            });
+        } catch (error) {
+            console.error('Error inserting match:', error);
+            setError('Error al insertar el partido');
+        }
     };
 
     const partidosPorEtapa = partidos.reduce((acc, partido) => {
@@ -112,9 +158,9 @@ const MatchesAdmin = () => {
                                     justifyContent="space-between"
                                 >
                                     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                                        <img src={partido.bandera1} alt={`Bandera de ${partido.pais1}`} style={{ width: '100px', height: '60px' }} />
+                                        <img src={flags[partido.equipo1.toLowerCase()]} alt={`Bandera de ${partido.equipo1}`} style={{ width: '100px', height: '60px' }} />
                                         <Typography variant="h6" style={{ marginTop: '10px' }}>
-                                            {partido.pais1}
+                                            {partido.equipo1}
                                         </Typography>
                                         <Typography variant="body1" style={{ marginTop: '5px' }}>
                                             {partido.gol_equipo1}
@@ -122,13 +168,13 @@ const MatchesAdmin = () => {
                                     </div>
                                     <div>
                                         <Typography variant="body1" style={{ textAlign: 'center' }}>
-                                            {partido.fecha}
+                                            {partido.fecha_hora_partido}
                                         </Typography>
                                     </div>
                                     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                                        <img src={partido.bandera2} alt={`Bandera de ${partido.pais2}`} style={{ width: '100px', height: '60px' }} />
+                                        <img src={flags[partido.equipo2.toLowerCase()]} alt={`Bandera de ${partido.equipo2}`} style={{ width: '100px', height: '60px' }} />
                                         <Typography variant="h6" style={{ marginTop: '10px' }}>
-                                            {partido.pais2}
+                                            {partido.equipo2}
                                         </Typography>
                                         <Typography variant="body1" style={{ marginTop: '5px' }}>
                                             {partido.gol_equipo2}
@@ -139,51 +185,61 @@ const MatchesAdmin = () => {
                         </div>
                     ))}
                 </Box>
-                <Box width="50%"  p={2}>
+                <Box width="50%" p={2}>
                     <form className="formMatches" onSubmit={handleSubmit}>
                         <Typography align="center" variant="h4">Agregar Partido</Typography>
-                        <TextField
-                            name="pais1"
-                            label="País 1"
-                            value={formData.pais1}
-                            onChange={handleChange}
-                            fullWidth
-                            margin="normal"
-                        />
-                        <TextField
-                            name="pais2"
-                            label="País 2"
-                            value={formData.pais2}
-                            onChange={handleChange}
-                            fullWidth
-                            margin="normal"
-                        />
-                        <TextField
-                            name="fecha"
-                            label="Fecha"
-                            type="date"
-                            value={formData.fecha}
-                            onChange={handleChange}
-                            fullWidth
-                            margin="normal"
-                            InputLabelProps={{
-                                shrink: true,
-                            }}
-                        />
-                        <Select
-                            name="etapa"
-                            value={formData.etapa}
-                            onChange={handleChange}
-                            fullWidth
-                            margin="normal"
-                        >
-                            {etapas.map((etapa, index) => (
-                                <MenuItem key={index} value={etapa}>{etapa}</MenuItem>
-                            ))}
-                        </Select>
+                        <FormControl fullWidth margin="normal">
+                            <InputLabel>Equipo 1</InputLabel>
+                            <Select
+                                name="equipo1"
+                                value={formData.equipo1}
+                                onChange={handleChange}
+                                fullWidth
+                            >
+                                {equipos.map((equipo, index) => (
+                                    <MenuItem key={index} value={equipo.nombre_equipo}>{equipo.nombre_equipo}</MenuItem>
+                                ))}
+                            </Select>
+                        </FormControl>
+                        <FormControl fullWidth margin="normal">
+                            <InputLabel>Equipo 2</InputLabel>
+                            <Select
+                                name="equipo2"
+                                value={formData.equipo2}
+                                onChange={handleChange}
+                                fullWidth
+                            >
+                                {equipos.map((equipo, index) => (
+                                    <MenuItem key={index} value={equipo.nombre_equipo}>{equipo.nombre_equipo}</MenuItem>
+                                ))}
+                            </Select>
+                        </FormControl>
+                        <LocalizationProvider dateAdapter={AdapterDayjs}>
+                            <DateTimePicker
+                                label="Fecha y Hora"
+                                value={formData.fecha_hora_partido}
+                                onChange={(newValue) => setFormData({ ...formData, fecha_hora_partido: newValue })}
+                                renderInput={(props) => <TextField {...props} fullWidth margin="normal" />}
+                                fullWidth
+                            />
+                        </LocalizationProvider>
+                        <FormControl fullWidth margin="normal">
+                            <InputLabel>Etapa</InputLabel>
+                            <Select
+                                name="etapa"
+                                value={formData.etapa}
+                                onChange={handleChange}
+                                fullWidth
+                            >
+                                {etapas.map((etapa, index) => (
+                                    <MenuItem key={index} value={etapa}>{etapa}</MenuItem>
+                                ))}
+                            </Select>
+                        </FormControl>
                         <TextField
                             name="gol_equipo1"
-                            label="Gol Equipo 1"
+                            label="Goles Equipo 1"
+                            type="number"
                             value={formData.gol_equipo1}
                             onChange={handleChange}
                             fullWidth
@@ -191,14 +247,21 @@ const MatchesAdmin = () => {
                         />
                         <TextField
                             name="gol_equipo2"
-                            label="Gol Equipo 2"
+                            label="Goles Equipo 2"
+                            type="number"
                             value={formData.gol_equipo2}
                             onChange={handleChange}
                             fullWidth
                             margin="normal"
                         />
-                        <Button type="submit" fullWidth sx={{color: 'white',background: '#070512','&:hover': { background: '#0e0a22', }}}variant="contained">Agregar</Button>
-
+                        <Button
+                            type="submit"
+                            fullWidth
+                            sx={{ color: 'white', background: '#070512', '&:hover': { background: '#0e0a22' } }}
+                            variant="contained"
+                        >
+                            Agregar
+                        </Button>
                     </form>
                 </Box>
             </Box>

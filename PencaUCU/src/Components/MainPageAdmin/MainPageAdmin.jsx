@@ -14,57 +14,91 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import Button from '@mui/material/Button';
+import { getMatches } from '../../services/play_match.js';
+import flags from '../flags.js';
+import { getAllStudents } from '../../services/studentService.js';
+import { getPredictions } from '../../services/prediction.js';
 
-import flags from '../flags.js'; 
 const MainPageAdmin = () => {
     const [usersCount, setUsersCount] = useState(0);
     const [matchesCount, setMatchesCount] = useState(0);
     const [predictionsCount, setPredictionsCount] = useState(0);
+    const [partidos, setPartidos] = useState([]);
+    const [error, setError] = useState(null);
+    const [students, setStudents] = useState([]);
+    const [genderData, setGenderData] = useState([]);
 
     useEffect(() => {
-        setUsersCount(50);
-        setMatchesCount(4);
-        setPredictionsCount(10);
+        async function fetchMatches() {
+            const token = localStorage.getItem('token');
+            if (!token) {
+                console.log('No token found');
+                return;
+            }
+            try {
+                const matches = await getMatches(token);
+                setPartidos(matches);
+                setMatchesCount(matches.length)
+                console.log(matches)
+            } catch (error) {
+                console.error('Error fetching matches:', error);
+                setError('Error al cargar los partidos');
+            }
+        }
+
+        fetchMatches();
     }, []);
 
-    const partidos = [
-        {
-            pais1: "Uruguay",
-            bandera1: flags.uruguay, // Usa las claves del objeto flags para las banderas
-            pais2: "Argentina",
-            bandera2: flags.argentina,
-            fecha: new Date().toISOString().split('T')[0],
-            etapa: "Group Stage",
-            resultado: "1-0"
-        },
-        {
-            pais1: "Mexico",
-            bandera1: flags.mexico,
-            pais2: "Colombia",
-            bandera2: flags.colombia,
-            fecha: new Date().toISOString().split('T')[0],
-            etapa: "Group Stage",
-            resultado: "2-2"
-        },
-        {
-            pais1: "Argentina",
-            bandera1: flags.argentina,
-            pais2: "Mexico",
-            bandera2: flags.mexico,
-            fecha: new Date().toISOString().split('T')[0],
-            etapa: "Group Stage",
-            resultado: "0-1"
-        },
-        {
-            pais1: "Uruguay",
-            bandera1: flags.uruguay,
-            pais2: "Colombia",
-            bandera2: flags.colombia,
-            fecha: "2024-06-04",
-            etapa: "Group Stage",
-            resultado: "3-1"
+    useEffect(() => {
+        async function fetchStudents() {
+            const token = localStorage.getItem('token');
+            if (!token) {
+              console.log('No token found');
+              return; 
+            }
+            try {              
+              const students = await getAllStudents(token);              
+              setStudents(students);          
+              setUsersCount(students.length);
+              
+              const genderCounts = students.reduce((acc, student) => {
+                acc[student.genero_alumno] = (acc[student.genero_alumno] || 0) + 1;
+                return acc;
+              }, {});
+              
+              const genderChartData = Object.keys(genderCounts).map((gender, index) => ({
+                id: index,
+                value: genderCounts[gender],
+                label: gender.charAt(0).toUpperCase() + gender.slice(1),
+              }));
+              
+              setGenderData(genderChartData);
+
+            } catch (error) {
+              console.error('Error fetching students:', error);
+            }
+        };
+
+        fetchStudents();
+    }, []);
+
+    useEffect(() => {
+        async function fetchPredictions() {
+            const token = localStorage.getItem('token');
+            if (!token) {
+                console.log('No token found');
+                return;
+            }
+            try {
+                const predictions = await getPredictions(token);
+                setPredictionsCount(predictions.length);
+            } catch (error) {
+                console.error('Error fetching predictions:', error);
+            }
         }
-    ];
+
+        fetchPredictions();
+    }, []);
 
     return (
         <div>
@@ -114,8 +148,8 @@ const MainPageAdmin = () => {
                     <Grid container spacing={3}>
                         <Grid item xs={12}>
                             <Typography variant="h4" style={{ marginBottom: '10px' }}>Matches</Typography>
-                            <TableContainer component={Paper}>
-                                <Table>
+                            <TableContainer component={Paper} style={{ maxHeight: 350, overflowY: 'auto' }}>
+                                <Table stickyHeader>
                                     <TableHead>
                                         <TableRow>
                                             <TableCell>Country</TableCell>
@@ -127,15 +161,15 @@ const MainPageAdmin = () => {
                                             <TableCell>Actions</TableCell>
                                         </TableRow>
                                     </TableHead>
-                                    <TableBody>
+                                    <TableBody >
                                         {partidos.map((partido, index) => (
                                             <TableRow key={index}>
-                                                <TableCell>{partido.pais1}</TableCell>
-                                                <TableCell><img src={partido.bandera1} alt={partido.pais1} style={{ width: '30px' }} /></TableCell>
-                                                <TableCell>{partido.pais2}</TableCell>
-                                                <TableCell><img src={partido.bandera2} alt={partido.pais2} style={{ width: '30px' }} /></TableCell>
-                                                <TableCell>{partido.fecha}</TableCell>
-                                                <TableCell>{partido.resultado}</TableCell>
+                                                <TableCell>{partido.equipo1}</TableCell>
+                                                <TableCell><img src={flags[partido.equipo1.toLowerCase()]} alt={partido.pais1} style={{ width: '30px' }} /></TableCell>
+                                                <TableCell>{partido.equipo2}</TableCell>
+                                                <TableCell><img src={flags[partido.equipo2.toLowerCase()]} alt={partido.pais2} style={{ width: '30px' }} /></TableCell>
+                                                <TableCell>{partido.fecha_hora_partido}</TableCell>
+                                                <TableCell>{partido.gol_equipo1}-{partido.gol_equipo2}</TableCell>
                                                 <TableCell>
                                                     <Button variant="contained" color="primary">Enter</Button>
                                                 </TableCell>
@@ -160,11 +194,7 @@ const MainPageAdmin = () => {
                             <PieChart
                                 series={[
                                     {
-                                        data: [
-                                            { id: 0, value: 10, label: 'Female' },
-                                            { id: 1, value: 15, label: 'Male' },
-                                            { id: 2, value: 20, label: 'Others' },
-                                        ],
+                                        data: genderData,
                                     },
                                 ]}
                                 width={350}

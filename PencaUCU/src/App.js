@@ -9,6 +9,7 @@ import Ranking from './Components/Ranking/Ranking';
 import AdminHomePage from './Components/AdminHomePage/AdminHomePage';
 import UserPrediction from './Components/UserPrediction/UserPrediction';
 import Fixture from './Components/Fixture/Fixture';
+import ErrorComponent from './Components/ErrorComponent/ErrorComponent';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 
@@ -17,16 +18,16 @@ function App() {
     <div>
       <Router>
         <Routes>
-          <Route path="/" element={<Login />} />
+        <Route path="/" element={<Login />} />
           <Route path="/register" element={<Register />} />
-          <Route path="/homePage" element={<HomePage />} />          
-          <Route path="/profile" element={<Profile />} />
-          <Route path="/prediction" element={<Prediction />} />
-          <Route path="/ranking" element={<Ranking />} />
-          <Route path="/admin" element={<AdminHomePage />} />
-          <Route path="/userPrediction" element={<UserPrediction />} />
-          <Route path="/fixture" element={<Fixture />} />
-          
+          <Route path="/homePage" element={<ErrorComponent element={HomePage} />} />          
+          <Route path="/profile" element={<ErrorComponent element={Profile} />} />
+          <Route path="/prediction" element={<ErrorComponent element={Prediction} />} />
+          <Route path="/ranking" element={<ErrorComponent element={Ranking} />} />
+          <Route path="/admin" element={<ErrorComponent element={AdminHomePage} />} />
+          <Route path="/userPrediction" element={<ErrorComponent element={UserPrediction} />} />
+          <Route path="/fixture" element={<ErrorComponent element={Fixture} />} />
+          <Route path="*" element={<div>404 Not Found</div>} />           
         </Routes>
       </Router>
     </div>
