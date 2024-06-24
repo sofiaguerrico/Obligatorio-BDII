@@ -30,7 +30,7 @@ public class SecurityConfig {
                 .csrf().disable()
                 .authorizeHttpRequests(auth ->
                     auth
-                            .antMatchers("/register", "/login").permitAll()
+                            .antMatchers("/register", "/login", "/getTeams", "/careersalumns/").permitAll()
                             .antMatchers("/admin/**").hasAuthority("ROLE_ADMIN")
                             .anyRequest().authenticated()
                 )

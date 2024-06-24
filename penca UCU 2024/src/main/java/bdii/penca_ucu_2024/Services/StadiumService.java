@@ -3,8 +3,11 @@ package bdii.penca_ucu_2024.Services;
 
 import bdii.penca_ucu_2024.Classes.Stadium;
 import bdii.penca_ucu_2024.Repositories.IStadiumRepository;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 
 @Service
@@ -25,6 +28,17 @@ public class StadiumService implements IStadiumRepository {
         }catch(Exception e){
             System.out.println(e);
             return false;
+        }
+    }
+
+    @Override
+    public List<Stadium> findAll(){
+        try {
+            String sql = "SELECT * FROM estadio";
+            BeanPropertyRowMapper<Stadium> rowMapper = new BeanPropertyRowMapper(Stadium.class);
+            return this.dbConnection.query(sql, rowMapper).stream().toList();
+        } catch (Exception e) {
+            return null;
         }
     }
 
