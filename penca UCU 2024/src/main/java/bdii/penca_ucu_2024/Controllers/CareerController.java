@@ -23,7 +23,7 @@ public class CareerController {
         return cs.insert(career);
     }
 
-    @GetMapping("/career/")
+    @GetMapping("/careers")
     public List<Career> getCareers() {
         return cs.get();
     }

@@ -15,4 +15,8 @@ public interface IAlumnRepository {
     Alumn findByEmail(String correo_estudiantil);
 
     List<String> getCorreos();
+
+    boolean modifyPoints(String equipo1, String equipo2, String fecha_hora_partido);
+
+    boolean setPoint(int point, String correo_estudiantil);
 }

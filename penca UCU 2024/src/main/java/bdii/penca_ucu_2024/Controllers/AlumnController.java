@@ -34,7 +34,6 @@ public class AlumnController {
         return as.getCorreos();
     }
 
-
     /*SOFIA REVISAR */
     @GetMapping("/alumno")
     public ResponseEntity<Alumn> getAlumnByCorreo(@RequestHeader("Correo-Estudiantil") String correo) {
@@ -51,7 +50,6 @@ public class AlumnController {
     public List<Alumn> getAlumns() {
         return as.findAll();
     }
-
 
 
 }

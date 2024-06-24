@@ -31,4 +31,14 @@ public class StudiesService implements IStudiesRepository {
         List<Studies> careers = dbConnection.query(sql, new BeanPropertyRowMapper<>(Studies.class));
         return careers;
     }
+
+    public Studies setStudies(Studies studies){
+        String sql = "INSERT INTO cursa VALUES(?,?)";
+        int rowAffected = this.dbConnection.update(sql, studies.getNombre_carrera(), studies.getCorreo_estudiantil());
+        if(rowAffected > 0){
+            return studies;
+        } else {
+            return null;
+        }
+    }
 }

@@ -46,12 +46,7 @@ public class PredictionController {
                                     @RequestHeader("equipo1") String equipo1,
                                     @RequestHeader("equipo2") String equipo2,
                                     @RequestHeader("fecha_hora_partido") String fecha_hora_partido) {
-        Prediction prediction = new Prediction();
-        prediction.setCorreo_estudiantil(correo_estudiantil);
-        prediction.setEquipo1(equipo1);
-        prediction.setEquipo2(equipo2);
-        prediction.setFecha_hora_partido(fecha_hora_partido);
-        prediction = pr.findPrediction(prediction);
+        Prediction prediction = pr.findPredictionAlumn(correo_estudiantil, equipo1, equipo2, fecha_hora_partido);
         if(prediction != null){
             return ResponseEntity.ok(prediction);
         }else{
