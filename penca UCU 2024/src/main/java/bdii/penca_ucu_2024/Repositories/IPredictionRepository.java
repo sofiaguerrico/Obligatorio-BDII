@@ -12,7 +12,7 @@ public interface IPredictionRepository {
 
     boolean insert(Prediction prediction);
 
-    Prediction findPrediction(Prediction prediction);
+    Prediction findPredictionAlumn(String correo_estudiantil, String equipo1, String equipo2, String fecha_hora_partido);
 
     boolean modifyPrediction(Prediction prediction);
 

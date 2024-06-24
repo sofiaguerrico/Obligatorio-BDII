@@ -59,6 +59,7 @@ public class PlayMatchService implements IPlayMatchRepository {
 
             if (rowsAffected > 0) {
                 System.out.println("El partido se actualizó correctamente.");
+
                 return true;
             } else {
                 System.out.println("No se actualizó ningún registro.");

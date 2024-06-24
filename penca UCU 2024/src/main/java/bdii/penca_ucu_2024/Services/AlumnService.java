@@ -60,6 +60,12 @@ public class AlumnService implements IAlumnRepository {
         return this.dbConnection.query(sql, new BeanPropertyRowMapper<>(Alumn.class));
     }
 
+    private int getPoint(String correo){
+        String sql= "SELECT * FROM Alumno WHERE correo_estudiantil = ?";
+        List<Alumn> alumns = this.dbConnection.query(sql, new BeanPropertyRowMapper<>(Alumn.class));
+        return alumns.get(0).getPuntos_totales();
+    }
+
     @Override
     public Alumn findByEmail(String correo_estudiantil){
         String sql = "SELECT * FROM Alumno WHERE correo_estudiantil = ?";
@@ -77,5 +83,25 @@ public class AlumnService implements IAlumnRepository {
                 correos.add(alumn.getCorreo_estudiantil());
             }
             return correos;
+    }
+
+    @Override
+    public boolean modifyPoints(String equipo1, String equipo2, String fecha_hora_partido){
+        return true;
+    }
+
+    @Override
+    public boolean setPoint(int point, String correo_estudiantil){
+        int alumnPoints = getPoint(correo_estudiantil);
+        String sql = "UPDATE alumno SET puntos_totales = ? WHERE correo_estudiantil = ?";
+        int rowsAffected = this.dbConnection.update(sql,
+                alumnPoints + point);
+        if (rowsAffected > 0) {
+            System.out.println("Los puntos se actualizarón correctamente.");
+            return true;
+        } else {
+            System.out.println("No se actualizó ningún registro.");
+            return false;
+        }
     }
 }
