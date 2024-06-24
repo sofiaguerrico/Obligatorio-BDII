@@ -15,7 +15,7 @@ public class TeamController {
     TeamService ts;
 
 
-    @GetMapping("/team/")
+    @GetMapping("/getTeams")
     public List<Team> getAllTeams() {
         return ts.getAll();
     }
