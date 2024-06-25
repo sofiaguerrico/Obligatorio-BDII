@@ -12,8 +12,9 @@ const isAdmin = async (token) => {
         if (!response.ok) {
             throw new Error(`Error en la solicitud: ${response.status}`);
         }   
-          
-        return response;
+
+        const data = await response.json();
+        return data;
     } catch (error) {        
         console.error('Error fetching matches:', error);
         throw error;
