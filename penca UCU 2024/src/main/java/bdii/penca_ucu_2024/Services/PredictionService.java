@@ -1,5 +1,7 @@
 package bdii.penca_ucu_2024.Services;
 
+import bdii.penca_ucu_2024.Classes.Alumn;
+import bdii.penca_ucu_2024.Classes.Plays_match;
 import bdii.penca_ucu_2024.Classes.Prediction;
 import bdii.penca_ucu_2024.Repositories.IPredictionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.sql.Date;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class PredictionService implements IPredictionRepository {
@@ -81,5 +84,12 @@ public class PredictionService implements IPredictionRepository {
         Object[] args = {equipo1, equipo2, fecha_hora_partido};
         List<Prediction> predictions = dbConnection.query(sql, args, new BeanPropertyRowMapper<>(Prediction.class));
         return predictions.isEmpty() ? null : predictions;
+    }
+
+    public static List<Alumn> noPrediction(){
+        String sql = "SELECT * FROM Alumno a LEFT JOIN (SELECT p.correo_estudiantil FROM Predice p JOIN Juega_partido jp ON p.equipo1 = jp.equipo1 AND p.equipo2 = jp.equipo2 AND p.fecha_hora_partido = jp.fecha_hora_partido WHERE jp.fecha_hora_partido = ?) AS leftJoin ON a.correo_estudiantil = leftJoin.correo_estudiantil WHERE leftJoin.correo_estudiantil IS NULL";
+        Object[] args = {PlayMatchService.dateTodayPlus1Hour()};
+        List<Alumn> alumnos = dbConnection.query(sql, args, new BeanPropertyRowMapper<>(Alumn.class));
+        return alumnos;
     }
 }
