@@ -14,9 +14,11 @@ public interface IPlayMatchRepository {
 
     Plays_match findPlay(String equipo1, String equipo2, String fecha_partido);
 
-    boolean update(Plays_match match);
+    Plays_match update(Plays_match match);
 
     List<Plays_match> findFixture(String stage);
 
     boolean todayPlays();
+
+    boolean modifyPoints(String equipo1, String equipo2, String fecha_hora_partido, int gol_equipo1, int gol_equipo2, String etapa);
 }

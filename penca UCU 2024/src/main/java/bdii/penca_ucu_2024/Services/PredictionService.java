@@ -34,6 +34,7 @@ public class PredictionService implements IPredictionRepository {
     @Override
     public boolean insert(Prediction prediction) {
         try{
+
             String sql = "INSERT INTO Predice VALUES (?,?,?,?,?,?)";
             this.dbConnection.update(sql,prediction.getCorreo_estudiantil(),prediction.getEquipo1(),prediction.getEquipo2(),prediction.getFecha_hora_partido(),prediction.getGol_equipo1(),prediction.getGol_equipo2());
             return true;
@@ -78,7 +79,7 @@ public class PredictionService implements IPredictionRepository {
     }
 
     @Override
-    public List<Prediction> findPredictionForMatch(String equipo1, String equipo2, Date fecha_hora_partido) {
+    public List<Prediction> findPredictionForMatch(String equipo1, String equipo2, String fecha_hora_partido) {
         String sql = "SELECT * FROM predice WHERE equipo1 = ? AND equipo2 = ? AND fecha_hora_partido = ?";
         Object[] args = {equipo1, equipo2, fecha_hora_partido};
         List<Prediction> predictions = dbConnection.query(sql, args, new BeanPropertyRowMapper<>(Prediction.class));

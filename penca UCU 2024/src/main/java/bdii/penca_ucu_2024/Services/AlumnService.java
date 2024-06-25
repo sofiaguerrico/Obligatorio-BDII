@@ -1,8 +1,10 @@
 package bdii.penca_ucu_2024.Services;
 
 import bdii.penca_ucu_2024.Classes.Alumn;
+import bdii.penca_ucu_2024.Classes.Prediction;
 import bdii.penca_ucu_2024.JSONClasses.AuthResponse;
 import bdii.penca_ucu_2024.Repositories.IAlumnRepository;
+import bdii.penca_ucu_2024.Repositories.IPredictionRepository;
 import bdii.penca_ucu_2024.Security.jwt.JwtUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
@@ -12,16 +14,19 @@ import org.apache.commons.codec.digest.DigestUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class AlumnService implements IAlumnRepository {
 
     private JdbcTemplate dbConnection;
+
     @Autowired
     JwtUtils jwtUtils;
     @Autowired
     public AlumnService(JdbcTemplate dbConnection) {
         this.dbConnection = dbConnection;
+
     }
 
 
@@ -61,9 +66,8 @@ public class AlumnService implements IAlumnRepository {
     }
 
     private int getPoint(String correo){
-        String sql= "SELECT * FROM Alumno WHERE correo_estudiantil = ?";
-        List<Alumn> alumns = this.dbConnection.query(sql, new BeanPropertyRowMapper<>(Alumn.class));
-        return alumns.get(0).getPuntos_totales();
+        Alumn alumn = findByEmail(correo);
+        return alumn.getPuntos_totales();
     }
 
     @Override
@@ -85,17 +89,16 @@ public class AlumnService implements IAlumnRepository {
             return correos;
     }
 
-    @Override
-    public boolean modifyPoints(String equipo1, String equipo2, String fecha_hora_partido){
-        return true;
-    }
+
+
 
     @Override
     public boolean setPoint(int point, String correo_estudiantil){
         int alumnPoints = getPoint(correo_estudiantil);
         String sql = "UPDATE alumno SET puntos_totales = ? WHERE correo_estudiantil = ?";
         int rowsAffected = this.dbConnection.update(sql,
-                alumnPoints + point);
+                alumnPoints + point,
+                correo_estudiantil);
         if (rowsAffected > 0) {
             System.out.println("Los puntos se actualizarón correctamente.");
             return true;

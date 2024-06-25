@@ -62,13 +62,11 @@ public class UserService implements IUserRepository {
         List<Admin> administradores = this.dbConnection.query(sql, new Object[]{correo_admin}, rowMapperAdministrador);
 
         if (!administradores.isEmpty()) {
-
             Admin admin = administradores.get(0);
             UserRequest userRequest = new UserRequest();
             userRequest.setAdministrador(admin);
             userRequest.setRole(Role.ROLE_ADMIN);
             return Optional.of(userRequest);
-
         }
         return Optional.empty();
     }

@@ -16,5 +16,5 @@ public interface IPredictionRepository {
 
     boolean modifyPrediction(Prediction prediction);
 
-    List<Prediction> findPredictionForMatch(String equipo1, String equipo2, Date fecha_hora_partido);
+    List<Prediction> findPredictionForMatch(String equipo1, String equipo2, String fecha_hora_partido);
 }
