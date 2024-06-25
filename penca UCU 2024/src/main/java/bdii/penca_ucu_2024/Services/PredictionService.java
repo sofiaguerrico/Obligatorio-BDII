@@ -31,6 +31,7 @@ public class PredictionService implements IPredictionRepository {
     @Override
     public boolean insert(Prediction prediction) {
         try{
+
             String sql = "INSERT INTO Predice VALUES (?,?,?,?,?,?)";
             this.dbConnection.update(sql,prediction.getCorreo_estudiantil(),prediction.getEquipo1(),prediction.getEquipo2(),prediction.getFecha_hora_partido(),prediction.getGol_equipo1(),prediction.getGol_equipo2());
             return true;

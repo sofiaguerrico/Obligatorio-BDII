@@ -59,7 +59,6 @@ public class LoginService implements ILoginRepository {
                     String token = jwtUtils.generateAccessToken(email, authority.getAuthority());
                     authResponse.setToken(token);
                     authResponse.setMessage("Login exitoso como Alumno");
-
                 }
             }
             if ("ROLE_ADMIN".equals(authority.getAuthority())) {
