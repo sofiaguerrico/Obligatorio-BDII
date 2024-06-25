@@ -59,7 +59,7 @@ public class PredictionController {
     public ResponseEntity<List<Prediction>> getPredictionForMatch(
                                                     @RequestHeader("equipo1") String equipo1,
                                                     @RequestHeader("equipo2") String equipo2,
-                                                    @RequestHeader("fecha_hora_partido") Date fecha_hora_partido) {
+                                                    @RequestHeader("fecha_hora_partido") String fecha_hora_partido) {
 
         List<Prediction> predictions = pr.findPredictionForMatch(equipo1, equipo2, fecha_hora_partido);
         if(predictions != null){

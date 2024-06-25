@@ -75,7 +75,7 @@ public class PredictionService implements IPredictionRepository {
     }
 
     @Override
-    public List<Prediction> findPredictionForMatch(String equipo1, String equipo2, Date fecha_hora_partido) {
+    public List<Prediction> findPredictionForMatch(String equipo1, String equipo2, String fecha_hora_partido) {
         String sql = "SELECT * FROM predice WHERE equipo1 = ? AND equipo2 = ? AND fecha_hora_partido = ?";
         Object[] args = {equipo1, equipo2, fecha_hora_partido};
         List<Prediction> predictions = dbConnection.query(sql, args, new BeanPropertyRowMapper<>(Prediction.class));

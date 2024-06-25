@@ -53,8 +53,15 @@ public class Plays_matchController {
 
 
     @PatchMapping("/playmatch/modify/")
-    public boolean update(@RequestBody Plays_match match) {
-        return pm.update(match);
+    public ResponseEntity<Plays_match> update(@RequestBody Plays_match match) {
+        Plays_match m = pm.update(match);
+        if (m != null) {
+            if(m.getEquipo1() == ""){
+                return ResponseEntity.badRequest().build();
+            }
+            return ResponseEntity.ok(m);
+        }
+        return ResponseEntity.notFound().build();
     }
 
 }
