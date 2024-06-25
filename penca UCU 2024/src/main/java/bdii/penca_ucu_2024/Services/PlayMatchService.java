@@ -85,8 +85,14 @@ public class PlayMatchService implements IPlayMatchRepository {
         return !matches.isEmpty();
     }
 
-    private Date dateToday(){
+    static Date dateToday(){
         LocalDate localDate = LocalDate.now();
         return Date.valueOf(localDate);
     }
+
+    static Date dateTodayPlus1Hour(){
+        LocalDateTime localDateTime = LocalDateTime.now().plusHours(1);
+        return Date.valueOf(String.valueOf(localDateTime));
+    }
+
 }
