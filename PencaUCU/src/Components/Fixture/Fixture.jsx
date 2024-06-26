@@ -13,6 +13,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import './Fixture.css';
+import dayjs from 'dayjs';
 
 const Fixture = () => {
   const [partidos, setPartidos] = useState([]);
@@ -65,7 +66,7 @@ const Fixture = () => {
         <Grid item ml={2} xs={8}>
           <div className='partidos'>
             <Typography variant="h4" style={{ color: 'black', textAlign: 'center' }} gutterBottom>
-              Partidos por Etapa
+              MATCHES
             </Typography>
             {Object.keys(partidosPorEtapa).map(etapa => (
               <Box key={etapa} sx={{ mb: 3 }}>
@@ -76,18 +77,18 @@ const Fixture = () => {
                   <Table>
                     <TableHead>
                       <TableRow>
-                        <TableCell>Equipos</TableCell>
-                        <TableCell>Fecha y Hora</TableCell>
-                        <TableCell>Equipo 1</TableCell>
-                        <TableCell>Resultado</TableCell>
-                        <TableCell>Equipo 2</TableCell>
+                        <TableCell>Match</TableCell>
+                        <TableCell>Date and Time</TableCell>
+                        <TableCell>Country</TableCell>
+                        <TableCell>Result</TableCell>
+                        <TableCell>Country</TableCell>
                       </TableRow>
                     </TableHead>
                     <TableBody>
                       {partidosPorEtapa[etapa].map((partido, index) => (
                         <TableRow key={index}>
                           <TableCell>{`${partido.equipo1} vs ${partido.equipo2}`}</TableCell>
-                          <TableCell>{partido.fecha_hora_partido}</TableCell>
+                          <TableCell>{dayjs(partido.fecha_hora_partido).format('dddd, MMMM D, YYYY')} <br />{ dayjs(partido.fecha_hora_partido).format('h:mm A')}</TableCell>
                           <TableCell>
                             <img
                               src={flags[partido.equipo1.toLowerCase().replace(' ', '_')]}
@@ -117,7 +118,7 @@ const Fixture = () => {
         </Grid>
         <Grid item p={1} xs={3}>
           <Typography variant="h4" style={{ color: 'black', textAlign: 'center' }} gutterBottom>
-            Equipos
+            TEAMS
           </Typography>
           <Box
             sx={{

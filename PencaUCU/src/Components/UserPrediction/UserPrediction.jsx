@@ -8,7 +8,7 @@ import { getPredictions } from '../../services/prediction';
 import flags from '../flags';
 import { useNavigate } from 'react-router-dom';
 import { getMatches } from '../../services/play_match';
-
+import dayjs from 'dayjs';
 const UserPrediction = () => {
   const [predictions, setPredictions] = useState([]);
   const [error, setError] = useState('');
@@ -45,29 +45,19 @@ const UserPrediction = () => {
     navigate('/prediction', { state: { existingPrediction: prediction, match } });
   };
 
-  const formatDateTime = (dateString) => {
-    const optionsDate = { year: 'numeric', month: 'long', day: 'numeric' };
-    const optionsTime = { hour: '2-digit', minute: '2-digit' };
-    const date = new Date(dateString);
-
-    return {
-      date: date.toLocaleDateString(undefined, optionsDate),
-      time: date.toLocaleTimeString(undefined, optionsTime),
-    };
-  };
 
   const calculatePoints = (prediction, match) => {
     if (!match) return 0;
-    console.log("prediccion",prediction)
+    console.log("prediccion", prediction)
     console.log("match", match)
     const matchTime = new Date(match.fecha_hora_partido);
     const currentTime = new Date();
     let totalPoints = 0;
-    if (currentTime >= matchTime || match.gol_equipo1!==-1) {
+    if (currentTime >= matchTime || match.gol_equipo1 !== -1) {
       if (prediction.gol_equipo1 === match.gol_equipo1 && prediction.gol_equipo2 === match.gol_equipo2) {
         totalPoints = 4;
       } else
-        if (prediction.gol_equipo1> prediction.gol_equipo2 && match.gol_equipo1> match.gol_equipo2) {
+        if (prediction.gol_equipo1 > prediction.gol_equipo2 && match.gol_equipo1 > match.gol_equipo2) {
           totalPoints = 2;
         }
     }
@@ -87,21 +77,15 @@ const UserPrediction = () => {
           {error && <p>Error: {error}</p>}
           <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
             <Typography variant="h5" style={{ color: 'black', textAlign: 'center', marginBottom: '10px' }}>
-              Predicciones vigentes
-            </Typography>
+              Current predictions            </Typography>
             {predictions.map((prediction, index) => {
-              const { date, time } = formatDateTime(prediction.fecha_hora_partido);
-
+              
               const match = matches.find(match =>
                 match.equipo1 === prediction.equipo1 &&
                 match.equipo2 === prediction.equipo2 &&
                 match.fecha_hora_partido === prediction.fecha_hora_partido
               );
-
-              if (!match || calculatePoints(prediction, match) >=0) return null;
-
-              const predictionKey = `${prediction.equipo1}-${prediction.equipo2}-${prediction.fecha_hora_partido}`;
-
+              if (!match || match.gol_equipo1!==-1) return null;
               const disableEdit = () => {
                 const matchTime = new Date(match.fecha_hora_partido);
                 const currentTime = new Date();
@@ -119,10 +103,10 @@ const UserPrediction = () => {
                   alignItems="center"
                 >
                   <Typography variant="body1" style={{ textAlign: 'center', marginBottom: '10px' }}>
-                    {date}
+                  {dayjs(match.fecha_hora_partido).format('dddd, MMMM D, YYYY')}
                   </Typography>
                   <Typography variant="body1" style={{ textAlign: 'center', marginBottom: '10px' }}>
-                    {time}
+                  { dayjs(match.fecha_hora_partido).format('h:mm A')}
                   </Typography>
                   <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%' }}>
                     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
@@ -159,18 +143,17 @@ const UserPrediction = () => {
 
           <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: '20px' }}>
             <Typography variant="h5" style={{ color: 'black', textAlign: 'center', marginBottom: '10px' }}>
-              Predicciones terminadas
+              Finished matches
             </Typography>
             {predictions.map((prediction, index) => {
-              const { date, time } = formatDateTime(prediction.fecha_hora_partido);
-
+              
               const match = matches.find(match =>
                 match.equipo1 === prediction.equipo1 &&
                 match.equipo2 === prediction.equipo2 &&
                 match.fecha_hora_partido === prediction.fecha_hora_partido
               );
 
-              if (!match ) return null;
+              if (!match) return null;
 
               const predictionKey = `${prediction.equipo1}-${prediction.equipo2}-${prediction.fecha_hora_partido}`;
 
@@ -185,10 +168,10 @@ const UserPrediction = () => {
                   alignItems="center"
                 >
                   <Typography variant="body1" style={{ textAlign: 'center', marginBottom: '10px' }}>
-                    {date}
+                    {dayjs(match.fecha_hora_partido).format('dddd, MMMM D, YYYY')}
                   </Typography>
                   <Typography variant="body1" style={{ textAlign: 'center', marginBottom: '10px' }}>
-                    {time}
+                    {dayjs(match.fecha_hora_partido).format('h:mm A')}
                   </Typography>
                   <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%' }}>
                     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
@@ -202,7 +185,7 @@ const UserPrediction = () => {
                     </div>
                     <div>
                       <Typography variant="body2" style={{ marginTop: '5px', fontWeight: 'bold' }}>
-                        Puntos: {calculatePoints(prediction, match)}
+                        Points: {calculatePoints(prediction, match)}
                       </Typography>
                     </div>
                     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>

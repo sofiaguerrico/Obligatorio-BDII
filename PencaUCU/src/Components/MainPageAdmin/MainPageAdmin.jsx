@@ -113,7 +113,7 @@ const MainPageAdmin = () => {
             {selectedPartido ? (
                 <EnterResult partido={selectedPartido} />
             ) : (
-                <Grid container ml={1} mt={0.5} spacing={2} style={{ marginBottom: '20px' }}>
+                <Grid container  mt={0.5} spacing={2} style={{ marginBottom: '20px' }}>
                     <Grid item xs={8}>
                         <Grid container spacing={3}>
                             <Grid item xs={4}>
@@ -168,6 +168,7 @@ const MainPageAdmin = () => {
                                                 <TableCell>Country</TableCell>
                                                 <TableCell>Flag</TableCell>
                                                 <TableCell>Date</TableCell>
+                                                <TableCell>Fase</TableCell>
                                                 <TableCell>Result</TableCell>
                                                 <TableCell>Actions</TableCell>
                                             </TableRow>
@@ -180,6 +181,7 @@ const MainPageAdmin = () => {
                                                     <TableCell>{partido.equipo2}</TableCell>
                                                     <TableCell><img src={flags[partido.equipo2.toLowerCase()]} alt={partido.equipo2} style={{ width: '30px' }} /></TableCell>
                                                     <TableCell>{dayjs(partido.fecha_hora_partido).format('dddd, MMMM D, YYYY')} <br />{ dayjs(partido.fecha_hora_partido).format('h:mm A')}</TableCell>
+                                                    <TableCell>{partido.etapa}</TableCell>
                                                     <TableCell>
                                                         {partido.gol_equipo1 === -1 && partido.gol_equipo2 === -1 ? (
                                                             "-"

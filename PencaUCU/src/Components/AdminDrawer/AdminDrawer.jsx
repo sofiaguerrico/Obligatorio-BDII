@@ -15,7 +15,7 @@ const AdminDrawer = ({ onSelectComponent }) => {
 
     return (
         <div className="d-flex">
-            <Navbar style={{ background: '#070512' }} variant="dark" expand="lg" className="navAdmin flex-column">
+            <Navbar style={{ background: '#070512', marginRight:'3px' }} variant="dark" expand="lg" className="navAdmin flex-column">
                 <Navbar.Brand>Admin</Navbar.Brand>
                 <div className='navButtons'>
                     <Button fullWidth variant="text" sx={{ color: 'white' }} className="mb-2" onClick={() => onSelectComponent('Main')}>Main</Button>
