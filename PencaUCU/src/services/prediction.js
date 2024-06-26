@@ -47,27 +47,28 @@ const insertPrediction = async (token, prediction) => {
 
   const modifyPrediction = async (token, prediction) => {
     try {
-        const response = await fetch('http://localhost:8080/prediction/modify/', {
-              method: 'PATCH',
-              headers: {
-                  'Content-Type': 'application/json',
-                  'Authorization': `Bearer ${token}`
-              },
-              credentials: 'include',
-              body: JSON.stringify(prediction)
-        });
-        
-        if (!response.ok) {
-          throw new Error(`Error en la solicitud: ${response.status}`);
-        }
-    
-        const data = await response.json();      
-        return data;
-      } catch (error) {      
-        console.error('Error inserting prediction:', error);
-        throw error;
+      const response = await fetch('http://localhost:8080/prediction/modify/', {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        credentials: 'include',
+        body: JSON.stringify(prediction) 
+      });
+  
+      if (!response.ok) {
+        throw new Error(`Error en la solicitud: ${response.status}`);
       }
+  
+      const data = await response;
+      return data;
+    } catch (error) {
+      console.error('Error inserting prediction:', error);
+      throw error;
+    }
   };
+  
 
 
   const getPredictionUser = async (token, correo_estudiantil, equipo1, equipo2, fecha_hora_partido) => {
@@ -120,6 +121,7 @@ const insertPrediction = async (token, prediction) => {
             }
     
             const data = await response.json();
+            console.log(data)
             return data;
         } catch (error) {        
             console.error('Error:', error);

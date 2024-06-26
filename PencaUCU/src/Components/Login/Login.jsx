@@ -48,10 +48,11 @@ const Login = () => {
       setError(null);
 
       if (data.token) {
-        if (await isAdmin(data.token)) {
-          navigate('/admin');
-        } else {
+        if (!await isAdmin(data.token)) {
+          console.log("no admin")
           navigate('/homePage');
+        } else {
+          navigate('/admin');
         }
       }
     } catch (err) {

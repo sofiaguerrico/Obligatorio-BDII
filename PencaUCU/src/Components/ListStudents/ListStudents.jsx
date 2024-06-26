@@ -13,22 +13,18 @@ const ListStudents = () => {
     const [students, setStudents] = useState([]);
 
     useEffect(() => {
-        // Simulated API call or function to fetch students
         async function fetchStudents() {
-                  
             const token = localStorage.getItem('token');
             if (!token) {
               console.log('No token found');
-              return; // No hay token, salir
+              return; 
             }
             try {              
               const students = await getAllStudents(token);              
               setStudents(students);          
-            
-          } catch (error) {
-            console.error('Error fetching students:', error);
-            // Mostrar error al admin
-          }
+            } catch (error) {
+              console.error('Error fetching students:', error);
+            }
         };
     
         fetchStudents();
@@ -36,9 +32,9 @@ const ListStudents = () => {
 
     return (
         <div>
-            <Typography variant="h5" style={{ marginBottom: '15px' }}>Students</Typography>
-            <TableContainer  component={Paper}>
-                <Table>
+            <Typography variant="h5" style={{marginLeft:40, marginBottom: '15px' }}>Students</Typography>
+            <TableContainer component={Paper} style={{marginLeft:40, maxHeight: 500 }}>
+                <Table stickyHeader>
                     <TableHead>
                         <TableRow>
                             <TableCell>CI</TableCell>

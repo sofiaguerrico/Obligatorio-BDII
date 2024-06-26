@@ -9,6 +9,7 @@ const AdminDrawer = ({ onSelectComponent }) => {
 
     const handleLogout = () => {
         localStorage.removeItem('token');
+        localStorage.removeItem('alumno');
         navigate('/'); 
     };
 

@@ -12,7 +12,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import './Fixture.css'
+import './Fixture.css';
 
 const Fixture = () => {
   const [partidos, setPartidos] = useState([]);
@@ -24,7 +24,6 @@ const Fixture = () => {
       try {
         const partidosData = await getMatches(token);
         setPartidos(partidosData);
-        console.log(partidosData)
       } catch (error) {
         console.error('Error fetching matches:', error);
       }
@@ -64,53 +63,56 @@ const Fixture = () => {
       <Navbar />
       <Grid container spacing={5}>
         <Grid item ml={2} xs={8}>
-            <div className='partidos'>
-          <Typography variant="h4" style={{ color: 'black', textAlign: 'center' }} gutterBottom>
-            Partidos por Etapa
-          </Typography>
-          {Object.keys(partidosPorEtapa).map(etapa => (
-            <Box key={etapa} sx={{ mb: 3 }}>
-              <Typography variant="h5" style={{ color: 'black', marginTop: '20px' }}>
-                {etapa}
-              </Typography>
-              <TableContainer component={Paper}>
-                <Table>
-                  <TableHead>
-                    <TableRow>
-                      <TableCell>Equipos</TableCell>
-                      <TableCell>Fecha y Hora</TableCell>
-                      <TableCell>Equipo 1</TableCell>
-                      <TableCell>Resultado</TableCell>
-                      <TableCell>Equipo 2</TableCell>
-                    </TableRow>
-                  </TableHead>
-                  <TableBody>
-                    {partidosPorEtapa[etapa].map((partido, index) => (
-                      <TableRow key={index}>
-                        <TableCell>{`${partido.equipo1} vs ${partido.equipo2}`}</TableCell>
-                        <TableCell>{partido.fecha_hora_partido}</TableCell>
-                        <TableCell>
-                          <img
-                            src={flags[partido.equipo1.toLowerCase().replace(' ', '_')]}
-                            alt={`Bandera de ${partido.equipo1}`}
-                            style={{ width: '30px', height: '20px' }}
-                          />
-                        </TableCell>
-                        <TableCell>{partido.gol_equipo1} - {partido.gol_equipo2}</TableCell>
-                        <TableCell>
-                          <img
-                            src={flags[partido.equipo2.toLowerCase().replace(' ', '_')]}
-                            alt={`Bandera de ${partido.equipo2}`}
-                            style={{ width: '30px', height: '20px' }}
-                          />
-                        </TableCell>
+          <div className='partidos'>
+            <Typography variant="h4" style={{ color: 'black', textAlign: 'center' }} gutterBottom>
+              Partidos por Etapa
+            </Typography>
+            {Object.keys(partidosPorEtapa).map(etapa => (
+              <Box key={etapa} sx={{ mb: 3 }}>
+                <Typography variant="h5" style={{ color: 'black', marginTop: '20px' }}>
+                  {etapa}
+                </Typography>
+                <TableContainer component={Paper}>
+                  <Table>
+                    <TableHead>
+                      <TableRow>
+                        <TableCell>Equipos</TableCell>
+                        <TableCell>Fecha y Hora</TableCell>
+                        <TableCell>Equipo 1</TableCell>
+                        <TableCell>Resultado</TableCell>
+                        <TableCell>Equipo 2</TableCell>
                       </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
-              </TableContainer>
-            </Box>
-          ))}
+                    </TableHead>
+                    <TableBody>
+                      {partidosPorEtapa[etapa].map((partido, index) => (
+                        <TableRow key={index}>
+                          <TableCell>{`${partido.equipo1} vs ${partido.equipo2}`}</TableCell>
+                          <TableCell>{partido.fecha_hora_partido}</TableCell>
+                          <TableCell>
+                            <img
+                              src={flags[partido.equipo1.toLowerCase().replace(' ', '_')]}
+                              alt={`Bandera de ${partido.equipo1}`}
+                              style={{ width: '30px', height: '20px' }}
+                            />
+                          </TableCell>
+                          <TableCell>
+                            {partido.gol_equipo1 === -1 ? ' ' : partido.gol_equipo1} -{' '}
+                            {partido.gol_equipo2 === -1 ? ' ' : partido.gol_equipo2}
+                          </TableCell>
+                          <TableCell>
+                            <img
+                              src={flags[partido.equipo2.toLowerCase().replace(' ', '_')]}
+                              alt={`Bandera de ${partido.equipo2}`}
+                              style={{ width: '30px', height: '20px' }}
+                            />
+                          </TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </TableContainer>
+              </Box>
+            ))}
           </div>
         </Grid>
         <Grid item p={1} xs={3}>
