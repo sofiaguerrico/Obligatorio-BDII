@@ -16,7 +16,8 @@ import java.util.Map;
 
 @Service
 public class PredictionService implements IPredictionRepository {
-    private static JdbcTemplate dbConnection;
+
+    private final JdbcTemplate dbConnection;
 
     @Autowired
     public PredictionService(JdbcTemplate dbConnection) {
@@ -86,9 +87,9 @@ public class PredictionService implements IPredictionRepository {
         return predictions.isEmpty() ? null : predictions;
     }
 
-    public static List<Alumn> noPrediction(){
-        String sql = "SELECT * FROM Alumno a LEFT JOIN (SELECT p.correo_estudiantil FROM Predice p JOIN Juega_partido jp ON p.equipo1 = jp.equipo1 AND p.equipo2 = jp.equipo2 AND p.fecha_hora_partido = jp.fecha_hora_partido WHERE jp.fecha_hora_partido = ?) AS leftJoin ON a.correo_estudiantil = leftJoin.correo_estudiantil WHERE leftJoin.correo_estudiantil IS NULL";
-        Object[] args = {PlayMatchService.dateTodayPlus1Hour()};
+    public List<Alumn> noPrediction(){
+        String sql = "SELECT a.* FROM Alumno a LEFT JOIN (SELECT p.correo_estudiantil FROM Predice p JOIN Juega_partido jp ON p.equipo1 = jp.equipo1 AND p.equipo2 = jp.equipo2 AND p.fecha_hora_partido = jp.fecha_hora_partido WHERE DATE(jp.fecha_hora_partido) = ?) AS leftJoin ON a.correo_estudiantil = leftJoin.correo_estudiantil WHERE leftJoin.correo_estudiantil IS NULL";
+        Object[] args = {PlayMatchService.dateToday()};
         List<Alumn> alumnos = dbConnection.query(sql, args, new BeanPropertyRowMapper<>(Alumn.class));
         return alumnos;
     }

@@ -85,22 +85,17 @@ public class PlayMatchService implements IPlayMatchRepository {
 
     @Override
     public boolean todayPlays(){
-        String sql = "SELECT * FROM Juega_partido WHERE fecha_hora_partido = ?";
+        String sql = "SELECT * FROM juega_partido WHERE DATE(fecha_hora_partido) = ?";
         Object[] args = {dateToday()};
         List<Plays_match> matches = dbConnection.query(sql, args, new BeanPropertyRowMapper<>(Plays_match.class));
         return !matches.isEmpty();
     }
 
-    static Date dateToday(){
+    static String dateToday(){
         LocalDate localDate = LocalDate.now();
-        return Date.valueOf(localDate);
+        return localDate.toString();
     }
 
-    static Date dateTodayPlus1Hour(){
-        LocalDateTime localDateTime = LocalDateTime.now().plusHours(1);
-        return Date.valueOf(String.valueOf(localDateTime));
-    }
-  
     @Override
     public boolean modifyPoints(String equipo1, String equipo2, String fecha_hora_partido, int gol_equipo1, int gol_equipo2, String etapa){
         List<Prediction> listPredictions = predictionService.findPredictionForMatch(equipo1, equipo2, fecha_hora_partido);
