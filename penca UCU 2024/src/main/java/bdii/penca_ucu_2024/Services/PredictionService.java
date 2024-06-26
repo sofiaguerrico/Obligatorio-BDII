@@ -16,7 +16,7 @@ import java.util.Map;
 
 @Service
 public class PredictionService implements IPredictionRepository {
-    private final JdbcTemplate dbConnection;
+    private static JdbcTemplate dbConnection;
 
     @Autowired
     public PredictionService(JdbcTemplate dbConnection) {

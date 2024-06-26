@@ -1,10 +1,5 @@
 package bdii.penca_ucu_2024.Classes;
 
-import java.sql.Date;
-import java.sql.Time;
-import java.sql.Timestamp;
-import java.time.LocalDateTime;
-
 public class Plays_match {
 
     String equipo1;
