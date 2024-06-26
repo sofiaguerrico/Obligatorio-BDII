@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
@@ -9,6 +9,7 @@ import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import MenuItem from '@mui/material/MenuItem';
 import CountrySelection from '../CountrySelection/CountrySelection.jsx';
+import { fetchAllCareer } from '../../services/CareerService.js';
 
 const genders = [
   { value: 'male', label: 'Male' },
@@ -16,16 +17,10 @@ const genders = [
   { value: 'other', label: 'Other' },
 ];
 
-const careers = [
-  { value: 'cs', label: 'Computer Science' },
-  { value: 'eng', label: 'Engineering' },
-  { value: 'bus', label: 'Business' },
-  { value: 'art', label: 'Arts' },
-];
-
 const Register = () => {
   const { register, handleSubmit, formState: { errors }, control } = useForm();
   const [formData, setFormData] = useState(null);
+  const [careers, setCareers] = useState([]);
 
   const onSubmit = (data) => {
     setFormData({
@@ -36,9 +31,24 @@ const Register = () => {
       celular_alumno: data.phoneNumber,
       correo_estudiantil: data.mail,
       password: data.password,
+      carrera: data.carrera,
       puntos_totales: "0"
     });
   };
+
+  useEffect(() => {
+    async function fetchCareer() {
+      try {
+        const careerData = await fetchAllCareer();
+        setCareers(careerData);
+        console.log(careerData);
+      } catch (error) {
+        console.error('Error fetching careers:', error);
+      }
+    }
+
+    fetchCareer();
+  }, []);
 
   const handleFinalSubmit = (completeData) => {
     console.log('Complete data:', completeData);
@@ -174,9 +184,9 @@ const Register = () => {
                       error={!!errors.carrera}
                       {...field}
                     >
-                      {careers.map((option) => (
-                        <MenuItem key={option.value} value={option.value}>
-                          {option.label}
+                      {careers.map((career) => (
+                        <MenuItem key={career.nombre_carrera} value={career.nombre_carrera}>
+                          {career.nombre_carrera}
                         </MenuItem>
                       ))}
                     </TextField>

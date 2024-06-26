@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
@@ -7,19 +7,31 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
 import Select from '@mui/material/Select';
-import { useNavigate } from 'react-router-dom'; // Importa useNavigate
+import { useNavigate } from 'react-router-dom';
 import { createStudent } from '../../services/studentService.js';
 import './CountrySelection.css';
 import Typography from '@mui/material/Typography';
+import { getTeams } from '../../services/TeamService.js';
+import { setStudies } from '../../services/CareerService.js'; // Import the setStudies service
 
-const countries = [
-    { value: 'Argentina', label: 'Argentina' },
-    { value: 'Uruguay', label: 'Uruguay' }
-];
-
-const CountrySelection = ({ formData, onSubmit }) => {
+const CountrySelection = ({ formData }) => {
     const { control, handleSubmit, formState: { errors } } = useForm();
-    const navigate = useNavigate(); // Hook de navegación
+    const navigate = useNavigate();
+    const [countries, setCountries] = useState([]);
+
+    useEffect(() => {
+        async function fetchTeams() {
+            try {
+                const teamsData = await getTeams();
+                setCountries(teamsData);
+                console.log(teamsData);
+            } catch (error) {
+                console.error('Error fetching teams:', error);
+            }
+        }
+
+        fetchTeams();
+    }, []);
 
     const handleFinalSubmit = async (data) => {
         const completeData = {
@@ -32,15 +44,21 @@ const CountrySelection = ({ formData, onSubmit }) => {
             correo_estudiantil: formData.correo_estudiantil,
             campeon: data.country1,
             subcampeon: data.country2,
-            puntos_totales: formData.puntos_totales
+            puntos_totales: formData.puntos_totales,
         };
         console.log(completeData);
 
         try {
-            const response = await createStudent(completeData);
-            localStorage.setItem("alumno", completeData.correo_estudiantil);
-            localStorage.setItem("token", response.token); // Guarda el token en localStorage
-            navigate('/homePage'); // Redirige a la página de inicio
+            const response = await createStudent(completeData);            
+            const studyData = {
+                nombre_carrera: formData.carrera,
+                correo_estudiantil: formData.correo_estudiantil,
+            };
+            await setStudies(studyData);
+
+            localStorage.setItem('alumno', completeData.correo_estudiantil);
+            localStorage.setItem('token', response.token); 
+            navigate('/homePage'); 
         } catch (error) {
             console.error('Error al crear alumno:', error);
         }
@@ -90,8 +108,8 @@ const CountrySelection = ({ formData, onSubmit }) => {
                                         label="Winner"
                                     >
                                         {countries.map((option) => (
-                                            <MenuItem key={option.value} value={option.value}>
-                                                {option.label}
+                                            <MenuItem key={option.nombre_equipo} value={option.nombre_equipo}>
+                                                {option.nombre_equipo}
                                             </MenuItem>
                                         ))}
                                     </Select>
@@ -112,8 +130,8 @@ const CountrySelection = ({ formData, onSubmit }) => {
                                         label="Second winner"
                                     >
                                         {countries.map((option) => (
-                                            <MenuItem key={option.value} value={option.value}>
-                                                {option.label}
+                                            <MenuItem key={option.nombre_equipo} value={option.nombre_equipo}>
+                                                {option.nombre_equipo}
                                             </MenuItem>
                                         ))}
                                     </Select>

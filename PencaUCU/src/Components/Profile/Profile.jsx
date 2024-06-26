@@ -60,19 +60,19 @@ const Profile = () => {
 
   const textFieldStyle = {
     '& .MuiInputBase-input': {
-      color: '#ffffff', 
+      color: '#ffffff',
     },
     '& .MuiInputLabel-root': {
-      color: '#ffffff', 
+      color: '#ffffff',
     },
     '& .MuiInput-underline:before': {
-      borderBottomColor: '#ffffff', 
+      borderBottomColor: '#ffffff',
     },
     '& .MuiInput-underline:after': {
-      borderBottomColor: '#ffffff', 
+      borderBottomColor: '#ffffff',
     },
     '& .MuiInput-underline:hover:before': {
-      borderBottomColor: '#ffffff', 
+      borderBottomColor: '#ffffff',
     },
   };
 
@@ -96,7 +96,7 @@ const Profile = () => {
               onChange={handleInputChange}
               name="nombre_alumno"
               sx={textFieldStyle}
-              InputProps={{ readOnly: true }} 
+              InputProps={{ readOnly: true }}
             />
             <TextField
               fullWidth
@@ -107,7 +107,7 @@ const Profile = () => {
               onChange={handleInputChange}
               name="apellido_alumno"
               sx={textFieldStyle}
-              InputProps={{ readOnly: true }} 
+              InputProps={{ readOnly: true }}
             />
             <TextField
               fullWidth
@@ -118,7 +118,7 @@ const Profile = () => {
               onChange={handleInputChange}
               name="ci"
               sx={textFieldStyle}
-              InputProps={{ readOnly: true }} 
+              InputProps={{ readOnly: true }}
             />
             <TextField
               select
@@ -130,7 +130,7 @@ const Profile = () => {
               onChange={handleInputChange}
               name="genero_alumno"
               sx={textFieldStyle}
-              InputProps={{ readOnly: true }} 
+              InputProps={{ readOnly: true }}
             >
               <MenuItem value="male">Male</MenuItem>
               <MenuItem value="female">Female</MenuItem>
@@ -145,7 +145,7 @@ const Profile = () => {
               onChange={handleInputChange}
               name="celular_alumno"
               sx={textFieldStyle}
-              InputProps={{ readOnly: true }} 
+              InputProps={{ readOnly: true }}
             />
             <TextField
               fullWidth
@@ -156,7 +156,7 @@ const Profile = () => {
               onChange={handleInputChange}
               name="correo_estudiantil"
               sx={textFieldStyle}
-              InputProps={{ readOnly: true }} 
+              InputProps={{ readOnly: true }}
             />
             <TextField
               fullWidth
@@ -168,10 +168,10 @@ const Profile = () => {
               onChange={handleInputChange}
               name="password_alumno"
               sx={textFieldStyle}
-              InputProps={{ readOnly: true }} 
+              InputProps={{ readOnly: true }}
             />
             <Box mt={2}>
-              <Button onClick={handleLogout} style={{background:'white', color: 'black'}} variant="contained">
+              <Button onClick={handleLogout} style={{ background: 'white', color: 'black' }} variant="contained">
                 Log Out
               </Button>
             </Box>

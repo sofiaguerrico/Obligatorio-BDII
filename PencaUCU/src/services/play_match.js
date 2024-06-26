@@ -119,4 +119,29 @@ const modifyMatch = async (token, match) => {
         throw error;
     }
 }
-export { getMatches, insertMatch, getFixtureStage, getMatch, modifyMatch };
+
+
+const resultMatch = async (token, match) => {
+    try {
+        const response = await fetch('http://localhost:8080/playmatch/modify/', {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+            credentials: 'include',
+            body: JSON.stringify(match)
+        });
+
+        if (!response.ok) {
+            throw new Error(`Error en la solicitud: ${response.status}`);
+        }
+
+        return response;
+    } catch (error) {        
+        console.error('Error inserting match:', error);
+        throw error;
+    }
+};
+
+export { getMatches, insertMatch, getFixtureStage, getMatch, modifyMatch, resultMatch };

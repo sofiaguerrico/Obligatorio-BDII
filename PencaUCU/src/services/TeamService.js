@@ -1,12 +1,10 @@
-const getTeams= async (token) => {
+const getTeams= async () => {
     try {
-        const response = await fetch('http://localhost:8080/team/', {
+        const response = await fetch('http://localhost:8080/getTeams', {
             method: 'GET',
             headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
-            },
-            credentials: 'include'
+                'Content-Type': 'application/json'
+            }
       });
       if (!response.ok) {
         throw new Error(`Error en la solicitud: ${response.status}`);
