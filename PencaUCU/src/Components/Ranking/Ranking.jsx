@@ -56,7 +56,7 @@ const Ranking = () => {
                     <Grid container direction="column" justifyContent="center" alignItems="center">
                         {userPosition && (
                             <Typography variant="h5" gutterBottom>
-                                Tu posición en el ranking: #{userPosition}
+                                Your position: #{userPosition}
                             </Typography>
                         )}
                         {alumnos.map((alumno, index) => (

@@ -13,7 +13,6 @@ const EnterResult = ({ partido }) => {
     const [score2, setScore2] = useState('');
     const [error, setError] = useState('');
     const token = localStorage.getItem('token');
-    const navigate = useNavigate();
 
     const handleSubmit = async () => {
         setError('');
@@ -57,7 +56,7 @@ const EnterResult = ({ partido }) => {
     };
 
     return (
-        <Box display="flex" justifyContent="center" alignItems="center" height="100vh" ml={35}>
+        <Box display="flex" justifyContent="center" alignItems="center" height="100vh" ml={30}>
             <Box width={600} p={4} sx={{ borderRadius: 1, backgroundColor: '#070512' }}>
                 <Box mb={4}>
                     <Typography variant="h4" gutterBottom style={{ color: '#ffffff', textAlign: 'center' }}>

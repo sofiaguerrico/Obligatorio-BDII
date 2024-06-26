@@ -4,6 +4,7 @@ import './PredictionsAdmin.css';
 import { getPredictions } from '../../services/prediction';
 import { getMatches } from '../../services/play_match';
 import flags from '../flags';
+import dayjs from 'dayjs';
 
 const PredictionsAdmin = () => {
     const [predictions, setPredictions] = useState([]);
@@ -76,7 +77,7 @@ const PredictionsAdmin = () => {
                                                 <TableCell align="center">
                                                     <img src={flags[match.equipo2.toLowerCase()]} alt={prediction.equipo2} style={{ width: '30px' }} />
                                                 </TableCell>
-                                                <TableCell>{new Date(prediction.fecha_hora_partido).toLocaleString()}</TableCell>
+                                                <TableCell>{dayjs(prediction.fecha_hora_partido).format('dddd, MMMM D, YYYY')} <br />{ dayjs(prediction.fecha_hora_partido).format('h:mm A')}</TableCell>
                                                 <TableCell>{prediction.gol_equipo1} - {prediction.gol_equipo2}</TableCell>
                                             </TableRow>
                                         ))}

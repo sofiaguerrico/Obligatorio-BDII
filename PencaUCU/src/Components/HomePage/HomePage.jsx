@@ -7,18 +7,24 @@ import { useNavigate } from 'react-router-dom';
 import './HomePage.css';
 import Navbar from '../Navbar/Navbar';
 import { getMatches } from '../../services/play_match.js';
-import { getPredictions } from '../../services/prediction.js'; 
+import { getPredictions } from '../../services/prediction.js';
 import flags from '../flags.js';
+import dayjs from 'dayjs';
+import { fetchAllStadiums } from '../../services/stadiumService.js';
 
 const HomePage = () => {
   const [matches, setMatches] = useState([]);
   const [upcomingMatches, setUpcomingMatches] = useState([]);
-  const [pastMatches, setPastMatches] = useState([]); 
+  const [pastMatches, setPastMatches] = useState([]);
   const [predictions, setPredictions] = useState({});
   const [disabledButtons, setDisabledButtons] = useState({});
   const navigate = useNavigate();
   const correo_estudiantil = localStorage.getItem('alumno');
   const token = localStorage.getItem('token');
+  const [stadiums, setStadiums] = useState([]);
+
+
+
 
   useEffect(() => {
     async function fetchMatchesAndPredictions() {
@@ -26,19 +32,20 @@ const HomePage = () => {
 
       try {
         const matchesData = await getMatches(token);
+        const stadiums = await fetchAllStadiums(token);
         matchesData.sort((a, b) => new Date(a.fecha_hora_partido) - new Date(b.fecha_hora_partido));
 
         const currentDate = new Date();
         const filteredMatches = matchesData.filter(match => new Date(match.fecha_hora_partido) >= currentDate);
         const pastMatchesData = matchesData.filter(match => new Date(match.fecha_hora_partido) < currentDate);
-        
+
         pastMatchesData.sort((a, b) => new Date(b.fecha_hora_partido) - new Date(a.fecha_hora_partido));
-        
+        setStadiums(stadiums);
         setMatches(filteredMatches.slice(0, 6));
         setUpcomingMatches(filteredMatches.slice(6));
         setPastMatches(pastMatchesData);
 
-        const allPredictions = await getPredictions(token);  
+        const allPredictions = await getPredictions(token);
         const userPredictions = {};
         const disableButtonsState = {};
 
@@ -54,7 +61,7 @@ const HomePage = () => {
 
           const matchTime = new Date(match.fecha_hora_partido);
           const currentTime = new Date();
-          
+
           disableButtonsState[predictionKey] = matchTime - currentTime <= 60 * 60 * 1000;
         });
 
@@ -73,22 +80,32 @@ const HomePage = () => {
     const existingPrediction = predictions[predictionKey];
     navigate('/prediction', { state: { match, existingPrediction } });
   };
+  /*
+    const formatDateTime = (dateString) => {
+      const optionsDate = { year: 'numeric', month: 'long', day: 'numeric' };
+      const optionsTime = { hour: '2-digit', minute: '2-digit' };
+      const date = new Date(dateString);
+  
+      return {
+        date: date.toLocaleDateString(undefined, optionsDate),
+        time: date.toLocaleTimeString(undefined, optionsTime),
+      };
+    };*/
 
-  const formatDateTime = (dateString) => {
-    const optionsDate = { year: 'numeric', month: 'long', day: 'numeric' };
-    const optionsTime = { hour: '2-digit', minute: '2-digit' };
-    const date = new Date(dateString);
+  const formatDateTime = (datetime) => {
+    const date = dayjs(datetime);
 
     return {
-      date: date.toLocaleDateString(undefined, optionsDate),
-      time: date.toLocaleTimeString(undefined, optionsTime),
+      date: date.format('dddd, MMMM D, YYYY'),
+      time: date.format('h:mm A')
     };
+
   };
 
   const renderResult = (match) => {
     const matchTime = new Date(match.fecha_hora_partido);
     const currentTime = new Date();
-    
+
     if (currentTime >= matchTime || (match.gol_equipo1 !== -1 && match.gol_equipo2 !== -1)) {
       return (
         <Typography variant="body2" style={{ textAlign: 'center', marginTop: '10px' }}>
@@ -134,7 +151,7 @@ const HomePage = () => {
                       <Typography variant="h6" style={{ marginTop: '10px' }}>
                         {match.equipo1}
                       </Typography>
-                      {renderResult(match)}
+                      {match.gol_equipo1 !== -1 ? match.gol_equipo1 : ''}
                     </div>
                     <div>
                       {renderResult(match) ? null : (
@@ -153,11 +170,11 @@ const HomePage = () => {
                       <Typography variant="h6" style={{ marginTop: '10px' }}>
                         {match.equipo2}
                       </Typography>
-                      {renderResult(match)}
+                      {match.gol_equipo2 !== -1 ? match.gol_equipo2 : ''}
                     </div>
                   </Box>
                   <Typography variant="body2" style={{ textAlign: 'center', marginTop: '10px' }}>
-                    {match.estadio}
+                    {stadiums.find(stadium => stadium.id_estadio === match.id_estadio).nombre_estadio}
                   </Typography>
                 </Box>
               );
@@ -193,7 +210,7 @@ const HomePage = () => {
                       <Typography variant="h6" style={{ marginTop: '10px' }}>
                         {match.equipo1}
                       </Typography>
-                      {renderResult(match)}
+                      {match.gol_equipo1 !== -1 ? match.gol_equipo1 : ''}
                     </div>
                     <div>
                       {renderResult(match) ? null : (
@@ -212,18 +229,17 @@ const HomePage = () => {
                       <Typography variant="h6" style={{ marginTop: '10px' }}>
                         {match.equipo2}
                       </Typography>
-                      {renderResult(match)}
+                      {match.gol_equipo2 !== -1 ? match.gol_equipo2 : ''}
                     </div>
                   </Box>
                   <Typography variant="body2" style={{ textAlign: 'center', marginTop: '10px' }}>
-                    {match.estadio}
+                    {stadiums.find(stadium => stadium.id_estadio === match.id_estadio).nombre_estadio}
                   </Typography>
                 </Box>
               );
             })}
           </Box>
 
-          {/* Sección para los partidos pasados */}
           <Typography variant="h4" style={{ color: 'black', textAlign: 'center', marginTop: '40px', marginBottom: '20px' }}>
             Past Matches
           </Typography>
@@ -253,7 +269,7 @@ const HomePage = () => {
                       <Typography variant="h6" style={{ marginTop: '10px' }}>
                         {match.equipo1}
                       </Typography>
-                      {match.gol_equipo1}
+                      {match.gol_equipo1 !== -1 ? match.gol_equipo1 : ''}
                     </div>
                     <div>
                       {renderResult(match) ? null : (
@@ -272,11 +288,11 @@ const HomePage = () => {
                       <Typography variant="h6" style={{ marginTop: '10px' }}>
                         {match.equipo2}
                       </Typography>
-                      {match.gol_equipo2}
+                      {match.gol_equipo2 !== -1 ? match.gol_equipo2 : ''}
                     </div>
                   </Box>
                   <Typography variant="body2" style={{ textAlign: 'center', marginTop: '10px' }}>
-                    {match.estadio}
+                    {stadiums.find(stadium => stadium.id_estadio === match.id_estadio).nombre_estadio}
                   </Typography>
                 </Box>
               );
