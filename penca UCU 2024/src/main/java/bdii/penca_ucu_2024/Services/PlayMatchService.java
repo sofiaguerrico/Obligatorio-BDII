@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 
 import java.sql.Date;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 
@@ -40,15 +39,7 @@ public class PlayMatchService implements IPlayMatchRepository {
     @Override
     public List<Plays_match> findAll() {
         String sql = "SELECT * FROM juega_partido";
-        List<Plays_match> lista = dbConnection.query(sql, new BeanPropertyRowMapper<>(Plays_match.class));
-        for(Plays_match match : lista){
-            if(Integer.getInteger(String.valueOf(match.getGol_equipo1())) == null)
-            {
-                match.setGol_equipo1(-1);
-                match.setGol_equipo2(-1);
-            }
-        }
-        return lista;
+        return dbConnection.query(sql, new BeanPropertyRowMapper<>(Plays_match.class));
     }
 
     @Override
