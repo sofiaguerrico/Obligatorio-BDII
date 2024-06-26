@@ -82,6 +82,7 @@ const MatchesAdmin = () => {
         });
     };
 
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (!formData.equipo1 || !formData.equipo2 || !formData.fecha_hora_partido || !formData.etapa || !formData.id_estadio) {

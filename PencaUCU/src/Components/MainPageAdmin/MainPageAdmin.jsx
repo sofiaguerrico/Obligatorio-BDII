@@ -20,8 +20,10 @@ import { getAllStudents } from '../../services/studentService.js';
 import { getPredictions } from '../../services/prediction.js';
 import EnterResult from '../EnterResult/EnterResult';
 import dayjs from 'dayjs';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 const MainPageAdmin = () => {
+    const navigate = useNavigate();
     const [usersCount, setUsersCount] = useState(0);
     const [matchesCount, setMatchesCount] = useState(0);
     const [predictionsCount, setPredictionsCount] = useState(0);
@@ -106,6 +108,10 @@ const MainPageAdmin = () => {
     const handleEnterResult = (partido) => {
         setSelectedPartido(partido);
     };
+
+    const excel = () => {
+        navigate("/importExcel");
+    }
 
 
     return (
@@ -228,6 +234,13 @@ const MainPageAdmin = () => {
                     </Grid>
                 </Grid>
             )}
+            <Button 
+    variant="contained" 
+    style={{ background: '#070512', marginLeft: '10px' }} 
+    onClick={() => excel()}
+>
+    Import matches with Excel
+</Button>
         </div>
     );
 }

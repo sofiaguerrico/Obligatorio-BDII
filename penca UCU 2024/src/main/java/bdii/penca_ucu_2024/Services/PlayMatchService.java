@@ -8,11 +8,9 @@ import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
-import java.sql.Date;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 @Service
 public class PlayMatchService implements IPlayMatchRepository {
@@ -36,6 +34,26 @@ public class PlayMatchService implements IPlayMatchRepository {
             return false;
         }
     }
+
+    @Override
+    public List<Plays_match> insertPlaymatches(List<Plays_match> matches) {
+        try {
+            List<Plays_match> matches2 = new ArrayList<>();
+            for (Plays_match match : matches) {
+                boolean b = insert(match);
+                if (!b) {
+                    System.out.println("No se pudo ingresar partido");
+                } else {
+                    matches2.add(match);
+                }
+            }
+            return matches2;
+        } catch (Exception e) {
+            System.out.println(e);
+            return null;
+        }
+    }
+
 
     @Override
     public List<Plays_match> findAll() {

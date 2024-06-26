@@ -1,6 +1,7 @@
 package bdii.penca_ucu_2024.Repositories;
 
 import bdii.penca_ucu_2024.Classes.Plays_match;
+import org.springframework.boot.autoconfigure.context.PropertyPlaceholderAutoConfiguration;
 
 import java.sql.Date;
 import java.sql.Timestamp;
@@ -9,6 +10,8 @@ import java.util.List;
 
 public interface IPlayMatchRepository {
     boolean insert(Plays_match match);
+
+    List<Plays_match> insertPlaymatches(List<Plays_match> matches);
 
     List<Plays_match> findAll();
 

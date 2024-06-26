@@ -44,6 +44,30 @@ const insertMatch = async (token, match) => {
     }
 };
 
+const insertMatches = async (token, matches) => {
+    try {
+        const response = await fetch('http://localhost:8080/insertPlaymatches', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+            credentials: 'include',
+            body: JSON.stringify(matches)
+        });
+
+        if (!response.ok) {
+            throw new Error(`Error en la solicitud: ${response.status}`);
+        }
+        const data = await response.json();
+        return data;
+    } catch (error) {        
+        console.error('Error inserting match:', error);
+        throw error;
+    }
+};
+
+
 // Obtener fixture por etapa del torneo
 const getFixtureStage = async (token, stage) => {
     try {
@@ -144,4 +168,4 @@ const resultMatch = async (token, match) => {
     }
 };
 
-export { getMatches, insertMatch, getFixtureStage, getMatch, modifyMatch, resultMatch };
+export { getMatches, insertMatch, getFixtureStage, getMatch, modifyMatch, resultMatch, insertMatches };
