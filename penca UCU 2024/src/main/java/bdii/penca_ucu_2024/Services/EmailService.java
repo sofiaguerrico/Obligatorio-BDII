@@ -17,28 +17,29 @@ public class EmailService {
     private JavaMailSender mailSender;
 
     @Autowired
-    private AlumnService alumnService;
+    private PredictionService predictionService;
 
     @Autowired
     private PlayMatchService playsMatchService;
 
-    @Scheduled(cron = "0 0/1 * * * ?", zone = "America/Montevideo")
+    @Scheduled(cron = "0 0 9 * * ?", zone = "America/Montevideo")
     public void sendingEmail() {
         if(playsMatchService.todayPlays()) {
-            List<Alumn> alumnos = PredictionService.noPrediction();
+            List<Alumn> alumnos = predictionService.noPrediction();
+            int countEmails = 0;
             for (Alumn alumno : alumnos) {
-                sendPersonalizedEmail(alumno);
+                countEmails += sendPersonalizedEmail(alumno);
             }
-            System.out.println("EMAILs ENVIADO");
+            System.out.println(countEmails + " Emails enviados");
         }else System.out.println("No hay partidos hoy");
     }
 
     @Async
-    public void sendPersonalizedEmail(Alumn alumno) {
+    public int sendPersonalizedEmail(Alumn alumno) {
         String template = """
                 Hola, ${nombre}!
 
-                En 1 hora comienza un partido y no has cargado tu predicción aún.
+                Hoy hay partido y no has cargado tu predicción aún.
 
                 No pierdas la oportunidad de sumar puntos!
 
@@ -46,14 +47,15 @@ public class EmailService {
                 La organización de la Penca UCU""";
             String personalizedTemplate = template.replace("${nombre}", alumno.getNombre_alumno());
             String subject = "¡Predicción del alumno " + alumno.getNombre_alumno() + "!";
-            sendEmail(alumno.getCorreo_estudiantil(), subject, personalizedTemplate);
+            return sendEmail(alumno.getCorreo_estudiantil(), subject, personalizedTemplate);
     }
 
-    public void sendEmail(String to, String subject, String text) {
+    public int sendEmail(String to, String subject, String text) {
         SimpleMailMessage message = new SimpleMailMessage();
         message.setTo(to);
         message.setSubject(subject);
         message.setText(text);
         mailSender.send(message);
+        return 1;
     }
 }
