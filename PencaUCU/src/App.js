@@ -10,6 +10,7 @@ import AdminHomePage from './Components/AdminHomePage/AdminHomePage';
 import UserPrediction from './Components/UserPrediction/UserPrediction';
 import Fixture from './Components/Fixture/Fixture';
 import ErrorComponent from './Components/ErrorComponent/ErrorComponent';
+import ExcelComponent from './Components/importExcel/excel';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 
@@ -27,6 +28,8 @@ function App() {
           <Route path="/admin" element={<ErrorComponent element={AdminHomePage} />} />
           <Route path="/userPrediction" element={<ErrorComponent element={UserPrediction} />} />
           <Route path="/fixture" element={<ErrorComponent element={Fixture} />} />
+          <Route path="/importExcel" element={<ErrorComponent element={ExcelComponent} />} />
+          
           <Route path="*" element={<div>404 Not Found</div>} />           
         </Routes>
       </Router>

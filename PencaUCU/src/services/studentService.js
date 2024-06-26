@@ -1,4 +1,3 @@
-import { getToken } from "./AuthService";
 
 const createStudent = async (student) => {
     console.log(student)

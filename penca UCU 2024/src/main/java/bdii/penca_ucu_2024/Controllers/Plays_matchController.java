@@ -26,6 +26,11 @@ public class Plays_matchController {
         return pm.insert(match);
     }
 
+    @PostMapping("/insertPlaymatches")
+    public List<Plays_match> insertPlaymatches(@RequestBody List<Plays_match> matches) {
+        return pm.insertPlaymatches(matches);
+    }
+
     @GetMapping("/playmatch/")
     public List<Plays_match> getAll() {
         return pm.findAll();
