@@ -53,7 +53,7 @@ const UserPrediction = () => {
     const matchTime = new Date(match.fecha_hora_partido);
     const currentTime = new Date();
     let totalPoints = 0;
-    if (currentTime >= matchTime || match.gol_equipo1 !== -1) {
+    if (currentTime >= matchTime || (match.gol_equipo1 !== -1 && match.gol_equipo2)) {
       if (prediction.gol_equipo1 === match.gol_equipo1 && prediction.gol_equipo2 === match.gol_equipo2) {
         totalPoints = 4;
       } else
@@ -153,9 +153,8 @@ const UserPrediction = () => {
                 match.fecha_hora_partido === prediction.fecha_hora_partido
               );
 
-              if (!match) return null;
+              if (!match || calculatePoints(prediction)!==null) return null;
 
-              const predictionKey = `${prediction.equipo1}-${prediction.equipo2}-${prediction.fecha_hora_partido}`;
 
               return (
                 <Box

@@ -4,7 +4,6 @@ import MainPageAdmin from '../MainPageAdmin/MainPageAdmin';
 import MatchesAdmin from '../MatchesAdmin/MatchesAdmin';
 import PredictionsAdmin from '../PredictionsAdmin/PredictionsAdmin';
 import ListStudents from '../ListStudents/ListStudents';
-import Login from '../Login/Login';
 
 const AdminHomePage = () => {
     const [selectedComponent, setSelectedComponent] = useState('Main');
