@@ -54,7 +54,6 @@ public class LoginService implements ILoginRepository {
                 // Encontrado el rol "USER"
                 if (!hashing.equals(alumnoOptional.get().getPassword())) {
                     authResponse.setMessage("Contraseña incorrecta");
-
                 } else {
                     String token = jwtUtils.generateAccessToken(email, authority.getAuthority());
                     authResponse.setToken(token);
@@ -63,11 +62,9 @@ public class LoginService implements ILoginRepository {
             }
             if ("ROLE_ADMIN".equals(authority.getAuthority())) {
                 // Encontrado el rol "ADMIN"
-                String adminPassword = DigestUtils.md5Hex(alumnoOptional.get().getPassword());
-                if (!hashing.equals(adminPassword)) {
+                if (!hashing.equals(alumnoOptional.get().getPassword())) {
                     authResponse.setMessage("Contraseña incorrecta");
                 } else {
-
                     String token = jwtUtils.generateAccessToken(email, authority.getAuthority());
                     authResponse.setToken(token);
                     authResponse.setMessage("Login exitoso como Administrador");
