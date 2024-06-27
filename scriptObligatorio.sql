@@ -65,6 +65,18 @@ CREATE TABLE Juega_partido (
     FOREIGN KEY (ID_estadio) REFERENCES Estadio(ID_estadio)
 );
 
+CREATE TABLE Predice (
+    correo_estudiantil VARCHAR(100),
+    equipo1 VARCHAR(100),
+    equipo2 VARCHAR(100),
+    fecha_hora_partido DATETIME,
+    gol_equipo1 INT,
+    gol_equipo2 INT,
+    PRIMARY KEY (correo_estudiantil, equipo1, equipo2, fecha_hora_partido),
+    FOREIGN KEY (correo_estudiantil) REFERENCES Alumno(correo_estudiantil),
+    FOREIGN KEY (equipo1, equipo2, fecha_hora_partido) REFERENCES Juega_partido(equipo1, equipo2, fecha_hora_partido)
+);
+
 INSERT INTO Administrador VALUES (1111111, "admin@correo.ucu", "admin", "admin", "Other", 99508039, "21232f297a57a5a743894a0e4a801fc3");
 
 INSERT INTO Equipo (nombre_equipo, bandera) VALUES
